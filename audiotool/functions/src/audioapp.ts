@@ -14,33 +14,41 @@
  * limitations under the License.
  */
 
-import "source-map-support/register";  // Improves stack traces
-import functions = require('firebase-functions');
-import express = require('express');
-const cookieParser = require('cookie-parser')();
-const useragent = require('useragent');
-import bodyParser = require('body-parser');
-import {EStorage, ETaskSet, EUser, EUserTask} from './estorage';
-import {UserRequest, FBUser, checkAuthenticated, checkAdmin} from './acl';
-import {parseTasksFile, HTTPError, ParamError, AccessError, NotFoundError,
-        requireLanguage, requireParam, requireArray, requireInt, requireDocId,
-        requireLCId} from './util';
-import {normalizeTags, listhas, toBatches} from '../../commonsrc/util';
-import {EAssignmentRule} from '../../commonsrc/schema';
-import * as schema from '../../commonsrc/schema';
-import {Readable} from 'stream';
-
+import "source-map-support/register"; // Improves stack traces
+import functions = require("firebase-functions");
+import express = require("express");
+const cookieParser = require("cookie-parser")();
+const useragent = require("useragent");
+import bodyParser = require("body-parser");
+import { EStorage, ETaskSet, EUser, EUserTask } from "./estorage";
+import { UserRequest, FBUser, checkAuthenticated, checkAdmin } from "./acl";
+import {
+  parseTasksFile,
+  HTTPError,
+  ParamError,
+  AccessError,
+  NotFoundError,
+  requireLanguage,
+  requireParam,
+  requireArray,
+  requireInt,
+  requireDocId,
+  requireLCId,
+} from "./util";
+import { normalizeTags, listhas, toBatches } from "../../commonsrc/util";
+import { EAssignmentRule } from "../../commonsrc/schema";
+import * as schema from "../../commonsrc/schema";
+import { Readable } from "stream";
 
 // Implements the API server endpoints and per-request state needed for API logic.
 export class AudioApi {
-
   // The request and response being handled.
   req: express.Request;
   rsp: express.Response;
 
   // Helper for accessing Firestore and GCS
   storage: EStorage;
-  now: number;  // The time the request started
+  now: number; // The time the request started
 
   // Creates an API handler, which lives for one request or one middleware invocation.
   constructor(req: express.Request, rsp: express.Response, deps?: any) {
@@ -53,13 +61,15 @@ export class AudioApi {
   // Installs all middleware and endpoint handlers in an express server, and returns it as a Cloud Function.
   static createExpressServer(deps?: any): express.Express {
     const server = express();
-    
+
     // Install middleware
     server.use(cookieParser);
-    server.use(bodyParser.raw({
-      limit: '10000kb',
-      type: 'application/octet-stream'
-    }));
+    server.use(
+      bodyParser.raw({
+        limit: "10000kb",
+        type: "application/octet-stream",
+      })
+    );
     if (deps && deps.auth) {
       server.use(deps.auth);
     } else {
@@ -67,36 +77,210 @@ export class AudioApi {
     }
 
     // Install API endpoints
-    AudioApi.installJSONApi(  server, deps, '/api/getuser',                    'runApiGetUser',                   'post');
-    AudioApi.installJSONApi(  server, deps, '/api/listconsents',               'runApiListConsents',              'post');
-    AudioApi.installJSONApi(  server, deps, '/api/signup',                     'runApiSignup',                    'post');
-    AudioApi.installJSONApi(  server, deps, '/api/updateagreements',           'runApiUpdateAgreements',          'post');
-    AudioApi.installJSONApi(  server, deps, '/api/uploadaudio',                'runApiUploadAudio',               'post');
-    AudioApi.installStreamApi(server, deps, '/api/getaudio',                   'runApiGetAudio',                  'get');
-    AudioApi.installJSONApi(  server, deps, '/api/deleteaudio',                'runApiDeleteAudio',               'post');
-    AudioApi.installStreamApi(server, deps, '/api/getconsenttext',             'runApiGetConsentText',            'get');
-    AudioApi.installStreamApi(server, deps, '/api/gettaskimage',               'runApiGetTaskImage',              'get');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/newuser',              'runAdminApiNewUser',              'post');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/listusers',            'runAdminApiListUsers',            'get');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/listuserwork',         'runAdminApiListUserWork',         'get');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/edituser',             'runAdminApiEditUser',             'post');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/deleteuser',           'runAdminApiDeleteUser',           'post');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/listtasksets',         'runAdminApiListTaskSets',         'get');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/newtaskset',           'runAdminApiNewTaskSet',           'post');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/listtasks',            'runAdminApiListTasks',            'get');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/edittaskset',          'runAdminApiEditTaskSet',          'post');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/newtask',              'runAdminApiNewTask',              'post');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/bulkaddtasks',         'runAdminApiBulkAddTasks',         'post');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/assigntasks',          'runAdminApiAssignTasks',          'post');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/removetasks',          'runAdminApiRemoveTasks',          'post');
-    AudioApi.installStreamApi(server, deps, '/api/admin/getaudio',             'runAdminApiGetAudio',             'get');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/listconsents',         'runAdminApiListConsents',         'get');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/newconsent',           'runAdminApiNewConsent',           'post');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/editconsent',          'runAdminApiEditConsent',          'post');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/uploadconsentversion', 'runAdminApiUploadConsentVersion', 'post');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/deleteconsentversion', 'runAdminApiDeleteConsentVersion', 'post');
-    AudioApi.installJSONApi(  server, deps, '/api/admin/uploadtaskimage',      'runAdminApiUploadTaskImage',      'post');
-    
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/getuser",
+      "runApiGetUser",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/listconsents",
+      "runApiListConsents",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/signup",
+      "runApiSignup",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/updateagreements",
+      "runApiUpdateAgreements",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/uploadaudio",
+      "runApiUploadAudio",
+      "post"
+    );
+    AudioApi.installStreamApi(
+      server,
+      deps,
+      "/api/getaudio",
+      "runApiGetAudio",
+      "get"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/deleteaudio",
+      "runApiDeleteAudio",
+      "post"
+    );
+    AudioApi.installStreamApi(
+      server,
+      deps,
+      "/api/getconsenttext",
+      "runApiGetConsentText",
+      "get"
+    );
+    AudioApi.installStreamApi(
+      server,
+      deps,
+      "/api/gettaskimage",
+      "runApiGetTaskImage",
+      "get"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/newuser",
+      "runAdminApiNewUser",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/listusers",
+      "runAdminApiListUsers",
+      "get"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/listuserwork",
+      "runAdminApiListUserWork",
+      "get"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/edituser",
+      "runAdminApiEditUser",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/deleteuser",
+      "runAdminApiDeleteUser",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/listtasksets",
+      "runAdminApiListTaskSets",
+      "get"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/newtaskset",
+      "runAdminApiNewTaskSet",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/listtasks",
+      "runAdminApiListTasks",
+      "get"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/edittaskset",
+      "runAdminApiEditTaskSet",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/newtask",
+      "runAdminApiNewTask",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/bulkaddtasks",
+      "runAdminApiBulkAddTasks",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/assigntasks",
+      "runAdminApiAssignTasks",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/removetasks",
+      "runAdminApiRemoveTasks",
+      "post"
+    );
+    AudioApi.installStreamApi(
+      server,
+      deps,
+      "/api/admin/getaudio",
+      "runAdminApiGetAudio",
+      "get"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/listconsents",
+      "runAdminApiListConsents",
+      "get"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/newconsent",
+      "runAdminApiNewConsent",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/editconsent",
+      "runAdminApiEditConsent",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/uploadconsentversion",
+      "runAdminApiUploadConsentVersion",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/deleteconsentversion",
+      "runAdminApiDeleteConsentVersion",
+      "post"
+    );
+    AudioApi.installJSONApi(
+      server,
+      deps,
+      "/api/admin/uploadtaskimage",
+      "runAdminApiUploadTaskImage",
+      "post"
+    );
+
     return server;
   }
 
@@ -107,7 +291,13 @@ export class AudioApi {
   }
 
   // Defines an express JSON endpoint with error handling.
-  static installJSONApi(server: express.Express, deps: any, path: string, fnkey: keyof AudioApi, method: 'get'|'post') {
+  static installJSONApi(
+    server: express.Express,
+    deps: any,
+    path: string,
+    fnkey: keyof AudioApi,
+    method: "get" | "post"
+  ) {
     const fn = async (req: express.Request, rsp: express.Response) => {
       const result = await AudioApi.runMemberEndpoint(fnkey, req, rsp, deps);
       if (result) {
@@ -115,7 +305,7 @@ export class AudioApi {
       }
     };
 
-    if (method === 'get') {
+    if (method === "get") {
       server.get(path, fn);
     } else {
       server.post(path, fn);
@@ -123,7 +313,13 @@ export class AudioApi {
   }
 
   // Defines a streaming express endpoint with error handling.
-  static installStreamApi(server: express.Express, deps: any, path: string, fnkey: keyof AudioApi, method: 'get'|'post') {
+  static installStreamApi(
+    server: express.Express,
+    deps: any,
+    path: string,
+    fnkey: keyof AudioApi,
+    method: "get" | "post"
+  ) {
     const fn = async (req: express.Request, rsp: express.Response) => {
       const result = await AudioApi.runMemberEndpoint(fnkey, req, rsp, deps);
       if (result) {
@@ -133,7 +329,7 @@ export class AudioApi {
       }
     };
 
-    if (method === 'get') {
+    if (method === "get") {
       server.get(path, fn);
     } else {
       server.post(path, fn);
@@ -141,13 +337,17 @@ export class AudioApi {
   }
 
   // Instantiates the request-scoped helper and runs the endpoint.
-  private static async runMemberEndpoint(fnkey: keyof AudioApi, req: express.Request, rsp: express.Response, deps: any): Promise<unknown[]|undefined> {
+  private static async runMemberEndpoint(
+    fnkey: keyof AudioApi,
+    req: express.Request,
+    rsp: express.Response,
+    deps: any
+  ): Promise<unknown[] | undefined> {
     try {
       // Run the function and see if it returns normally
       const helper = new AudioApi(req, rsp, deps);
       const fn = helper[fnkey] as () => Promise<unknown[]>;
       return await fn.bind(helper)();
-
     } catch (e) {
       // Crash, handle errors with appropriate return message and response code
       console.error(e);
@@ -161,22 +361,26 @@ export class AudioApi {
   }
 
   // Verifies that the auth cookie is present and validates the endpoint path against the user type.
-  private static async checkAuth(req: express.Request, res: express.Response, next: express.NextFunction) {
-    if (!req.path.startsWith('/api/public/')) {
+  private static async checkAuth(
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) {
+    if (!req.path.startsWith("/api/public/")) {
       // The public endpoints don't require sign-in, but everything else does
       if (await checkAuthenticated(req, res)) {
         // The admin endpoints also require that the user is a registered administrator
-        if (req.path.startsWith('/api/admin/')) {
+        if (req.path.startsWith("/api/admin/")) {
           // if checkAuthenticated has run then this will be a valid UserRequest
           if (await checkAdmin(req as UserRequest, res)) {
-            next();  // allow admin request
+            next(); // allow admin request
           }
         } else {
-          next();  // allow user request
+          next(); // allow user request
         }
       }
     } else {
-      next();  // allow public request
+      next(); // allow public request
     }
   }
 
@@ -185,7 +389,7 @@ export class AudioApi {
     const ureq = this.req as UserRequest;
     const user = ureq.user;
     if (!user) {
-      throw new AccessError('No credentials found in request', 401);
+      throw new AccessError("No credentials found in request", 401);
     }
     return user;
   }
@@ -196,23 +400,33 @@ export class AudioApi {
   }
 
   // Loads and returns the EUser matching this request, or fails with an access error if they aren't enrolled.
-  async requireUserByFBUID(opt_txn?: FirebaseFirestore.Transaction): Promise<EUser> {
-    const user = await this.storage.loadUserByFBUID(this.getUser().uid, opt_txn);
+  async requireUserByFBUID(
+    opt_txn?: FirebaseFirestore.Transaction
+  ): Promise<EUser> {
+    const user = await this.storage.loadUserByFBUID(
+      this.getUser().uid,
+      opt_txn
+    );
     if (!user) {
-      throw new AccessError('User not enrolled');
+      throw new AccessError("User not enrolled");
     }
     return user;
   }
 
   // Returns the currently logged in user, all their tasks, and their consent status
-  async runApiGetUser(): Promise<[schema.EUserInfo, schema.EUserTaskInfo[], boolean]|[]> {
+  async runApiGetUser(): Promise<
+    [schema.EUserInfo, schema.EUserTaskInfo[], boolean] | []
+  > {
+    console.log("UID", this.getUser().uid);
     const user = await this.storage.loadUserByFBUID(this.getUser().uid);
+    console.log({ user });
     if (user) {
       const tasks = await user.listTasks();
+      console.log({ tasks });
       const isConsented = await user.isConsented(this.now);
-      return [user.info, tasks.map(t => t.info), isConsented];
+      return [user.info, tasks.map((t) => t.info), isConsented];
     } else {
-      return [];  // No user
+      return []; // No user
     }
   }
 
@@ -221,23 +435,40 @@ export class AudioApi {
     const info = this.getBodyJSON();
     const language = requireLanguage(info.language);
     const tags = normalizeTags(info.tags);
-
-    const consents = await this.storage.listApplicableConsents(language, tags, this.now);
-    return consents.map(c => c.infoWithOnlyLiveVersion(this.now));
+    console.log({ info, language, tags });
+    const consents = await this.storage.listApplicableConsents(
+      language,
+      tags,
+      this.now
+    );
+    console.log({ consents });
+    return consents.map((c) => c.infoWithOnlyLiveVersion(this.now));
   }
 
   // Signs this user up, creating (or linking) their user account
-  async runApiSignup(): Promise<[schema.EUserInfo, schema.EUserTaskInfo[], boolean]> {
+  async runApiSignup(): Promise<
+    [schema.EUserInfo, schema.EUserTaskInfo[], boolean]
+  > {
     const signupTimestamp = this.now;
 
     // Resolve the consents they agreed to
     const info = this.getBodyJSON();
-    const userConsents = requireArray(info.agreements as schema.EAgreementInfo[], 1);
+    const userConsents = requireArray(
+      info.agreements as schema.EAgreementInfo[],
+      1
+    );
     const demographics = info.demographics as schema.UserDemographics;
 
     // Interest form safety checks; these shouldn't ever trigger if the form works right.
-    if (!demographics || !demographics.consentStorage || !demographics.consentInitials || !demographics.acceptTos) {
-      throw new ParamError(`Attempted to sign up without interest form agreement`);
+    if (
+      !demographics ||
+      !demographics.consentStorage ||
+      !demographics.consentInitials ||
+      !demographics.acceptTos
+    ) {
+      throw new ParamError(
+        `Attempted to sign up without interest form agreement`
+      );
     }
 
     // Define the new user
@@ -250,8 +481,8 @@ export class AudioApi {
       language: requireLanguage(info.language),
       tags: normalizeTags(info.tags as string[]),
       signupTimestamp,
-      notes: '',
-      demographics
+      notes: "",
+      demographics,
     };
 
     let user = await this.storage.signUpUser(newuser);
@@ -260,12 +491,15 @@ export class AudioApi {
     }
     const isConsented = await user.isConsented(this.now);
     const tasks = await user.listTasks();
-    return [user.info, tasks.map(t => t.info), isConsented];
+    return [user.info, tasks.map((t) => t.info), isConsented];
   }
 
   async runApiUpdateAgreements(): Promise<[schema.EUserInfo, boolean]> {
     const info = this.getBodyJSON();
-    const agreements = requireArray(info.agreements as schema.EAgreementInfo[], 1);
+    const agreements = requireArray(
+      info.agreements as schema.EAgreementInfo[],
+      1
+    );
     let user = await this.requireUserByFBUID();
     for (const agreement of agreements) {
       user = await user.addConsent(this.now, agreement);
@@ -276,16 +510,26 @@ export class AudioApi {
 
   // Creates a recording file for a task.
   async runApiUploadAudio() {
-    const task = requireParam(JSON.parse(this.req.query.task as string)) as schema.EUserTaskInfo;
+    const task = requireParam(
+      JSON.parse(this.req.query.task as string)
+    ) as schema.EUserTaskInfo;
     const localdate = requireParam(this.req.query.localdate as string);
     const tzo = requireInt(this.req.query.tzo as string);
     const mimeType = requireParam(this.req.query.mimeType as string);
-    const deviceinfo = useragent.parse(this.req.headers['user-agent']);
+    const deviceinfo = useragent.parse(this.req.headers["user-agent"]);
     const deviceinfoObj = deviceinfo ? deviceinfo.toJSON() : {};
 
     // Save the new recording and return the final versions of all data
     const user = await this.requireUserByFBUID();
-    const [euser, etask, recording] = await this.storage.createRecording(user, task, localdate, tzo, mimeType, deviceinfoObj, this.req.body);
+    const [euser, etask, recording] = await this.storage.createRecording(
+      user,
+      task,
+      localdate,
+      tzo,
+      mimeType,
+      deviceinfoObj,
+      this.req.body
+    );
     return [euser.info, etask.info, recording.metadata];
   }
 
@@ -293,13 +537,13 @@ export class AudioApi {
   async runApiGetAudio() {
     const ts = requireInt(this.req.query.ts as string);
 
-    const [user, basename, mimeType] = await this.storage.run(async txn => {
+    const [user, basename, mimeType] = await this.storage.run(async (txn) => {
       const user = await this.requireUserByFBUID(txn);
       const rec = await user.loadRecording(txn, ts);
       return [user, rec.metadata.name, rec.metadata.mimeType];
     });
 
-    const [wavFile, ] = this.storage.findRecordingFiles(user.euid, basename);
+    const [wavFile] = this.storage.findRecordingFiles(user.euid, basename);
     const contentType = this.getServingType(mimeType);
     return [contentType, wavFile.createReadStream()];
   }
@@ -307,12 +551,12 @@ export class AudioApi {
   // Parses the correct mime type from the metadata (if present)
   private getServingType(mimeType: string) {
     if (!mimeType) {
-      return 'application/octet-stream';  // Legacy stream, we don't know what it is actually!
+      return "application/octet-stream"; // Legacy stream, we don't know what it is actually!
     }
-    
-    const codecParts = mimeType.split(';');
+
+    const codecParts = mimeType.split(";");
     if (codecParts.length > 1) {
-      return codecParts[0].trim();  // dont serve back the codec hint since that's not a valid content type
+      return codecParts[0].trim(); // dont serve back the codec hint since that's not a valid content type
     } else {
       return mimeType;
     }
@@ -322,7 +566,7 @@ export class AudioApi {
   async runApiDeleteAudio() {
     const taskId = requireParam(this.req.query.taskId as string);
 
-    const {user, task, basename} = await this.storage.run(async txn => {
+    const { user, task, basename } = await this.storage.run(async (txn) => {
       const user = await this.requireUserByFBUID(txn);
       const task = await user.loadTask(txn, taskId);
       if (task.info.recordedTimestamp === 0) {
@@ -333,11 +577,14 @@ export class AudioApi {
       const rec = await user.loadRecording(txn, task.info.recordedTimestamp);
       const basename = rec.metadata.name;
       await rec.delete(user, task, tsTask, txn);
-      return {user, task, basename};
+      return { user, task, basename };
     });
 
     // The firestore record is gone, also delete the GCS files
-    const [wavFile, jsonFile] = this.storage.findRecordingFiles(user.euid, basename);
+    const [wavFile, jsonFile] = this.storage.findRecordingFiles(
+      user.euid,
+      basename
+    );
     await wavFile.delete();
     await jsonFile.delete();
     return [user.info, task.info];
@@ -346,9 +593,9 @@ export class AudioApi {
   async runApiGetConsentText() {
     const consentId = requireParam(this.req.query.consentId as string);
     const version = requireInt(this.req.query.version as string);
-    this.storage.requireConsent(consentId);  // Ensure this is a real consent
+    this.storage.requireConsent(consentId); // Ensure this is a real consent
     const file = this.storage.getConsentFile(consentId, version);
-    return ['text/html', file.createReadStream()];
+    return ["text/html", file.createReadStream()];
   }
 
   async runApiGetTaskImage() {
@@ -367,13 +614,13 @@ export class AudioApi {
     requireParam(newuser.email);
     newuser.tags = normalizeTags(newuser.tags);
     const [user, taskSets] = await this.storage.createUser(newuser);
-    return [user.info, taskSets.map(ts => ts.info)];
+    return [user.info, taskSets.map((ts) => ts.info)];
   }
 
   // Returns a list of all Users in the system
   async runAdminApiListUsers() {
     const users = await this.storage.listUsers();
-    return users.map(user => user.info);
+    return users.map((user) => user.info);
   }
 
   // Returns the User, their assigned UserTasks, and any Recordings
@@ -382,7 +629,11 @@ export class AudioApi {
     const user = await this.storage.loadUser(euid);
     const tasks = await user.listTasks();
     const recordings = await user.listRecordings();
-    return [user.info, tasks.map(task => task.info), recordings.map(r => r.metadata)];
+    return [
+      user.info,
+      tasks.map((task) => task.info),
+      recordings.map((r) => r.metadata),
+    ];
   }
 
   // Edits an existing user's mutable fields
@@ -395,7 +646,7 @@ export class AudioApi {
     const tags: string[] = requireParam(normalizeTags(info.tags));
     const notes: string = info.notes;
 
-    const user: EUser = await this.storage.run(async txn => {
+    const user: EUser = await this.storage.run(async (txn) => {
       const u = await this.storage.loadUser(euid, txn);
       u.info.name = name;
       u.info.email = email;
@@ -414,11 +665,13 @@ export class AudioApi {
     const euid: string = requireParam(info.euid);
 
     // Load the user and all their tasks, so we can find the recordings by ID
-    let [user, tasks]: [EUser, EUserTask[]] = await this.storage.run(async txn => {
-      const user = await this.storage.loadUser(euid, txn);
-      const tasks = await user.listTasks();
-      return [user, tasks];
-    });
+    let [user, tasks]: [EUser, EUserTask[]] = await this.storage.run(
+      async (txn) => {
+        const user = await this.storage.loadUser(euid, txn);
+        const tasks = await user.listTasks();
+        return [user, tasks];
+      }
+    );
     const taskIdTuples: [string, string][] = [];
 
     // Delete the recordings using the DAO, so that the counters are correctly updated
@@ -428,7 +681,7 @@ export class AudioApi {
       if (task.info.recordedTimestamp === 0) {
         continue;
       }
-      const basename = await this.storage.run(async txn => {
+      const basename = await this.storage.run(async (txn) => {
         const taskSet = await this.storage.requireTaskSet(task.info.taskSetId);
         const tsTask = await taskSet.loadTask(txn, task.info.task.id);
         const rec = await user.loadRecording(txn, task.info.recordedTimestamp);
@@ -439,7 +692,10 @@ export class AudioApi {
 
       if (basename) {
         // Firestore has the metadata but the actual audio must be deleted from GCS
-        const [wavFile, jsonFile] = this.storage.findRecordingFiles(user.euid, basename);
+        const [wavFile, jsonFile] = this.storage.findRecordingFiles(
+          user.euid,
+          basename
+        );
         await wavFile.delete();
         await jsonFile.delete();
       }
@@ -447,22 +703,22 @@ export class AudioApi {
 
     // Unassign all tasks, again using the DAO to keep the counters correct
     for (const idTuplesBatch of toBatches(taskIdTuples, 450)) {
-      await this.storage.run(async txn => {
+      await this.storage.run(async (txn) => {
         const user = await this.storage.loadUser(euid, txn);
         await user.removeTasks(txn, idTuplesBatch);
       });
     }
 
     // Lastly, redact the user's identity.
-    user = await this.storage.run(async txn => {
+    user = await this.storage.run(async (txn) => {
       const u = await this.storage.loadUser(euid, txn);
-      u.fbuid = 'REDACTED';  // this disassociates the user record from the person's login
+      u.fbuid = "REDACTED"; // this disassociates the user record from the person's login
       u.info.deleted = true;
-      u.info.name = 'REDACTED';
-      u.info.email = 'REDACTED';
+      u.info.name = "REDACTED";
+      u.info.email = "REDACTED";
       u.info.tags = [];
-      u.info.notes = 'REDACTED';
-      u.info.fbname = 'REDACTED';
+      u.info.notes = "REDACTED";
+      u.info.fbname = "REDACTED";
       u.info.consents = [];
       u.info.lastRecordingTimestamp = 0;
       u.info.demographics = undefined;
@@ -476,7 +732,7 @@ export class AudioApi {
   // Returns a list of all TaskSets in the system
   async runAdminApiListTaskSets() {
     const tasksets = await this.storage.listTaskSets();
-    return tasksets.map(ts => ts.info);
+    return tasksets.map((ts) => ts.info);
   }
 
   // Creates a new TaskSet
@@ -495,21 +751,21 @@ export class AudioApi {
     const taskSetId = requireParam(this.req.query.taskSetId as string);
     const ts = await this.storage.requireTaskSet(taskSetId);
     const tasks = await ts.listTasks();
-    return [ts.info, tasks.map(task => task.info)];
+    return [ts.info, tasks.map((task) => task.info)];
   }
 
   // Updates a TaskSet's mutable fields
   async runAdminApiEditTaskSet() {
     const info = this.getBodyJSON();
     const taskSetId = requireParam(info.taskSetId as string);
-    const name = info.name as string|undefined;
-    const language = info.language as string|undefined;
+    const name = info.name as string | undefined;
+    const language = info.language as string | undefined;
     const addrules = info.addrules as EAssignmentRule[];
     const delrules = info.delrules as number[];
     if (!name && !language && addrules.length === 0 && delrules.length === 0) {
-      throw new ParamError('Must change at least one field');
+      throw new ParamError("Must change at least one field");
     }
-    const ts: ETaskSet = await this.storage.run(async txn => {
+    const ts: ETaskSet = await this.storage.run(async (txn) => {
       const ts = await this.storage.requireTaskSet(taskSetId, txn);
       if (addrules.length > 0 || delrules.length > 0) {
         ts.changeRules(addrules, delrules);
@@ -533,7 +789,7 @@ export class AudioApi {
     const prompt = requireParam(info.prompt as string);
     const order = requireInt(info.order as string);
     const taskType = requireParam(info.taskType as schema.TaskType);
-    if (!listhas(taskType, 'prompt', 'response')) {
+    if (!listhas(taskType, "prompt", "response")) {
       throw new ParamError(`Invalid task type: ${taskType}`);
     }
 
@@ -547,12 +803,12 @@ export class AudioApi {
     const taskSetId = requireParam(this.req.query.taskSetId as string);
     const format = requireParam(this.req.query.format as string);
     const orderStart = requireInt(this.req.query.orderStart as string);
-    if (format !== 'txt') {
+    if (format !== "txt") {
       throw new ParamError(`Unsupported format: ${format}`);
     }
     const ts = await this.storage.requireTaskSet(taskSetId);
     const tasks = parseTasksFile(this.req.body, format, orderStart);
-    const result = await ts.addTasks('prompt', tasks);
+    const result = await ts.addTasks("prompt", tasks);
     return [result.length];
   }
 
@@ -571,18 +827,18 @@ export class AudioApi {
   async runAdminApiRemoveTasks() {
     const info = this.getBodyJSON();
     const euid = requireParam(info.euid as string);
-    const idTuples = requireArray(info.idTuples as Array<[string, string]>, 1);  // list of [taskSetId, userTaskId]
+    const idTuples = requireArray(info.idTuples as Array<[string, string]>, 1); // list of [taskSetId, userTaskId]
     let user: EUser;
     let taskSets: ETaskSet[];
     for (const idTuplesBatch of toBatches(idTuples, 450)) {
-      [user, taskSets] = await this.storage.run(async txn => {
+      [user, taskSets] = await this.storage.run(async (txn) => {
         const u = await this.storage.loadUser(euid, txn);
         const tss = await u.removeTasks(txn, idTuplesBatch);
         return [u, tss];
       });
     }
 
-    const tsInfo = taskSets!.map(ts => ts.info);
+    const tsInfo = taskSets!.map((ts) => ts.info);
     return [user!.info, tsInfo];
   }
 
@@ -590,14 +846,14 @@ export class AudioApi {
   async runAdminApiGetAudio() {
     const euid = requireParam(this.req.query.euid as string);
     const name = requireParam(this.req.query.name as string);
-    const [wavFile, ] = this.storage.findRecordingFiles(euid, name);
-    return ['audio/wav', wavFile.createReadStream()];
+    const [wavFile] = this.storage.findRecordingFiles(euid, name);
+    return ["audio/wav", wavFile.createReadStream()];
   }
 
   // Returns a list of all Consents in the system
   async runAdminApiListConsents() {
     const consents = await this.storage.listConsents();
-    return consents.map(c => c.info);
+    return consents.map((c) => c.info);
   }
 
   // Creates a new Consent
@@ -609,7 +865,13 @@ export class AudioApi {
     const tags: string[] = requireParam(normalizeTags(info.tags));
     const optional = requireParam(info.optional as boolean);
 
-    const consent = await this.storage.createConsent(id, name, language, tags, optional);
+    const consent = await this.storage.createConsent(
+      id,
+      name,
+      language,
+      tags,
+      optional
+    );
     return [consent.info];
   }
 
@@ -617,16 +879,22 @@ export class AudioApi {
   async runAdminApiEditConsent() {
     const pinfo = this.getBodyJSON();
     const consentId = requireParam(pinfo.id as string);
-    const name = pinfo.name as string|undefined;
-    const language = pinfo.language as string|undefined;
-    const active = pinfo.active as boolean|undefined;
-    const optional = pinfo.optional as boolean|undefined;
-    const tags = pinfo.tags as string[]|undefined;
-    if (!name && !language && tags === undefined && active === undefined && optional === undefined) {
-      throw new ParamError('Must change at least one field');
+    const name = pinfo.name as string | undefined;
+    const language = pinfo.language as string | undefined;
+    const active = pinfo.active as boolean | undefined;
+    const optional = pinfo.optional as boolean | undefined;
+    const tags = pinfo.tags as string[] | undefined;
+    if (
+      !name &&
+      !language &&
+      tags === undefined &&
+      active === undefined &&
+      optional === undefined
+    ) {
+      throw new ParamError("Must change at least one field");
     }
 
-    const {info} = await this.storage.run(async txn => {
+    const { info } = await this.storage.run(async (txn) => {
       let consent = await this.storage.requireConsent(consentId, txn);
       if (name) {
         consent.info.name = name;
@@ -654,9 +922,14 @@ export class AudioApi {
     const consentId = requireParam(this.req.query.id as string);
     const description = requireParam(this.req.query.description as string);
     const liveTimestamp = requireInt(this.req.query.liveTimestamp as string);
-    const {info} = await this.storage.run(async txn => {
+    const { info } = await this.storage.run(async (txn) => {
       const consent = await this.storage.requireConsent(consentId, txn);
-      await consent.createVersion(description, liveTimestamp, this.req.body, txn);
+      await consent.createVersion(
+        description,
+        liveTimestamp,
+        this.req.body,
+        txn
+      );
       return consent;
     });
     return [info];
@@ -668,7 +941,7 @@ export class AudioApi {
     const consentId = requireParam(pinfo.id as string);
     const version = requireInt(pinfo.version as string);
 
-    const {info} = await this.storage.run(async txn => {
+    const { info } = await this.storage.run(async (txn) => {
       const consent = await this.storage.requireConsent(consentId, txn);
       consent.deleteVersion(version, txn);
       return consent;
@@ -682,7 +955,7 @@ export class AudioApi {
     const taskId = requireDocId(this.req.query.taskId as string);
 
     // Save the image and convert the task to be an image task.
-    return await this.storage.run(async txn => {
+    return await this.storage.run(async (txn) => {
       const taskSet = await this.storage.requireTaskSet(taskSetId, txn);
       const task = await taskSet.loadTask(txn, taskId);
       await task.addImage(this.req.body, txn);

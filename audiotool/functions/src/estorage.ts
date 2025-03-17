@@ -15,21 +15,30 @@
  */
 
 // DAO object for working with stored data in GCS and Firestore
-import { Storage, File } from '@google-cloud/storage';
-import { Firestore, FieldPath, CollectionReference } from '@google-cloud/firestore';
-import * as firebaseconfig from './firebaseconfig';
-import * as schema from '../../commonsrc/schema';
-import { normalizeEmail, NotFoundError, ParamError, requireLanguage } from './util';
-import { clone, shuffle, toBatches } from '../../commonsrc/util';
+import { Storage, File } from "@google-cloud/storage";
+import {
+  Firestore,
+  FieldPath,
+  CollectionReference,
+} from "@google-cloud/firestore";
+import * as firebaseconfig from "./firebaseconfig";
+import * as schema from "../../commonsrc/schema";
+import {
+  normalizeEmail,
+  NotFoundError,
+  ParamError,
+  requireLanguage,
+} from "./util";
+import { clone, shuffle, toBatches } from "../../commonsrc/util";
 
 type Transaction = FirebaseFirestore.Transaction;
 
 export class EStorage {
   static EUID_TRIES = 50;
 
-  firestore: Firestore;  // Firestore's TS configs seem broken
+  firestore: Firestore; // Firestore's TS configs seem broken
   storage: Storage;
-  
+
   constructor(deps?: any) {
     this.firestore = deps ? deps.firestore : new Firestore();
     this.storage = deps ? deps.storage : new Storage();
@@ -39,15 +48,23 @@ export class EStorage {
   // Accessors for collections and sub-collections
 
   getUsersCollection(): CollectionReference {
+    console.log(
+      "estorage getusersColl",
+      this.firestore.collection(`${schema.USERS_TABLE}`)
+    );
     return this.firestore.collection(`${schema.USERS_TABLE}`);
   }
 
   getRecordingsSubcollection(euid: string): CollectionReference {
-    return this.firestore.collection(`${schema.RECORDINGS_TABLE}/${euid}/${schema.RECORDINGS_SUBCOLLECTION}`);
+    return this.firestore.collection(
+      `${schema.RECORDINGS_TABLE}/${euid}/${schema.RECORDINGS_SUBCOLLECTION}`
+    );
   }
 
   getUserTasksSubcollection(euid: string): CollectionReference {
-    return this.firestore.collection(`${schema.USERS_TABLE}/${euid}/${schema.TASKS_SUBCOLLECTION}`);
+    return this.firestore.collection(
+      `${schema.USERS_TABLE}/${euid}/${schema.TASKS_SUBCOLLECTION}`
+    );
   }
 
   getTaskSetsCollection(): CollectionReference {
@@ -55,7 +72,9 @@ export class EStorage {
   }
 
   getTasksSubcollection(tsid: string): CollectionReference {
-    return this.firestore.collection(`${schema.TASKSETS_TABLE}/${tsid}/${schema.TASKS_SUBCOLLECTION}`);
+    return this.firestore.collection(
+      `${schema.TASKSETS_TABLE}/${tsid}/${schema.TASKS_SUBCOLLECTION}`
+    );
   }
 
   getConsentsCollection(): CollectionReference {
@@ -68,9 +87,14 @@ export class EStorage {
   }
 
   // Returns the EUser with the given Firebase identity ID, or null if not created.
-  async loadUserByFBUID(fbuid: string, opt_txn?: Transaction): Promise<EUser|null> {
-    const q = this.getUsersCollection().where('fbuid', '==', fbuid).limit(1);
+  async loadUserByFBUID(
+    fbuid: string,
+    opt_txn?: Transaction
+  ): Promise<EUser | null> {
+    const q = this.getUsersCollection().where("fbuid", "==", fbuid).limit(1);
+    console.log("QQQQQ", q);
     const result = opt_txn ? await opt_txn.get(q) : await q.get();
+    console.log({ result });
     if (result.size === 1) {
       for (const doc of result.docs) {
         const data = doc.data() as schema.EUserData;
@@ -81,9 +105,14 @@ export class EStorage {
   }
 
   // Returns the EUser with the given email, or null if not created.
-  async loadUserByEmail(email: string, opt_txn?: Transaction): Promise<EUser|null> {
+  async loadUserByEmail(
+    email: string,
+    opt_txn?: Transaction
+  ): Promise<EUser | null> {
     const normedEmail = normalizeEmail(email);
-    const q = this.getUsersCollection().where('normalizedEmail', '==', normedEmail).limit(1);
+    const q = this.getUsersCollection()
+      .where("normalizedEmail", "==", normedEmail)
+      .limit(1);
     const result = opt_txn ? await opt_txn.get(q) : await q.get();
     if (result.size === 1) {
       for (const doc of result.docs) {
@@ -98,7 +127,9 @@ export class EStorage {
   async loadUser(euid: string, opt_txn?: Transaction): Promise<EUser> {
     const path = schema.userPath(euid);
     const userDoc = this.firestore.doc(path);
-    const existingUserData = opt_txn ? await opt_txn.get(userDoc) : await userDoc.get();
+    const existingUserData = opt_txn
+      ? await opt_txn.get(userDoc)
+      : await userDoc.get();
     if (existingUserData.exists) {
       return new EUser(this, path, existingUserData.data() as schema.EUserData);
     } else {
@@ -109,7 +140,9 @@ export class EStorage {
   // Loads all users.
   async listUsers(): Promise<EUser[]> {
     const data = await this.getUsersCollection().get();
-    return data.docs.map(doc => new EUser(this, doc.ref.path, doc.data() as schema.EUserData));
+    return data.docs.map(
+      (doc) => new EUser(this, doc.ref.path, doc.data() as schema.EUserData)
+    );
   }
 
   // Creates a user if they don't exist, or claims their existing user account otherwise.
@@ -117,21 +150,21 @@ export class EStorage {
     // First see if they already have an account and we can just claim it
     const fbuid = newuser.fbuid;
     if (!fbuid) {
-      throw new ParamError('FBUser info required for signup');
+      throw new ParamError("FBUser info required for signup");
     }
-    const user = await this.run(async txn => {
+    const user = await this.run(async (txn) => {
       let existingUser = await this.loadUserByFBUID(fbuid, txn);
       if (!existingUser) {
         // The user may have been pre-enrolled by an administrator
         existingUser = await this.loadUserByEmail(newuser.email, txn);
         if (!existingUser) {
-          return null;  // This is a fresh signup, no existing record to update
+          return null; // This is a fresh signup, no existing record to update
         }
       }
 
       // Claim and update the existing record
       existingUser.fbuid = fbuid;
-      existingUser.info.email = newuser.email;  // this can be slightly different due to normalization
+      existingUser.info.email = newuser.email; // this can be slightly different due to normalization
       existingUser.info.fbname = newuser.fbname;
       existingUser.info.signupTimestamp = newuser.signupTimestamp;
       existingUser.info.demographics = newuser.demographics;
@@ -140,11 +173,11 @@ export class EStorage {
     });
 
     if (user != null) {
-      return user;  // Successfully claimed an existing user record
+      return user; // Successfully claimed an existing user record
     }
 
     // Otherwise, this is a fresh signup, create an all new user record
-    const [createdUser, ] = await this.createUser(newuser);
+    const [createdUser] = await this.createUser(newuser);
     return createdUser;
   }
 
@@ -168,32 +201,36 @@ export class EStorage {
 
     for (let tries = 0; tries < EStorage.EUID_TRIES; tries++) {
       try {
-        return await this.run(async txn => {
+        return await this.run(async (txn) => {
           // Make sure the normalized email is unique
           const user = await this.loadUserByEmail(newuser.email, txn);
           if (user) {
-            throw new Error(`Email address already in use: ${user.info.email} (${user.normalizedEmail})`);
+            throw new Error(
+              `Email address already in use: ${user.info.email} (${user.normalizedEmail})`
+            );
           } else {
             // Try to create a new user with a new EUID. We might have to retry
             return await this.createUserTxn(txn, newuser);
           }
         });
-
       } catch (e) {
-        if (`${e}`.indexOf('retry: EUID in use') !== -1) {
-          console.log('EUID collision, trying again...');
-          continue;  // EUID collection, try again
+        if (`${e}`.indexOf("retry: EUID in use") !== -1) {
+          console.log("EUID collision, trying again...");
+          continue; // EUID collection, try again
         }
         throw e;
       }
     }
-    throw new Error(`Could not generate EUID after ${EStorage.EUID_TRIES} tries`);
+    throw new Error(
+      `Could not generate EUID after ${EStorage.EUID_TRIES} tries`
+    );
   }
 
   // One shot at creating a user within a transaction, after existence checks are done.
   private async createUserTxn(txn: Transaction, newuser: schema.NewUserInfo) {
     // Allocate a new EUID within a transaction and claim it for this new user.
-    const newEuid = 'E' + `${Math.floor(Math.random() * 99999)}`.padStart(5, '0');
+    const newEuid =
+      "E" + `${Math.floor(Math.random() * 99999)}`.padStart(5, "0");
     const path = schema.userPath(newEuid);
     const doc = this.firestore.doc(path);
     const result = await txn.get(doc);
@@ -218,14 +255,14 @@ export class EStorage {
       lastRecordingTimestamp: 0,
       numTasks: 0,
       numCompletedTasks: 0,
-      numAssignmentsByTaskSet: []
+      numAssignmentsByTaskSet: [],
     };
 
     const fsdata: schema.EUserData = {
       euid: newEuid,
-      fbuid: newuser.fbuid,  // this will be unset for admin-created users
+      fbuid: newuser.fbuid, // this will be unset for admin-created users
       normalizedEmail: normalizeEmail(newuser.email),
-      info: JSON.stringify(info)
+      info: JSON.stringify(info),
     };
 
     txn.set(doc, fsdata);
@@ -233,8 +270,15 @@ export class EStorage {
   }
 
   // Writes audio to GCS for the given user, and creates a JSON as well as a Firestore record.
-  async createRecording(user: EUser, task: schema.EUserTaskInfo, localDate: string,
-      tzOffset: number, mimeType: string, deviceInfo: schema.EDeviceInfo, audioData: Buffer): Promise<[EUser, EUserTask, ERecording]> {
+  async createRecording(
+    user: EUser,
+    task: schema.EUserTaskInfo,
+    localDate: string,
+    tzOffset: number,
+    mimeType: string,
+    deviceInfo: schema.EDeviceInfo,
+    audioData: Buffer
+  ): Promise<[EUser, EUserTask, ERecording]> {
     const euid = user.euid;
     const taskId = task.id;
     const timestamp = Date.now();
@@ -246,7 +290,7 @@ export class EStorage {
     const metadata: schema.ERecordingMetadata = {
       euid,
       name: basename,
-      platform: 'audiotoolv1',
+      platform: "audiotoolv1",
       project: taskSet.info.id,
       task: task.id,
       language: taskSet.info.language,
@@ -258,10 +302,10 @@ export class EStorage {
       consents: user.info.consents,
       fileSize: audioData.length,
       mimeType,
-      deviceInfo
+      deviceInfo,
     };
 
-    if (task.task.taskType === 'prompt') {
+    if (task.task.taskType === "prompt") {
       // For verbatim repeat tasks, we assume that the user read the prompt exactly until found otherwise
       metadata.transcript = task.task.prompt;
     }
@@ -270,10 +314,12 @@ export class EStorage {
     const bucket = this.storage.bucket(firebaseconfig.BUCKET);
     const dirname = `${firebaseconfig.RECORDING_PATH}/${euid}`;
     await bucket.file(`${dirname}/${basename}.wav`).save(audioData);
-    await bucket.file(`${dirname}/${basename}.json`).save(JSON.stringify(metadata, null, 2));
+    await bucket
+      .file(`${dirname}/${basename}.json`)
+      .save(JSON.stringify(metadata, null, 2));
 
     // Also put a record in Firestore so the GUI can easily query, with updated user and task counters.
-    return await this.firestore.runTransaction(async txn => {
+    return await this.firestore.runTransaction(async (txn) => {
       // Reload the user and task within the transaction to get the freshest versions.
       const user = await this.loadUser(euid, txn);
       const usertask = await user.loadTask(txn, taskId);
@@ -283,7 +329,7 @@ export class EStorage {
       const path = schema.recordingPath(euid, timestamp);
       const recordingDoc = this.firestore.doc(path);
       const fsdata: schema.ERecordingData = {
-        metadata: JSON.stringify(metadata)
+        metadata: JSON.stringify(metadata),
       };
       txn.set(recordingDoc, fsdata);
 
@@ -294,10 +340,10 @@ export class EStorage {
       usertask.update(txn);
 
       // Update the user's recording and task counters
-      user.info.numRecordings = await this.countUserRecordings(user.euid) + 1;
+      user.info.numRecordings = (await this.countUserRecordings(user.euid)) + 1;
       user.info.lastRecordingTimestamp = timestamp;
       if (prevTimestamp === 0) {
-        user.info.numCompletedTasks += 1;  // Don't do this for re-records
+        user.info.numCompletedTasks += 1; // Don't do this for re-records
       }
       user.update(txn);
 
@@ -330,12 +376,19 @@ export class EStorage {
   }
 
   // Loads a taskSet by ID, which should be unique.
-  async loadTaskSet(id: string, opt_txn?: Transaction): Promise<ETaskSet|undefined> {
+  async loadTaskSet(
+    id: string,
+    opt_txn?: Transaction
+  ): Promise<ETaskSet | undefined> {
     const path = schema.taskSetPath(id);
     const doc = this.firestore.doc(path);
     const existingData = opt_txn ? await opt_txn.get(doc) : await doc.get();
     if (existingData.exists) {
-      return new ETaskSet(this, path, existingData.data() as schema.ETaskSetData);
+      return new ETaskSet(
+        this,
+        path,
+        existingData.data() as schema.ETaskSetData
+      );
     } else {
       return undefined;
     }
@@ -351,14 +404,17 @@ export class EStorage {
   }
 
   // Loads all TaskSets.
-  async listTaskSets() : Promise<ETaskSet[]> {
+  async listTaskSets(): Promise<ETaskSet[]> {
     const data = await this.getTaskSetsCollection().get();
-    return data.docs.map(doc => new ETaskSet(this, doc.ref.path, doc.data() as schema.ETaskSetData));
+    return data.docs.map(
+      (doc) =>
+        new ETaskSet(this, doc.ref.path, doc.data() as schema.ETaskSetData)
+    );
   }
 
   // Creates a new TaskSet
   async createTaskSet(id: string, name: string, language: string) {
-    return await this.run(async txn => {
+    return await this.run(async (txn) => {
       let taskSet = await this.loadTaskSet(id, txn);
       if (taskSet) {
         throw new Error(`TaskSet with this id already exists: ${id}`);
@@ -372,16 +428,18 @@ export class EStorage {
         language,
         rules: [],
         numAssignedTasks: 0,
-        numAssignedUsers: 0
+        numAssignedUsers: 0,
       };
-      const fsdata: schema.ETaskSetData = {info: JSON.stringify(info)};
+      const fsdata: schema.ETaskSetData = { info: JSON.stringify(info) };
       await txn.set(doc, fsdata);
       return new ETaskSet(this, path, fsdata);
     });
   }
 
   // Loads all of the Assignment Rules that match a particular user, returns [taskSetId, rule] tuples.
-  async loadAssignmentRules(user: EUser): Promise<[ETaskSet, schema.EAssignmentRule][]> {
+  async loadAssignmentRules(
+    user: EUser
+  ): Promise<[ETaskSet, schema.EAssignmentRule][]> {
     const userTags: Set<string> = new Set(user.info.tags);
     const userLanguage: string = user.info.language;
 
@@ -389,7 +447,7 @@ export class EStorage {
     const result: [ETaskSet, schema.EAssignmentRule][] = [];
     for (const taskSet of await this.listTaskSets()) {
       if (taskSet.info.language !== userLanguage) {
-        continue;  // This rule's language doesn't match the user
+        continue; // This rule's language doesn't match the user
       }
       for (const rule of taskSet.info.rules) {
         if (rule.tags.length > 0) {
@@ -401,25 +459,34 @@ export class EStorage {
             }
           }
           if (!tagMatch) {
-            continue;  // This rule has no tags in common with the user, skip it
+            continue; // This rule has no tags in common with the user, skip it
           }
         }
-        result.push([taskSet, rule]);  // This rule matches
+        result.push([taskSet, rule]); // This rule matches
       }
     }
 
     // Order the rules
-    result.sort((a, b) => a[1].order < b[1].order ? -1 : (a[1].order === b[1].order ? 0 : 1));
+    result.sort((a, b) =>
+      a[1].order < b[1].order ? -1 : a[1].order === b[1].order ? 0 : 1
+    );
     return result;
   }
 
   // Loads a consent by ID, which should be unique.
-  async loadConsent(id: string, opt_txn?: Transaction): Promise<EConsent|undefined> {
+  async loadConsent(
+    id: string,
+    opt_txn?: Transaction
+  ): Promise<EConsent | undefined> {
     const path = schema.consentPath(id);
     const doc = this.firestore.doc(path);
     const existingData = opt_txn ? await opt_txn.get(doc) : await doc.get();
     if (existingData.exists) {
-      return new EConsent(this, path, existingData.data() as schema.EConsentData);
+      return new EConsent(
+        this,
+        path,
+        existingData.data() as schema.EConsentData
+      );
     } else {
       return undefined;
     }
@@ -435,23 +502,31 @@ export class EStorage {
   }
 
   // Loads all Consents.
-  async listConsents() : Promise<EConsent[]> {
+  async listConsents(): Promise<EConsent[]> {
     const data = await this.getConsentsCollection().get();
-    return data.docs.map(doc => new EConsent(this, doc.ref.path, doc.data() as schema.EConsentData));
+    console.log({data})
+    return data.docs.map(
+      (doc) =>
+        new EConsent(this, doc.ref.path, doc.data() as schema.EConsentData)
+    );
   }
 
   // Same as above, but returns only the subset of consents that apply to a user with the given language and tags.
-  async listApplicableConsents(language: string, tags: string[], now: number) : Promise<EConsent[]> {
+  async listApplicableConsents(
+    language: string,
+    tags: string[],
+    now: number
+  ): Promise<EConsent[]> {
     const result: Set<EConsent> = new Set();
     for (const consent of await this.listConsents()) {
       if (!consent.info.active) {
-        continue;  // suppress this inactive consent
+        continue; // suppress this inactive consent
       }
       if (consent.info.language !== language) {
-        continue;  // not applicable to this user
+        continue; // not applicable to this user
       }
       if (!consent.getLiveVersion(now)) {
-        continue;  // this consent is post-dated into the future, not yet relevant
+        continue; // this consent is post-dated into the future, not yet relevant
       }
       if (consent.info.tags.length > 0) {
         // A tagged consent means it only applies to certain users
@@ -471,8 +546,14 @@ export class EStorage {
   }
 
   // Creates a new Consent
-  async createConsent(id: string, name: string, language: string, tags: string[], optional: boolean) {
-    return await this.run(async txn => {
+  async createConsent(
+    id: string,
+    name: string,
+    language: string,
+    tags: string[],
+    optional: boolean
+  ) {
+    return await this.run(async (txn) => {
       let consent = await this.loadConsent(id, txn);
       if (consent) {
         throw new Error(`Consent with this id already exists: ${id}`);
@@ -487,9 +568,9 @@ export class EStorage {
         optional,
         active: true,
         creationTimestamp: Date.now(),
-        versions: []
+        versions: [],
       };
-      const fsdata: schema.EConsentData = {info: JSON.stringify(info)};
+      const fsdata: schema.EConsentData = { info: JSON.stringify(info) };
       txn.set(doc, fsdata);
       return new EConsent(this, path, fsdata);
     });
@@ -513,19 +594,19 @@ export class EStorage {
 // DAO for one logged in user of the system.
 export class EUser {
   parent: EStorage;
-  path: string;  // Firestore document path
+  path: string; // Firestore document path
 
-  euid: string;  // immutable ID
-  fbuid?: string;  // set when account is claimed
-  normalizedEmail: string;  // indexed version of email
+  euid: string; // immutable ID
+  fbuid?: string; // set when account is claimed
+  normalizedEmail: string; // indexed version of email
   info: schema.EUserInfo;
 
   constructor(parent: EStorage, path: string, fsdata: schema.EUserData) {
-    this.parent = parent;  // EStorage system
-    this.path = path;  // Firebase document reference path
+    this.parent = parent; // EStorage system
+    this.path = path; // Firebase document reference path
 
-    this.euid = fsdata.euid;  // Immutable
-    this.fbuid = fsdata.fbuid;  // This can be null for unclaimed accounts
+    this.euid = fsdata.euid; // Immutable
+    this.fbuid = fsdata.fbuid; // This can be null for unclaimed accounts
     this.normalizedEmail = fsdata.normalizedEmail;
 
     // Everything else from the JSON blob: email, name, language, counters, etc
@@ -550,7 +631,9 @@ export class EUser {
           t[1] += delta;
           this.info.numTasks += delta;
         } else {
-          console.log(`Warning: attempted to decrement counter below zero: ${taskSetId} for ${this.euid}`);
+          console.log(
+            `Warning: attempted to decrement counter below zero: ${taskSetId} for ${this.euid}`
+          );
           this.info.numTasks -= t[1];
           t[1] = 0;
         }
@@ -564,8 +647,10 @@ export class EUser {
       this.info.numTasks += delta;
       return delta;
     } else {
-      console.log(`Warning: attempted to decrement unassigned taskset: ${taskSetId} for ${this.euid}`);
-      return 0;  // we don't allow counters to go below zero
+      console.log(
+        `Warning: attempted to decrement unassigned taskset: ${taskSetId} for ${this.euid}`
+      );
+      return 0; // we don't allow counters to go below zero
     }
   }
 
@@ -574,23 +659,27 @@ export class EUser {
     const obj: any = {
       // EUID is immutable, never update it
       normalizedEmail: this.normalizedEmail,
-      info: JSON.stringify(this.info)
+      info: JSON.stringify(this.info),
     };
     if (this.fbuid) {
-      obj['fbuid'] = this.fbuid;  // Only set property keys with non-null values
+      obj["fbuid"] = this.fbuid; // Only set property keys with non-null values
     }
     txn.update(this.parent.firestore.doc(this.path), obj);
   }
 
   // Returns true if the user's agreements match the live versions of all applicable consents
   async isConsented(now: number): Promise<boolean> {
-    for (const c of await this.parent.listApplicableConsents(this.info.language, this.info.tags, now)) {
+    for (const c of await this.parent.listApplicableConsents(
+      this.info.language,
+      this.info.tags,
+      now
+    )) {
       if (c.info.optional) {
-        continue;  // Permit user not to have consented if the consent is optional
+        continue; // Permit user not to have consented if the consent is optional
       }
       const v = c.getLiveVersion(now);
       if (!v || !this.isConsented_(c.info.id, v.version)) {
-        return false;  // The user doesn't have a current agreement record for this consent
+        return false; // The user doesn't have a current agreement record for this consent
       }
     }
     return true;
@@ -599,19 +688,32 @@ export class EUser {
   // Returns true if this user has an agreement to the given exact consent and version
   private isConsented_(consentId: string, version: number): boolean {
     for (const agreement of this.info.consents) {
-      if (agreement.consentId === consentId && agreement.version === version &&
-          agreement.consentTimestamp !== 0 && agreement.revokeTimestamp === 0) {
-        return true;  // Found a matching and non-revoked agreement
+      if (
+        agreement.consentId === consentId &&
+        agreement.version === version &&
+        agreement.consentTimestamp !== 0 &&
+        agreement.revokeTimestamp === 0
+      ) {
+        return true; // Found a matching and non-revoked agreement
       }
     }
     return false;
   }
 
   // Records that the user agreed to a particular consent.
-  async addConsent(now: number, agreement: schema.EAgreementInfo): Promise<EUser> {
-    return await this.parent.run(async txn => {
-      const consent = await this.parent.requireConsent(agreement.consentId, txn);
-      let [exact, others] = this.findConsents(agreement.consentId, agreement.version);
+  async addConsent(
+    now: number,
+    agreement: schema.EAgreementInfo
+  ): Promise<EUser> {
+    return await this.parent.run(async (txn) => {
+      const consent = await this.parent.requireConsent(
+        agreement.consentId,
+        txn
+      );
+      let [exact, others] = this.findConsents(
+        agreement.consentId,
+        agreement.version
+      );
       if (exact && exact.revokeTimestamp === 0) {
         // Already consented, just update the timestamps. No change to counters.
         exact.consentTimestamp = now;
@@ -622,7 +724,7 @@ export class EUser {
       // Note the user's new consent and count it, or reinstate a previously revoked consent
       if (exact) {
         exact.consentTimestamp = now;
-        exact.revokeTimestamp = 0;  // reinstate
+        exact.revokeTimestamp = 0; // reinstate
       } else {
         agreement.consentTimestamp = now;
         agreement.revokeTimestamp = 0;
@@ -660,14 +762,19 @@ export class EUser {
   }
 
   // Returns the matching consent, plus any other consents of different versions with the same ID.
-  private findConsents(consentId: string, version: number): [schema.EAgreementInfo|undefined, schema.EAgreementInfo[]] {
-    let exact: schema.EAgreementInfo|undefined;  // ID and version match
-    const others: schema.EAgreementInfo[] = [];  // only IDs match
+  private findConsents(
+    consentId: string,
+    version: number
+  ): [schema.EAgreementInfo | undefined, schema.EAgreementInfo[]] {
+    let exact: schema.EAgreementInfo | undefined; // ID and version match
+    const others: schema.EAgreementInfo[] = []; // only IDs match
     for (const c of this.info.consents) {
       if (c.consentId === consentId) {
         if (c.version === version) {
           if (exact) {
-            throw new Error(`User ${this.info.euid} has multiple exact consent matches: ${consentId}-${version}`);
+            throw new Error(
+              `User ${this.info.euid} has multiple exact consent matches: ${consentId}-${version}`
+            );
           }
           exact = c;
         } else {
@@ -680,14 +787,23 @@ export class EUser {
 
   // Returns the user's tasks, if any
   async listTasks(): Promise<EUserTask[]> {
-    const data = await this.parent.getUserTasksSubcollection(this.euid).orderBy('order').get();
-    return data.docs.map(doc => new EUserTask(this, doc.ref.path, doc.data() as schema.EUserTaskData));
+    const data = await this.parent
+      .getUserTasksSubcollection(this.euid)
+      .orderBy("order")
+      .get();
+    return data.docs.map(
+      (doc) =>
+        new EUserTask(this, doc.ref.path, doc.data() as schema.EUserTaskData)
+    );
   }
 
   // Returns the user's recordings, if any
   async listRecordings(): Promise<ERecording[]> {
     const data = await this.parent.getRecordingsSubcollection(this.euid).get();
-    return data.docs.map(doc => new ERecording(this, doc.ref.path, doc.data() as schema.ERecordingData));
+    return data.docs.map(
+      (doc) =>
+        new ERecording(this, doc.ref.path, doc.data() as schema.ERecordingData)
+    );
   }
 
   // Loads one UserTask using a transaction, returns null if not found
@@ -695,14 +811,21 @@ export class EUser {
     const path = schema.userTaskPath(this.euid, taskId);
     const existingTaskData = await txn.get(this.parent.firestore.doc(path));
     if (existingTaskData.exists) {
-      return new EUserTask(this, path, existingTaskData.data() as schema.EUserTaskData);
+      return new EUserTask(
+        this,
+        path,
+        existingTaskData.data() as schema.EUserTaskData
+      );
     } else {
       throw new NotFoundError(`No such task: ${taskId}`);
     }
   }
 
   // Loads one Recording using a transaction. Throws an error if not found.
-  async loadRecording(txn: Transaction, timestamp: number): Promise<ERecording> {
+  async loadRecording(
+    txn: Transaction,
+    timestamp: number
+  ): Promise<ERecording> {
     const path = schema.recordingPath(this.euid, timestamp);
     const data = await txn.get(this.parent.firestore.doc(path));
     if (data.exists) {
@@ -713,11 +836,15 @@ export class EUser {
   }
 
   // Adds the list of tasks to a user and updates the user and TaskSet counters. Max 500 tasks please.
-  async assignTasks(txn: Transaction, tasks: ETask[], taskSet: ETaskSet): Promise<void> {
+  async assignTasks(
+    txn: Transaction,
+    tasks: ETask[],
+    taskSet: ETaskSet
+  ): Promise<void> {
     const tsid = taskSet.info.id;
     // Get the currently highest task order number
     const collection = this.parent.getUserTasksSubcollection(this.euid);
-    const q = await txn.get(collection.orderBy('order', 'desc').limit(1));
+    const q = await txn.get(collection.orderBy("order", "desc").limit(1));
     let order = 0;
     for (const doc of q.docs) {
       order = doc.data().order;
@@ -734,11 +861,12 @@ export class EUser {
         taskSetId: tsid,
         task: task.info,
         assignedTimestamp: timestamp,
-        recordedTimestamp: 0
+        recordedTimestamp: 0,
       };
       const fsdata: schema.EUserTaskData = {
         order: order++,
-        info: JSON.stringify(info)};
+        info: JSON.stringify(info),
+      };
       txn.set(newDoc, fsdata);
     }
 
@@ -747,14 +875,17 @@ export class EUser {
     const newNum = this.changeNumTasks(tsid, tasks.length);
     taskSet.info.numAssignedTasks += tasks.length;
     if (oldNum === 0 && newNum > 0) {
-      taskSet.info.numAssignedUsers++;  // this user didn't have tasks from this taskset before
+      taskSet.info.numAssignedUsers++; // this user didn't have tasks from this taskset before
     }
     taskSet.update(txn);
     this.update(txn);
   }
 
   // Removes the list of tasks from a user and updates the user's task counters.
-  async removeTasks(txn: Transaction, idTuples: [string, string][]): Promise<ETaskSet[]> {
+  async removeTasks(
+    txn: Transaction,
+    idTuples: [string, string][]
+  ): Promise<ETaskSet[]> {
     // First load all involved tasksets so we can update their counters.
     const tasksByParent = await this.loadTaskTuples(txn, idTuples);
 
@@ -765,7 +896,10 @@ export class EUser {
       const newNum = this.changeNumTasks(taskSet.info.id, -taskIds.length);
       if (oldNum > 0 && newNum <= 0) {
         // This user has no tasks left from this taskset, so they drop out of the user counter
-        taskSet.info.numAssignedUsers = Math.max(0, taskSet.info.numAssignedUsers - 1);
+        taskSet.info.numAssignedUsers = Math.max(
+          0,
+          taskSet.info.numAssignedUsers - 1
+        );
       }
     }
 
@@ -787,7 +921,10 @@ export class EUser {
   }
 
   // For each [taskSetId, taskId] tuple, loads the parent TaskSet and organizes all its taskIds in a map.
-  private async loadTaskTuples(txn: Transaction, idTuples: Array<[string, string]>): Promise<Map<ETaskSet, string[]>> {
+  private async loadTaskTuples(
+    txn: Transaction,
+    idTuples: Array<[string, string]>
+  ): Promise<Map<ETaskSet, string[]>> {
     const taskSets = new Map();
     const result = new Map();
     for (const [taskSetId, taskId] of idTuples) {
@@ -806,7 +943,7 @@ export class EUser {
 // DAO for one task assigned to a user
 export class EUserTask {
   parent: EUser;
-  path: string;  // Firestore document path
+  path: string; // Firestore document path
   order: number;
   info: schema.EUserTaskInfo;
 
@@ -821,7 +958,7 @@ export class EUserTask {
   update(txn: Transaction) {
     txn.update(this.parent.parent.firestore.doc(this.path), {
       // Never mutate order
-      info: JSON.stringify(this.info)
+      info: JSON.stringify(this.info),
     });
   }
 }
@@ -829,7 +966,7 @@ export class EUserTask {
 // DAO for one recording clip
 export class ERecording {
   parent: EUser;
-  path: string;  // Firestore document path
+  path: string; // Firestore document path
   metadata: schema.ERecordingMetadata;
 
   constructor(parent: EUser, path: string, fsdata: schema.ERecordingData) {
@@ -838,13 +975,29 @@ export class ERecording {
     this.metadata = JSON.parse(fsdata.metadata);
   }
 
-  async delete(user: EUser, usertask: EUserTask, tsTask: ETask, txn: Transaction): Promise<void> {
-    if (user !== this.parent || usertask.info.recordedTimestamp !== this.metadata.timestamp) {
-      throw new Error(`Unexpected wrong user/task update: ${user.euid}: ${this.metadata.timestamp}`);
+  async delete(
+    user: EUser,
+    usertask: EUserTask,
+    tsTask: ETask,
+    txn: Transaction
+  ): Promise<void> {
+    if (
+      user !== this.parent ||
+      usertask.info.recordedTimestamp !== this.metadata.timestamp
+    ) {
+      throw new Error(
+        `Unexpected wrong user/task update: ${user.euid}: ${this.metadata.timestamp}`
+      );
     }
     // The user's recording and task count should decline by one
-    this.parent.info.numCompletedTasks = Math.max(0, this.parent.info.numCompletedTasks - 1);
-    this.parent.info.numRecordings = Math.max(0, this.parent.info.numRecordings - 1);
+    this.parent.info.numCompletedTasks = Math.max(
+      0,
+      this.parent.info.numCompletedTasks - 1
+    );
+    this.parent.info.numRecordings = Math.max(
+      0,
+      this.parent.info.numRecordings - 1
+    );
     this.parent.update(txn);
 
     // The master task counter should decline by one
@@ -863,19 +1016,24 @@ export class ERecording {
 // DAO for one set of tasks
 export class ETaskSet {
   parent: EStorage;
-  path: string;  // Firestore document path
+  path: string; // Firestore document path
   info: schema.ETaskSetInfo;
 
   constructor(parent: EStorage, path: string, fsdata: schema.ETaskSetData) {
-    this.parent = parent;  // EStorage system
+    this.parent = parent; // EStorage system
     this.path = path;
     this.info = JSON.parse(fsdata.info);
   }
 
   // Returns all of this TaskSet's tasks.
   async listTasks(): Promise<ETask[]> {
-    const data = await this.parent.getTasksSubcollection(this.info.id).orderBy('order').get();
-    return data.docs.map(doc => new ETask(this, doc.ref.path, doc.data() as schema.ETaskData));
+    const data = await this.parent
+      .getTasksSubcollection(this.info.id)
+      .orderBy("order")
+      .get();
+    return data.docs.map(
+      (doc) => new ETask(this, doc.ref.path, doc.data() as schema.ETaskData)
+    );
   }
 
   // Reads one task via a transaction.
@@ -899,18 +1057,25 @@ export class ETaskSet {
 
     if (taskIds.length <= 10) {
       // Firestore IN clauses only support 10 terms
-      const q = this.parent.getTasksSubcollection(this.info.id).where(FieldPath.documentId(), 'in', taskIds);
+      const q = this.parent
+        .getTasksSubcollection(this.info.id)
+        .where(FieldPath.documentId(), "in", taskIds);
       const data = await q.get();
-      return ordered(data.docs.map(doc => new ETask(this, doc.ref.path, doc.data() as schema.ETaskData)));
-
+      return ordered(
+        data.docs.map(
+          (doc) => new ETask(this, doc.ref.path, doc.data() as schema.ETaskData)
+        )
+      );
     } else {
       // Scan the whole collection, assuming this is more efficient than many lookups.
       const set = new Set(taskIds);
       const result: ETask[] = [];
       const data = await this.parent.getTasksSubcollection(this.info.id).get();
-      data.docs.map(doc => {
+      data.docs.map((doc) => {
         if (set.has(doc.id)) {
-          result.push(new ETask(this, doc.ref.path, doc.data() as schema.ETaskData));
+          result.push(
+            new ETask(this, doc.ref.path, doc.data() as schema.ETaskData)
+          );
         }
       });
       return ordered(result);
@@ -923,15 +1088,17 @@ export class ETaskSet {
     const docs = [...data.docs];
     shuffle(docs);
     if (sampleSize < docs.length) {
-      docs.splice(sampleSize, docs.length - sampleSize);  // erase the later elements
+      docs.splice(sampleSize, docs.length - sampleSize); // erase the later elements
     }
-    return docs.map(doc => new ETask(this, doc.ref.path, doc.data() as schema.ETaskData));
+    return docs.map(
+      (doc) => new ETask(this, doc.ref.path, doc.data() as schema.ETaskData)
+    );
   }
 
   // Adds or removes TaskSet rules in memory; be sure to update(txn) after this.
   changeRules(addrules: schema.EAssignmentRule[], delrules: number[]): void {
     if (addrules.length === 0 && delrules.length === 0) {
-      throw new ParamError('No rule changes specified');
+      throw new ParamError("No rule changes specified");
     }
 
     // Splice out unwanted rules from the list
@@ -951,11 +1118,14 @@ export class ETaskSet {
   // Commits changes to TaskSet properties
   async update(txn: Transaction) {
     const info = JSON.stringify(this.info);
-    txn.update(this.parent.firestore.doc(this.path), {info});
+    txn.update(this.parent.firestore.doc(this.path), { info });
   }
 
   // Tries to create new unique tasks. Duplicate prompts are prohibited.
-  async addTasks(taskType: schema.TaskType, tasks: Array<[number, string]>): Promise<ETask[]> {
+  async addTasks(
+    taskType: schema.TaskType,
+    tasks: Array<[number, string]>
+  ): Promise<ETask[]> {
     const tasksSubcollection = this.parent.getTasksSubcollection(this.info.id);
     for (const [order, prompt] of tasks) {
       if (!prompt || !order || isNaN(order)) {
@@ -966,9 +1136,13 @@ export class ETaskSet {
     const results: ETask[] = [];
     let pos = 0;
     while (pos < tasks.length) {
-      const r = await this.parent.firestore.runTransaction(async txn => {
+      const r = await this.parent.firestore.runTransaction(async (txn) => {
         const result: ETask[] = [];
-        for (let i = pos; i < tasks.length && i < pos + firebaseconfig.MAX_TASK_BATCH_SIZE; i++) {
+        for (
+          let i = pos;
+          i < tasks.length && i < pos + firebaseconfig.MAX_TASK_BATCH_SIZE;
+          i++
+        ) {
           // TODO: prevent duplicate prompts
           const [order, prompt] = tasks[i];
           const newDoc = tasksSubcollection.doc();
@@ -978,9 +1152,12 @@ export class ETaskSet {
             taskType,
             prompt,
             creationTimestamp: Date.now(),
-            numRecordings: 0
+            numRecordings: 0,
           };
-          const fsdata: schema.ETaskData = {order, info: JSON.stringify(info)};
+          const fsdata: schema.ETaskData = {
+            order,
+            info: JSON.stringify(info),
+          };
           txn.set(newDoc, fsdata);
           result.push(new ETask(this, newDoc.path, fsdata));
         }
@@ -993,7 +1170,10 @@ export class ETaskSet {
   }
 
   // Assigns a selection of tasks from this task set to one user
-  async assignTasks(spec: schema.EAssignmentRule, euid: string): Promise<EUser> {
+  async assignTasks(
+    spec: schema.EAssignmentRule,
+    euid: string
+  ): Promise<EUser> {
     // Load the selected tasks matched by the rule
     let tasks: ETask[];
     if (spec.allTasks) {
@@ -1003,19 +1183,19 @@ export class ETaskSet {
     } else if (spec.sample > 0) {
       tasks = await this.sampleTasks(spec.sample);
     } else {
-      throw new ParamError('Malformed selection rule');
+      throw new ParamError("Malformed selection rule");
     }
 
     if (tasks.length === 0) {
-      throw new NotFoundError('No tasks to assign');
+      throw new NotFoundError("No tasks to assign");
     }
 
     // Write the tasks to the user in a transaction
     let u: EUser;
     let t: ETaskSet;
     for (const taskBatch of toBatches(tasks, 450)) {
-      [u, t] = await this.parent.run(async txn => {
-        const ts = await this.parent.requireTaskSet(this.info.id, txn);  // transactionally reload
+      [u, t] = await this.parent.run(async (txn) => {
+        const ts = await this.parent.requireTaskSet(this.info.id, txn); // transactionally reload
         const user = await this.parent.loadUser(euid, txn);
         await user.assignTasks(txn, taskBatch, ts);
         return [user, ts];
@@ -1032,7 +1212,7 @@ export class ETaskSet {
 // DAO for one Task on a TaskSet
 export class ETask {
   parent: ETaskSet;
-  path: string;  // Forestore document path
+  path: string; // Forestore document path
   info: schema.ETaskInfo;
 
   constructor(parent: ETaskSet, path: string, fsdata: schema.ETaskData) {
@@ -1044,17 +1224,19 @@ export class ETask {
   // Updates this Task with any changes carried by this DAO, such as counter changes.
   update(txn: Transaction) {
     txn.update(this.parent.parent.firestore.doc(this.path), {
-      info: JSON.stringify(this.info)
+      info: JSON.stringify(this.info),
     });
   }
 
   // Adds a graphical image to the task, and stores it. Any previous image is replaced.
   async addImage(contents: Buffer, txn: Transaction): Promise<void> {
     // Store the image data. TODO: re-render this image so it's scrubbed for metadata / malice / format
-    await this.parent.parent.getImageFile(this.parent.info.id, this.info.id).save(contents);
+    await this.parent.parent
+      .getImageFile(this.parent.info.id, this.info.id)
+      .save(contents);
 
     // Once the contents are written, add the metadata. We only support JPG for now.
-    this.info.imageType = 'image/jpeg';
+    this.info.imageType = "image/jpeg";
     this.update(txn);
   }
 }
@@ -1062,11 +1244,11 @@ export class ETask {
 // DAO for one Consent
 export class EConsent {
   parent: EStorage;
-  path: string;  // Firestore document path
+  path: string; // Firestore document path
   info: schema.EConsentInfo;
 
   constructor(parent: EStorage, path: string, fsdata: schema.EConsentData) {
-    this.parent = parent;  // EStorage system
+    this.parent = parent; // EStorage system
     this.path = path;
     this.info = JSON.parse(fsdata.info);
   }
@@ -1080,10 +1262,13 @@ export class EConsent {
   }
 
   // Returns the latest live version, unless no version is live yet.
-  getLiveVersion(now: number): schema.EConsentVersion|undefined {
-    let latest: schema.EConsentVersion|undefined;
+  getLiveVersion(now: number): schema.EConsentVersion | undefined {
+    let latest: schema.EConsentVersion | undefined;
     for (const version of this.info.versions) {
-      if (version.liveTimestamp <= now && (!latest || latest.version < version.version)) {
+      if (
+        version.liveTimestamp <= now &&
+        (!latest || latest.version < version.version)
+      ) {
         latest = version;
       }
     }
@@ -1104,24 +1289,34 @@ export class EConsent {
   changeUserCount(version: number, incr: number) {
     const idx = this.getVersionIndex(version);
     if (idx === -1) {
-      throw new NotFoundError(`No such consent version: ${this.info.id}-${version}`);
+      throw new NotFoundError(
+        `No such consent version: ${this.info.id}-${version}`
+      );
     }
     this.info.versions[idx].numUsers += incr;
   }
 
   // Adds a new version, stores the text in GCS, and commits it
-  async createVersion(description: string, liveTimestamp: number, contents: Buffer, txn: Transaction): Promise<void> {
+  async createVersion(
+    description: string,
+    liveTimestamp: number,
+    contents: Buffer,
+    txn: Transaction
+  ): Promise<void> {
     // Find the lowest unused version number
-    const version = this.info.versions.reduce((n, v) => Math.max(n, v.version), 0) + 1;
-    
+    const version =
+      this.info.versions.reduce((n, v) => Math.max(n, v.version), 0) + 1;
+
     // Store the consent text; these are immutable
     await this.parent.getConsentFile(this.info.id, version).save(contents);
 
     // Once the contents are written, add the metadata
     this.info.versions.push({
-      version, liveTimestamp, description,
+      version,
+      liveTimestamp,
+      description,
       creationTimestamp: Date.now(),
-      numUsers: 0
+      numUsers: 0,
     });
     this.update(txn);
   }
@@ -1130,12 +1325,16 @@ export class EConsent {
   async deleteVersion(version: number, txn: Transaction): Promise<void> {
     const idx = this.getVersionIndex(version);
     if (idx === -1) {
-      throw new NotFoundError(`No such consent version: ${this.info.id}-${version}`);
+      throw new NotFoundError(
+        `No such consent version: ${this.info.id}-${version}`
+      );
     }
 
     const versionData = this.info.versions[idx];
     if (versionData.numUsers > 0) {
-      throw new ParamError(`Consent version is in use and cannot be removed: ${this.info.id}-${version}`);
+      throw new ParamError(
+        `Consent version is in use and cannot be removed: ${this.info.id}-${version}`
+      );
     }
     this.info.versions.splice(idx, 1);
     this.update(txn);
@@ -1147,6 +1346,6 @@ export class EConsent {
   // Commits changes to Consent properties. Don't use this for version creation or deletion.
   update(txn: Transaction) {
     const info = JSON.stringify(this.info);
-    txn.update(this.parent.firestore.doc(this.path), {info});
+    txn.update(this.parent.firestore.doc(this.path), { info });
   }
 }
