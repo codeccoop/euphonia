@@ -83,3 +83,6 @@ functions/lib
 # Don't check in key files and local notes
 test_key.json
 TODOs.md
+
+#IDES
+.vscode
