@@ -15,7 +15,9 @@
  */
 
 import "source-map-support/register"; // Improves stack traces
-import functions = require("firebase-functions");
+// import functions = require("firebase-functions");
+import { onRequest } from "firebase-functions/v2/https";
+
 import express = require("express");
 const cookieParser = require("cookie-parser")();
 const useragent = require("useragent");
@@ -285,9 +287,13 @@ export class AudioApi {
   }
 
   // Wraps an express server in a cloud function
-  static install(deps?: any): functions.HttpsFunction {
+  // static install(deps?: any): functions.HttpsFunction {
+  //   const express = AudioApi.createExpressServer(deps);
+  //   return functions.https.onRequest(express);
+  // }
+  static install(deps?: any) {
     const express = AudioApi.createExpressServer(deps);
-    return functions.https.onRequest(express);
+    return onRequest(express);
   }
 
   // Defines an express JSON endpoint with error handling.
