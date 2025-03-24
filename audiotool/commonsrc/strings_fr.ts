@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-import { ELocaleString } from './schema';
+import { ELocaleString } from "./schema";
 
 export const FR_STRINGS: ELocaleString[] = [
   {
     key: `PAGE_TITLE`,
     en: `Project Euphonia`,
     description: `Web page title for all pages`,
-    text: `Project Euphonia`
+    text: `Project Euphonia`,
   },
   {
     key: `HELP_LINK`,
     description: `Help hyperlink HREF property when the user needs help or has questions.`,
-    text: `http://g.co/disabilitysupport`
+    text: `http://g.co/disabilitysupport`,
   },
   {
     key: `WELCOME_TITLE`,
     en: `Welcome to Project Euphonia!`,
     description: `Signup screen and consent screen titles`,
-    text: `Bienvenue dans le projet Euphonia !`
+    text: `Bienvenue dans le projet Euphonia !`,
   },
   {
     key: `We're exploring how Google products and services
@@ -41,14 +41,14 @@ export const FR_STRINGS: ELocaleString[] = [
     Voice samples can help us improve how Google understands individuals with speech
     impairments.`,
     description: `Signup screen`,
-    text: `Nous étudions comment les produits et les services Google qui utilisent la saisie vocale pourraient être améliorés. Nous sommes à la recherche de contributions vocales provenant d'adultes avec des difficultés à se faire comprendre. Ces échantillons vocaux peuvent nous aider à améliorer la compréhension de Google des personnes souffrant de troubles de la parole.`
+    text: `Nous étudions comment les produits et les services Google qui utilisent la saisie vocale pourraient être améliorés. Nous sommes à la recherche de contributions vocales provenant d'adultes avec des difficultés à se faire comprendre. Ces échantillons vocaux peuvent nous aider à améliorer la compréhension de Google des personnes souffrant de troubles de la parole.`,
   },
   {
     key: `<b>IMPORTANT:</b> If you're filling out
     this form on behalf of someone else, please ensure you have their permission
     to do so.`,
     description: `Signup screen`,
-    text: `<b>IMPORTANT</b> : Si vous remplissez ce formulaire au nom de quelqu'un d'autre, merci de vous assurer que vous avez son autorisation.`
+    text: `<b>IMPORTANT</b> : Si vous remplissez ce formulaire au nom de quelqu'un d'autre, merci de vous assurer que vous avez son autorisation.`,
   },
   {
     key: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
@@ -56,86 +56,86 @@ export const FR_STRINGS: ELocaleString[] = [
     description: `Signup screen`,
     text: `Des questions ? 
         <a id=signuphelplink target="_blank"
-        >Nous contacter</a>`
+        >Nous contacter</a>`,
   },
   {
     key: `Already enrolled? &nbsp;`,
     description: `Signup screen`,
-    text: `Déjà inscrit ? &nbsp;`
+    text: `Déjà inscrit ? &nbsp;`,
   },
   {
     key: `Click to sign in and continue recording`,
     description: `Signup screen`,
-    text: `Cliquez pour vous connecter et continuer à enregistrer`
+    text: `Cliquez pour vous connecter et continuer à enregistrer`,
   },
   {
     key: `To get started, please confirm your eligibility:`,
     description: `Signup screen`,
-    text: `Pour commencer, veuillez confirmer votre éligibilité :`
+    text: `Pour commencer, veuillez confirmer votre éligibilité :`,
   },
   {
     key: `Strangers, or voice technologies like Google Assistant, have difficulty understanding my speech (not because of an accent)`,
     description: `Signup screen eligibility question`,
-    text: `Les inconnus ou les technologies utilisant la reconnaissance vocale comme l'Assistant Google ont des difficultés à comprendre ce que je dis (pas à cause d'un accent)`
+    text: `Les inconnus ou les technologies utilisant la reconnaissance vocale comme l'Assistant Google ont des difficultés à comprendre ce que je dis (pas à cause d'un accent)`,
   },
   {
     key: `I am at least 18 years of age`,
     description: `Signup screen eligibility question`,
-    text: `J'ai au moins 18 ans`
+    text: `J'ai au moins 18 ans`,
   },
   {
     key: `Sign in and continue`,
     description: `Signup screen button`,
-    text: `Se connecter et continuer`
+    text: `Se connecter et continuer`,
   },
   {
     key: `You will need to sign in with your Google
     Account to contribute to the project. If you do not have a Google Account, you can
     create one when you click to continue.`,
     description: `Signup screen instructions`,
-    text: `Vous devrez vous connecter avec votre compte Google pour contribuer à ce projet. Si vous n'avez pas de compte Google, vous pourrez en créer un en cliquant pour continuer.`
+    text: `Vous devrez vous connecter avec votre compte Google pour contribuer à ce projet. Si vous n'avez pas de compte Google, vous pourrez en créer un en cliquant pour continuer.`,
   },
   {
     key: `Next`,
     description: `Interest form button, advance to the next screen`,
-    text: `Suivant`
+    text: `Suivant`,
   },
   {
     key: `Go Back`,
     description: `Interest form button, go back to the signup screen`,
-    text: `Retour`
+    text: `Retour`,
   },
   {
     key: `You must type your name to agree to the terms.`,
     description: `Consent form screen, require consent to proceed`,
-    text: `Vous devez saisir votre nom pour accepter les conditions.`
+    text: `Vous devez saisir votre nom pour accepter les conditions.`,
   },
   {
     key: `Reset form and start over`,
     description: `Interest form button, clear fields and start over`,
-    text: `Recommencer le formulaire depuis le début`
+    text: `Recommencer le formulaire depuis le début`,
   },
   {
     key: `You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
     Please review the following agreement: <span id=consentcounter></span>`,
     description: `Consent screen instructions`,
-    text: `Vous allez être inscrit en tant que <b id=whoisenrolling>&nbsp;</b>. Veuillez consulter le contrat suivant : <span id=consentcounter></span>`
+    text: `Vous allez être inscrit en tant que <b id=whoisenrolling>&nbsp;</b>. Veuillez consulter le contrat suivant : <span id=consentcounter></span>`,
   },
   {
     key: `Enroll`,
     description: `Consent screen, final action; consents to the program and allows recording`,
-    text: `S'inscrire`
+    text: `S'inscrire`,
   },
   {
     key: `Next Agreement`,
     description: `Consent screen, to agree to the current consent and then see the next one. Only shows when there are multiple consents`,
-    text: `Contrat suivant`
+    text: `Contrat suivant`,
   },
   {
     key: `INSTRUCTIONS_TITLE`,
     en: `Thanks for signing up for Project Euphonia!`,
     description: `Instructions screen title`,
-    text: `Merci de vous être inscrit dans le projet Euphonia !`
+    text: `Merci de vous être inscrit dans le projet Euphonia !`,
   },
   {
     key: `INSTRUCTIONS_VIDEO_HTML`,
@@ -163,209 +163,209 @@ export const FR_STRINGS: ELocaleString[] = [
       <li>Sur l'écran suivant, vous devrez lire des <b>fiches</b> à voix haute.</li> 
       <li>Pour ce faire, trouvez un <b>endroit calme</b> et sans bruits de fond.</li> 
       <li>Après avoir appuyé sur le bouton d'enregistrement (de couleur bleue), <b>lisez la fiche à voix haute</b> aussi précisément que possible.</li> 
-      <li>Lorsque vous avez <b>terminé de parler</b>, appuyez à nouveau sur le bouton bleu pour finir l'enregistrement.</li> <li>Une fois un échantillon enregistré pour chacune des fiches, vous aurez terminé !</li> <li>Vous rencontrez des problèmes d'enregistrement ? <a target="_blank" href="http://g.co/disabilitysupport">Contactez-nous</a> pour obtenir de l'aide.</li>`
+      <li>Lorsque vous avez <b>terminé de parler</b>, appuyez à nouveau sur le bouton bleu pour finir l'enregistrement.</li> <li>Une fois un échantillon enregistré pour chacune des fiches, vous aurez terminé !</li> <li>Vous rencontrez des problèmes d'enregistrement ? <a target="_blank" href="http://g.co/disabilitysupport">Contactez-nous</a> pour obtenir de l'aide.</li>`,
   },
   {
     key: `Get Started`,
     description: `Instructions screen button to continue to next screen`,
-    text: `Commencer`
+    text: `Commencer`,
   },
   {
     key: `Microphone Setup`,
     description: `Microphone and settings screen title`,
-    text: `Configuration du micro`
+    text: `Configuration du micro`,
   },
   {
     key: `
     In order to record your speech, we need permission to use your microphone
     through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`,
     description: `Microphone permission instructions`,
-    text: `Afin d'enregistrer votre voix, Euphonia nécessite l'autorisation d'utiliser votre micro depuis votre navigateur. <b>Veuillez cliquer sur "Autoriser"</b> pour autoriser l'utilisation du micro.`
+    text: `Afin d'enregistrer votre voix, Euphonia nécessite l'autorisation d'utiliser votre micro depuis votre navigateur. <b>Veuillez cliquer sur "Autoriser"</b> pour autoriser l'utilisation du micro.`,
   },
   {
     key: `
     We could not access your microphone due to a permission problem. You'll need to allow access
     in order to continue.`,
     description: `Microphone permission error message`,
-    text: `Euphonia n'a pas pu accéder à votre micro en raison d'un problème d'autorisation. Vous devez autoriser l'accès au micro pour continuer.`
+    text: `Euphonia n'a pas pu accéder à votre micro en raison d'un problème d'autorisation. Vous devez autoriser l'accès au micro pour continuer.`,
   },
   {
     key: `
     It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
     by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`,
     description: `Microphone permission error message`,
-    text: `Il semblerait que l'autorisation d'accès au micro n'est pas disponible. Merci d'<b>autoriser l'accès</b> en cliquant sur la <b>barre d'adresse de votre navigateur</b>, et/ou en <b>réinitialisant l'autorisation</b> de votre micro.`
+    text: `Il semblerait que l'autorisation d'accès au micro n'est pas disponible. Merci d'<b>autoriser l'accès</b> en cliquant sur la <b>barre d'adresse de votre navigateur</b>, et/ou en <b>réinitialisant l'autorisation</b> de votre micro.`,
   },
   {
     key: `
     Your microphone is all set! You can start recording as soon as you're ready.`,
     description: `Microphone permission success message`,
-    text: `Votre micro est prêt à l'emploi ! L'enregistrement peut commencer quand vous le souhaitez.`
+    text: `Votre micro est prêt à l'emploi ! L'enregistrement peut commencer quand vous le souhaitez.`,
   },
   {
     key: `Use the default microphone`,
     description: `Let's the user choose the browser's default recording device instead of picking one explicitly`,
-    text: `Utiliser le micro par défaut`
+    text: `Utiliser le micro par défaut`,
   },
   {
     key: `Save`,
     description: `Microphone configuration screen, accept changes to microphone device`,
-    text: `Sauvegarder`
+    text: `Sauvegarder`,
   },
   {
     key: `Try again`,
     description: `Microphone permission failure retry button`,
-    text: `Réessayer`
+    text: `Réessayer`,
   },
   {
     key: `Start recording!`,
     description: `Microphone setup screen button, continue to recording screen`,
-    text: `Lancez l'enregistrement !`
+    text: `Lancez l'enregistrement !`,
   },
   {
     key: `Microphone settings`,
     description: `Microphone setup screen title`,
-    text: `Paramètres du micro`
+    text: `Paramètres du micro`,
   },
   {
     key: `Previous card`,
     description: `Recording screen button, go back to prior card`,
-    text: `Fiche précédente`
+    text: `Fiche précédente`,
   },
   {
     key: `Next card`,
     description: `Recording screen button, go forward to next card`,
-    text: `Fiche suivante`
+    text: `Fiche suivante`,
   },
   {
     key: `Replay`,
     description: `Recording screen button, listen to previously recorded audio`,
-    text: `Rejouer`
+    text: `Rejouer`,
   },
   {
     key: `Stop`,
     description: `Recording screen button, to interrupt a recording that's currently being played back`,
-    text: `Stop`
+    text: `Stop`,
   },
   {
     key: `Delete`,
     description: `Recording screen button, delete a previous recording`,
-    text: `Supprimer`
+    text: `Supprimer`,
   },
   {
     key: `Deleting...`,
     description: `Recording screen button, shown briefly while the recording is being deleted`,
-    text: `Suppression…`
+    text: `Suppression…`,
   },
   {
     key: `Record`,
     description: `Recording screen button, record audio for a card`,
-    text: `Enregistrer`
+    text: `Enregistrer`,
   },
   {
     key: `Record Again`,
     description: `Recording screen button, record audio for a card that already has been recorded`,
-    text: `Réenregistrer`
+    text: `Réenregistrer`,
   },
   {
     key: `(this card is done)`,
     description: `Labels tasks that have already been recorded once`,
-    text: `(cette fiche est terminée)`
+    text: `(cette fiche est terminée)`,
   },
   {
     key: `Cancel`,
     description: `Recording screen button and microphone setting screen button, cancel recording / microphone changes`,
-    text: `Annuler`
+    text: `Annuler`,
   },
   {
     key: `Done`,
     description: `Recording screen button, shown while recording to end the recording and start uploading it`,
-    text: `OK`
+    text: `OK`,
   },
   {
     key: `Starting...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
-    text: `Démarrage…`
+    text: `Démarrage…`,
   },
   {
     key: `Now recording...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
-    text: `Enregistrement en cours…`
+    text: `Enregistrement en cours…`,
   },
   {
     key: `Recording uploaded!`,
     description: `Recording screen message when the recording uploaded successfully`,
-    text: `Enregistrement importé !`
+    text: `Enregistrement importé !`,
   },
   {
     key: `Recording uploaded! Here's the next card.`,
     description: `Recording screen message when the recording uploads successfully and the next card is automatically displayed`,
-    text: `Enregistrement importé ! C'est parti pour la fiche suivante.`
+    text: `Enregistrement importé ! C'est parti pour la fiche suivante.`,
   },
   {
     key: `Recording deleted.`,
     description: `Recording screen message when a recording has just been deleted`,
-    text: `Enregistrement supprimé.`
+    text: `Enregistrement supprimé.`,
   },
   {
     key: `Recording canceled.`,
     description: `Recording screen message when a recording has just been canceled`,
-    text: `Enregistrement annulé.`
+    text: `Enregistrement annulé.`,
   },
   {
     key: `No recording to delete.`,
     description: `Error message when the user deletes but nothing is selected.`,
-    text: `Aucun enregistrement à supprimer.`
+    text: `Aucun enregistrement à supprimer.`,
   },
   {
     key: `No recording to play.`,
     description: `Error message when the user replays but nothing is selected.`,
-    text: `Aucun enregistrement à jouer.`
+    text: `Aucun enregistrement à jouer.`,
   },
   {
     key: `Upload failed, your audio may not be saved.`,
     description: `Error message when the user's recording was not received by the server.`,
-    text: `L'importation a échoué, votre enregistrement peut ne pas être sauvegardé.`
+    text: `L'importation a échoué, votre enregistrement peut ne pas être sauvegardé.`,
   },
   {
     key: `Canceling...`,
     description: `Recording screen button, shown briefly when the recording is being canceled`,
-    text: `Annulation…`
+    text: `Annulation…`,
   },
   {
     key: `Uploading...`,
     description: `Recording screen button, shown briefly when the recording is being uploaded`,
-    text: `Importation…`
+    text: `Importation…`,
   },
   {
     key: `?`,
     description: `Recording screen button, go to help screen`,
-    text: `?`
+    text: `?`,
   },
   {
     key: `&#x1F50A;`,
     description: `Speak prompt button, which uses computerized speech to play the prompt audibly`,
-    text: `&#x1F50A;`
+    text: `&#x1F50A;`,
   },
   {
     key: `Continue`,
     description: `Sign up screen and consent screen buttons, continue to the next page`,
-    text: `Continuer`
+    text: `Continuer`,
   },
   {
     key: `No assignments`,
     description: `Recording screen, message when the user has no cards to work on`,
-    text: `Aucune attribution`
+    text: `Aucune attribution`,
   },
   {
     key: `<b>{number_of_completed_cards}</b> of <b>{total_number_of_tasks_needed}</b> cards <b>done</b>`,
     description: `Recording screen, progress message of tasks completed so far`,
-    text: `<b>{number_of_completed_cards}</b> sur <b>{total_number_of_tasks_needed}</b> fiche(s) <b>terminée(s)</b>`
+    text: `<b>{number_of_completed_cards}</b> sur <b>{total_number_of_tasks_needed}</b> fiche(s) <b>terminée(s)</b>`,
   },
   {
     key: `Thank you!`,
     description: `Done screen title, shown when the user has finished at least one pass`,
-    text: `Merci !`
+    text: `Merci !`,
   },
   {
     key: `          Great work! You've gone through the cards once, and recorded
@@ -373,7 +373,7 @@ export const FR_STRINGS: ELocaleString[] = [
     out of the total (<b>{total_number_of_tasks_needed} cards</b>).
     When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards`,
-    text: `Bravo ! Vous avez fait le tour des fiches et enregistré un échantillon pour <b class=count>{number_of_completed_cards} fiches</b> (sur un total de <b>{total_number_of_tasks_needed} fiches</b>). Lorsque vous êtes prêt, cliquez sur le bouton situé ci-dessous pour procéder à l'enregistrement du reste des fiches.`
+    text: `Bravo ! Vous avez fait le tour des fiches et enregistré un échantillon pour <b class=count>{number_of_completed_cards} fiches</b> (sur un total de <b>{total_number_of_tasks_needed} fiches</b>). Lorsque vous êtes prêt, cliquez sur le bouton situé ci-dessous pour procéder à l'enregistrement du reste des fiches.`,
   },
   {
     key: `          You're almost done! You've gone through the cards once, and recorded
@@ -381,92 +381,92 @@ export const FR_STRINGS: ELocaleString[] = [
     out of the total (<b>{total_number_of_tasks_needed} cards</b>).
     When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards. This version displays when the user has done more than 75% of the work.`,
-    text: `Vous avez presque terminé ! Vous avez fait le tour des fiches et enregistré un échantillon pour <b class=count>{number_of_completed_cards} fiches</b> (sur un total de <b>{total_number_of_tasks_needed} fiches</b>). Lorsque vous êtes prêt, cliquez sur le bouton situé ci-dessous pour procéder à l'enregistrement du reste des fiches.`
+    text: `Vous avez presque terminé ! Vous avez fait le tour des fiches et enregistré un échantillon pour <b class=count>{number_of_completed_cards} fiches</b> (sur un total de <b>{total_number_of_tasks_needed} fiches</b>). Lorsque vous êtes prêt, cliquez sur le bouton situé ci-dessous pour procéder à l'enregistrement du reste des fiches.`,
   },
   {
     key: `Continue Recording`,
     description: `Done screen and instructions screen buttons, return to the recording screen`,
-    text: `Continuer d'enregistrer`
+    text: `Continuer d'enregistrer`,
   },
   {
     key: `Continue recording!`,
     description: `Microphone settings screen, return to the recording screen`,
-    text: `Continuer d'enregistrer !`
+    text: `Continuer d'enregistrer !`,
   },
   {
     key: `You previously indicated that you are eligible.`,
     description: `Signup screen, a message showing that the participant has already completed this form`,
-    text: `Vous avez déjà confirmé votre éligibilité.`
+    text: `Vous avez déjà confirmé votre éligibilité.`,
   },
   {
     key: `You have already completed this form.`,
     description: `Interest form screen, a message showing that the participant has already completed this form`,
-    text: `Vous avez déjà complété ce formulaire.`
+    text: `Vous avez déjà complété ce formulaire.`,
   },
   {
     key: `Country is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Veuillez saisir un pays.`
+    text: `Veuillez saisir un pays.`,
   },
   {
     key: `State is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Veuillez indiquer l'état.`
+    text: `Veuillez indiquer l'état.`,
   },
   {
     key: `Please tell us if someone will be helping you record.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Veuillez indiquer si quelqu'un vous aidera à enregistrer.`
+    text: `Veuillez indiquer si quelqu'un vous aidera à enregistrer.`,
   },
   {
     key: `Please tell us how to email the person helping you.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Merci de nous indiquer comment contacter cette personne par e-mail.`
+    text: `Merci de nous indiquer comment contacter cette personne par e-mail.`,
   },
   {
     key: `You'll need to give consent to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Vous devrez donner votre accord avant de commencer.`
+    text: `Vous devrez donner votre accord avant de commencer.`,
   },
   {
     key: `Please write your initials next to your consent.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Veuillez saisir vos initiales à côté de votre autorisation.`
+    text: `Veuillez saisir vos initiales à côté de votre autorisation.`,
   },
   {
     key: `You'll need to accept the terms to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Vous devrez accepter les conditions avant de commencer.`
+    text: `Vous devrez accepter les conditions avant de commencer.`,
   },
   {
     key: `You have already consented.`,
     description: `Consent screen, a message showing that the participant has already completed this form`,
-    text: `Vous avez déjà donné votre autorisation.`
+    text: `Vous avez déjà donné votre autorisation.`,
   },
   {
     key: `By typing my name here, I agree to these terms:`,
     description: `Consent screen, indicates that the participant consents`,
-    text: `En inscrivant mon nom ici, j'accepte les conditions suivantes :`
+    text: `En inscrivant mon nom ici, j'accepte les conditions suivantes :`,
   },
   {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
     description: ``,
-    text: `&nbsp;(Contrat {which_agreement_number} sur {total_number_of_agreements})`
+    text: `&nbsp;(Contrat {which_agreement_number} sur {total_number_of_agreements})`,
   },
   {
     key: `Congratulations! You're all done!`,
     description: `Progress bar display when there are no tasks left to do`,
-    text: `Félicitations, vous avez terminé !`
+    text: `Félicitations, vous avez terminé !`,
   },
   {
     key: `Congratulations!`,
     description: `Title of the done screen`,
-    text: `Félicitations !`
+    text: `Félicitations !`,
   },
   {
     key: `Review Recordings (optional)`,
     description: `Button on done screen which returns to the recording screen, if the user wants to listen to recordings`,
-    text: `Passer les enregistrements en revue (facultatif)`
+    text: `Passer les enregistrements en revue (facultatif)`,
   },
   {
     key: `
@@ -478,7 +478,7 @@ export const FR_STRINGS: ELocaleString[] = [
     <br/><br/>
     (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
     description: `Descriptive text on the done screen`,
-    text: `Vous avez terminé l'intégralité des fiches ! Nous examinerons vos enregistrements dans les plus brefs délais, et si tout semble correct, vous recevrez un e-mail de rewards@perks.com d'ici 7 à 10 jours ouvrés contenant un lien pour obtenir votre carte cadeau. <br/><br/> <b>Un grand merci pour votre contribution sur <b class=count>{number_of_completed_cards} cartes</b> pour le projet Euphonia !</b> <br/><br/> (Si vous le souhaitez, et bien que cela ne soit pas nécessaire, il vous est maintenant possible de revenir en arrière et de passer vos enregistrements en revue. <b>Vous avez terminé !</b>)`
+    text: `Vous avez terminé l'intégralité des fiches ! Nous examinerons vos enregistrements dans les plus brefs délais, et si tout semble correct, vous recevrez un e-mail de rewards@perks.com d'ici 7 à 10 jours ouvrés contenant un lien pour obtenir votre carte cadeau. <br/><br/> <b>Un grand merci pour votre contribution sur <b class=count>{number_of_completed_cards} cartes</b> pour le projet Euphonia !</b> <br/><br/> (Si vous le souhaitez, et bien que cela ne soit pas nécessaire, il vous est maintenant possible de revenir en arrière et de passer vos enregistrements en revue. <b>Vous avez terminé !</b>)`,
   },
   {
     key: `__INTEREST_FORM_HTML__`,
@@ -1001,6 +1001,6 @@ export const FR_STRINGS: ELocaleString[] = [
     </div>
     <input id=ifotherinfo class=formtext />
     </div>
-`
+`,
   },
 ];

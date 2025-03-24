@@ -1,0 +1,52 @@
+{
+  "hosting": {
+    "target": "__AUDIOTOOL_FIREBASE_HOST__",
+    "public": "public",
+    "ignore": ["firebase.json", "**/.*", "templates/*", "node_modules", ".git"],
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "function": "audioapp"
+      }
+    ]
+  },
+  "functions": {
+    "source": "functions",
+    "codebase": "default",
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      "*.local"
+    ],
+    "predeploy": [
+      "npm --prefix \"$RESOURCE_DIR\" run lint",
+      "npm --prefix \"$RESOURCE_DIR\" run build"
+    ]
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "storage": {
+      "port": 9199
+    },
+    "ui": {
+      "enabled": true
+    }
+  },
+  "firestore": {
+    "rules": "firestore/rules",
+    "indexes": "firestore/indexes.json"
+  }
+}

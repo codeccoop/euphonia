@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-import { ELocaleString } from './schema';
+import { ELocaleString } from "./schema";
 
 export const JA_STRINGS: ELocaleString[] = [
   {
     key: `PAGE_TITLE`,
     en: `Project Euphonia`,
     description: `Web page title for all pages`,
-    text: `プロジェクトユーフォニア`
+    text: `プロジェクトユーフォニア`,
   },
   {
     key: `HELP_LINK`,
     description: `Help hyperlink HREF property when the user needs help or has questions.`,
-    text: `http://g.co/disabilitysupport`
+    text: `http://g.co/disabilitysupport`,
   },
   {
     key: `WELCOME_TITLE`,
     en: `Welcome to Project Euphonia!`,
     description: `Signup screen and consent screen titles`,
-    text: `Project Euphonia へようこそ`
+    text: `Project Euphonia へようこそ`,
   },
   {
     key: `We're exploring how Google products and services
@@ -41,14 +41,14 @@ export const JA_STRINGS: ELocaleString[] = [
     Voice samples can help us improve how Google understands individuals with speech
     impairments.`,
     description: `Signup screen`,
-    text: `Google では、音声入力を使用する Google の製品やサービスが、より多くの人々に役立つ方法を模索しています。Google では、聞き取るのが難しい 18 歳以上の方の音声を集めています。音声サンプルは、発話障がいのある方の発話に関する Google の認識機能の改善に役立ちます。`
+    text: `Google では、音声入力を使用する Google の製品やサービスが、より多くの人々に役立つ方法を模索しています。Google では、聞き取るのが難しい 18 歳以上の方の音声を集めています。音声サンプルは、発話障がいのある方の発話に関する Google の認識機能の改善に役立ちます。`,
   },
   {
     key: `<b>IMPORTANT:</b> If you're filling out
     this form on behalf of someone else, please ensure you have their permission
     to do so.`,
     description: `Signup screen`,
-    text: `<b>重要:</b> このフォームに代理で記入される場合は、必ずご本人の許可を得るようにしてください。`
+    text: `<b>重要:</b> このフォームに代理で記入される場合は、必ずご本人の許可を得るようにしてください。`,
   },
   {
     key: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
@@ -56,86 +56,86 @@ export const JA_STRINGS: ELocaleString[] = [
     description: `Signup screen`,
     text: `ご不明な点がある場合は、
         <a id=signuphelplink target="_blank"
-        >お問い合わせください</a>`
+        >お問い合わせください</a>`,
   },
   {
     key: `Already enrolled? &nbsp;`,
     description: `Signup screen`,
-    text: `すでに登録されている場合は、&nbsp;`
+    text: `すでに登録されている場合は、&nbsp;`,
   },
   {
     key: `Click to sign in and continue recording`,
     description: `Signup screen`,
-    text: `クリックしてログインし、録音を続行します`
+    text: `クリックしてログインし、録音を続行します`,
   },
   {
     key: `To get started, please confirm your eligibility:`,
     description: `Signup screen`,
-    text: `はじめに、参加資格をご確認ください。`
+    text: `はじめに、参加資格をご確認ください。`,
   },
   {
     key: `Strangers, or voice technologies like Google Assistant, have difficulty understanding my speech (not because of an accent)`,
     description: `Signup screen eligibility question`,
-    text: `発話が、他人や Google アシスタントなどの音声認識技術に理解されにくい（アクセントや訛りは除く）`
+    text: `発話が、他人や Google アシスタントなどの音声認識技術に理解されにくい（アクセントや訛りは除く）`,
   },
   {
     key: `I am at least 18 years of age`,
     description: `Signup screen eligibility question`,
-    text: `18 歳以上です`
+    text: `18 歳以上です`,
   },
   {
     key: `Sign in and continue`,
     description: `Signup screen button`,
-    text: `ログインして続行する`
+    text: `ログインして続行する`,
   },
   {
     key: `You will need to sign in with your Google
     Account to contribute to the project. If you do not have a Google Account, you can
     create one when you click to continue.`,
     description: `Signup screen instructions`,
-    text: `プロジェクトに参加するには、Google アカウントでログインする必要があります。Google アカウントをお持ちでない場合は、クリックして続行すると作成できます。`
+    text: `プロジェクトに参加するには、Google アカウントでログインする必要があります。Google アカウントをお持ちでない場合は、クリックして続行すると作成できます。`,
   },
   {
     key: `Next`,
     description: `Interest form button, advance to the next screen`,
-    text: `次へ`
+    text: `次へ`,
   },
   {
     key: `Go Back`,
     description: `Interest form button, go back to the signup screen`,
-    text: `戻る`
+    text: `戻る`,
   },
   {
     key: `You must type your name to agree to the terms.`,
     description: `Consent form screen, require consent to proceed`,
-    text: `条件に同意するには、お名前の入力が必要です。`
+    text: `条件に同意するには、お名前の入力が必要です。`,
   },
   {
     key: `Reset form and start over`,
     description: `Interest form button, clear fields and start over`,
-    text: `フォームをリセットして最初からやり直す`
+    text: `フォームをリセットして最初からやり直す`,
   },
   {
     key: `You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
     Please review the following agreement: <span id=consentcounter></span>`,
     description: `Consent screen instructions`,
-    text: `<b id=whoisenrolling>&nbsp;</b> として登録しています。次の同意事項をご確認ください: <span id=consentcounter></span>`
+    text: `<b id=whoisenrolling>&nbsp;</b> として登録しています。次の同意事項をご確認ください: <span id=consentcounter></span>`,
   },
   {
     key: `Enroll`,
     description: `Consent screen, final action; consents to the program and allows recording`,
-    text: `登録`
+    text: `登録`,
   },
   {
     key: `Next Agreement`,
     description: `Consent screen, to agree to the current consent and then see the next one. Only shows when there are multiple consents`,
-    text: `次の同意事項`
+    text: `次の同意事項`,
   },
   {
     key: `INSTRUCTIONS_TITLE`,
     en: `Thanks for signing up for Project Euphonia!`,
     description: `Instructions screen title`,
-    text: `Project Euphonia にお申し込みいただき、ありがとうございます`
+    text: `Project Euphonia にお申し込みいただき、ありがとうございます`,
   },
   {
     key: `INSTRUCTIONS_VIDEO_HTML`,
@@ -166,209 +166,209 @@ export const JA_STRINGS: ELocaleString[] = [
       <li><b>読み上げが終わったら</b>、もう一度青いボタンを押して録音を止めてください。</li>
       <li>全カードの録音が終われば、完了です</li><li>録音に問題がある場合は
       <a target="_blank" href="http://g.co/disabilitysupport">お問い合わせ</a>ください。
-      </li>`
+      </li>`,
   },
   {
     key: `Get Started`,
     description: `Instructions screen button to continue to next screen`,
-    text: `始める`
+    text: `始める`,
   },
   {
     key: `Microphone Setup`,
     description: `Microphone and settings screen title`,
-    text: `マイクの設定`
+    text: `マイクの設定`,
   },
   {
     key: `
     In order to record your speech, we need permission to use your microphone
     through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`,
     description: `Microphone permission instructions`,
-    text: `発話を録音するために、Euphonia はウェブブラウザからのマイクの使用許可が必要です。<b>「許可」をクリックして</b>マイクの使用を許可してください。`
+    text: `発話を録音するために、Euphonia はウェブブラウザからのマイクの使用許可が必要です。<b>「許可」をクリックして</b>マイクの使用を許可してください。`,
   },
   {
     key: `
     We could not access your microphone due to a permission problem. You'll need to allow access
     in order to continue.`,
     description: `Microphone permission error message`,
-    text: `権限の問題により、マイクにアクセスできませんでした。続行するには、アクセスを許可する必要があります。`
+    text: `権限の問題により、マイクにアクセスできませんでした。続行するには、アクセスを許可する必要があります。`,
   },
   {
     key: `
     It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
     by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`,
     description: `Microphone permission error message`,
-    text: `マイクの権限がブロックされているようです。<b>ブラウザのアドレスバー</b>をクリックして<b>アクセスを許可</b>するか、マイクの<b>権限をリセット</b>する必要があります。`
+    text: `マイクの権限がブロックされているようです。<b>ブラウザのアドレスバー</b>をクリックして<b>アクセスを許可</b>するか、マイクの<b>権限をリセット</b>する必要があります。`,
   },
   {
     key: `
     Your microphone is all set! You can start recording as soon as you're ready.`,
     description: `Microphone permission success message`,
-    text: `マイクは設定されています。準備が整えば、すぐに録音を開始できます。`
+    text: `マイクは設定されています。準備が整えば、すぐに録音を開始できます。`,
   },
   {
     key: `Use the default microphone`,
     description: `Let's the user choose the browser's default recording device instead of picking one explicitly`,
-    text: `デフォルトのマイクを使用する`
+    text: `デフォルトのマイクを使用する`,
   },
   {
     key: `Save`,
     description: `Microphone configuration screen, accept changes to microphone device`,
-    text: `保存`
+    text: `保存`,
   },
   {
     key: `Try again`,
     description: `Microphone permission failure retry button`,
-    text: `やり直す`
+    text: `やり直す`,
   },
   {
     key: `Start recording!`,
     description: `Microphone setup screen button, continue to recording screen`,
-    text: `録音を開始`
+    text: `録音を開始`,
   },
   {
     key: `Microphone settings`,
     description: `Microphone setup screen title`,
-    text: `マイクの設定`
+    text: `マイクの設定`,
   },
   {
     key: `Previous card`,
     description: `Recording screen button, go back to prior card`,
-    text: `前のカード`
+    text: `前のカード`,
   },
   {
     key: `Next card`,
     description: `Recording screen button, go forward to next card`,
-    text: `次のカード`
+    text: `次のカード`,
   },
   {
     key: `Replay`,
     description: `Recording screen button, listen to previously recorded audio`,
-    text: `再生`
+    text: `再生`,
   },
   {
     key: `Stop`,
     description: `Recording screen button, to interrupt a recording that's currently being played back`,
-    text: `停止`
+    text: `停止`,
   },
   {
     key: `Delete`,
     description: `Recording screen button, delete a previous recording`,
-    text: `削除`
+    text: `削除`,
   },
   {
     key: `Deleting...`,
     description: `Recording screen button, shown briefly while the recording is being deleted`,
-    text: `削除中...`
+    text: `削除中...`,
   },
   {
     key: `Record`,
     description: `Recording screen button, record audio for a card`,
-    text: `録音`
+    text: `録音`,
   },
   {
     key: `Record Again`,
     description: `Recording screen button, record audio for a card that already has been recorded`,
-    text: `もう一度録音`
+    text: `もう一度録音`,
   },
   {
     key: `(this card is done)`,
     description: `Labels tasks that have already been recorded once`,
-    text: `（このカードは完了しています）`
+    text: `（このカードは完了しています）`,
   },
   {
     key: `Cancel`,
     description: `Recording screen button and microphone setting screen button, cancel recording / microphone changes`,
-    text: `キャンセル`
+    text: `キャンセル`,
   },
   {
     key: `Done`,
     description: `Recording screen button, shown while recording to end the recording and start uploading it`,
-    text: `完了`
+    text: `完了`,
   },
   {
     key: `Starting...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
-    text: `開始しています...`
+    text: `開始しています...`,
   },
   {
     key: `Now recording...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
-    text: `録音しています...`
+    text: `録音しています...`,
   },
   {
     key: `Recording uploaded!`,
     description: `Recording screen message when the recording uploaded successfully`,
-    text: `録音をアップロードしました`
+    text: `録音をアップロードしました`,
   },
   {
     key: `Recording uploaded! Here's the next card.`,
     description: `Recording screen message when the recording uploads successfully and the next card is automatically displayed`,
-    text: `録音をアップロードしました。次のカードはこちらです。`
+    text: `録音をアップロードしました。次のカードはこちらです。`,
   },
   {
     key: `Recording deleted.`,
     description: `Recording screen message when a recording has just been deleted`,
-    text: `録音を削除しました。`
+    text: `録音を削除しました。`,
   },
   {
     key: `Recording canceled.`,
     description: `Recording screen message when a recording has just been canceled`,
-    text: `録音をキャンセルしました。`
+    text: `録音をキャンセルしました。`,
   },
   {
     key: `No recording to delete.`,
     description: `Error message when the user deletes but nothing is selected.`,
-    text: `削除する録音がありません。`
+    text: `削除する録音がありません。`,
   },
   {
     key: `No recording to play.`,
     description: `Error message when the user replays but nothing is selected.`,
-    text: `再生する録音がありません。`
+    text: `再生する録音がありません。`,
   },
   {
     key: `Upload failed, your audio may not be saved.`,
     description: `Error message when the user's recording was not received by the server.`,
-    text: `アップロードに失敗しました。音声が保存されていない可能性があります。`
+    text: `アップロードに失敗しました。音声が保存されていない可能性があります。`,
   },
   {
     key: `Canceling...`,
     description: `Recording screen button, shown briefly when the recording is being canceled`,
-    text: `キャンセルしています...`
+    text: `キャンセルしています...`,
   },
   {
     key: `Uploading...`,
     description: `Recording screen button, shown briefly when the recording is being uploaded`,
-    text: `アップロードしています...`
+    text: `アップロードしています...`,
   },
   {
     key: `?`,
     description: `Recording screen button, go to help screen`,
-    text: `?`
+    text: `?`,
   },
   {
     key: `&#x1F50A;`,
     description: `Speak prompt button, which uses computerized speech to play the prompt audibly`,
-    text: `&#x1F50A;`
+    text: `&#x1F50A;`,
   },
   {
     key: `Continue`,
     description: `Sign up screen and consent screen buttons, continue to the next page`,
-    text: `続行`
+    text: `続行`,
   },
   {
     key: `No assignments`,
     description: `Recording screen, message when the user has no cards to work on`,
-    text: `割り当てなし`
+    text: `割り当てなし`,
   },
   {
     key: `<b>{number_of_completed_cards}</b> of <b>{total_number_of_tasks_needed}</b> cards <b>done</b>`,
     description: `Recording screen, progress message of tasks completed so far`,
-    text: `<b>{total_number_of_tasks_needed}</b> 個中 <b>{number_of_completed_cards}</b> 個のカードが<b>完了</b>`
+    text: `<b>{total_number_of_tasks_needed}</b> 個中 <b>{number_of_completed_cards}</b> 個のカードが<b>完了</b>`,
   },
   {
     key: `Thank you!`,
     description: `Done screen title, shown when the user has finished at least one pass`,
-    text: `ありがとうございました`
+    text: `ありがとうございました`,
   },
   {
     key: `          Great work! You've gone through the cards once, and recorded
@@ -376,7 +376,7 @@ export const JA_STRINGS: ELocaleString[] = [
     out of the total (<b>{total_number_of_tasks_needed} cards</b>).
     When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards`,
-    text: `おつかれさまでした。カードを一度読み上げ、全体（<b>{total_number_of_tasks_needed} カード</b>）のうち <b class=count>{number_of_completed_cards} カード</b>を録音しました。準備が整ったら、下のボタンをクリックすると残りのカードを作業できます。`
+    text: `おつかれさまでした。カードを一度読み上げ、全体（<b>{total_number_of_tasks_needed} カード</b>）のうち <b class=count>{number_of_completed_cards} カード</b>を録音しました。準備が整ったら、下のボタンをクリックすると残りのカードを作業できます。`,
   },
   {
     key: `          You're almost done! You've gone through the cards once, and recorded
@@ -384,92 +384,92 @@ export const JA_STRINGS: ELocaleString[] = [
     out of the total (<b>{total_number_of_tasks_needed} cards</b>).
     When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards. This version displays when the user has done more than 75% of the work.`,
-    text: `あと少しで完了です。カードを一度読み上げ、全体（<b>{total_number_of_tasks_needed} カード</b>）のうち <b class=count>{number_of_completed_cards} カード</b>を録音しました。準備が整ったら、下のボタンをクリックすると残りのカードを作業できます。`
+    text: `あと少しで完了です。カードを一度読み上げ、全体（<b>{total_number_of_tasks_needed} カード</b>）のうち <b class=count>{number_of_completed_cards} カード</b>を録音しました。準備が整ったら、下のボタンをクリックすると残りのカードを作業できます。`,
   },
   {
     key: `Continue Recording`,
     description: `Done screen and instructions screen buttons, return to the recording screen`,
-    text: `録音を続行`
+    text: `録音を続行`,
   },
   {
     key: `Continue recording!`,
     description: `Microphone settings screen, return to the recording screen`,
-    text: `録音を続行します`
+    text: `録音を続行します`,
   },
   {
     key: `You previously indicated that you are eligible.`,
     description: `Signup screen, a message showing that the participant has already completed this form`,
-    text: `あなたは、以前に参加資格があることを示しました。`
+    text: `あなたは、以前に参加資格があることを示しました。`,
   },
   {
     key: `You have already completed this form.`,
     description: `Interest form screen, a message showing that the participant has already completed this form`,
-    text: `このフォームはすでに完了しています。`
+    text: `このフォームはすでに完了しています。`,
   },
   {
     key: `Country is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `国を入力してください。`
+    text: `国を入力してください。`,
   },
   {
     key: `State is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `地域を入力してください。`
+    text: `地域を入力してください。`,
   },
   {
     key: `Please tell us if someone will be helping you record.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `録音をサポートする方がいれば、教えてください。`
+    text: `録音をサポートする方がいれば、教えてください。`,
   },
   {
     key: `Please tell us how to email the person helping you.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `サポートする方へのメール送信方法を教えてください。`
+    text: `サポートする方へのメール送信方法を教えてください。`,
   },
   {
     key: `You'll need to give consent to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `開始するには同意が必要です。`
+    text: `開始するには同意が必要です。`,
   },
   {
     key: `Please write your initials next to your consent.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `同意の横にイニシャルをご記入ください。`
+    text: `同意の横にイニシャルをご記入ください。`,
   },
   {
     key: `You'll need to accept the terms to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `開始するには条件に同意する必要があります。`
+    text: `開始するには条件に同意する必要があります。`,
   },
   {
     key: `You have already consented.`,
     description: `Consent screen, a message showing that the participant has already completed this form`,
-    text: `すでに同意しています。`
+    text: `すでに同意しています。`,
   },
   {
     key: `By typing my name here, I agree to these terms:`,
     description: `Consent screen, indicates that the participant consents`,
-    text: `名前を入力することで、これらの条件に同意します。`
+    text: `名前を入力することで、これらの条件に同意します。`,
   },
   {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
     description: ``,
-    text: `&nbsp;({total_number_of_agreements} 件のうち {which_agreement_number} に同意）`
+    text: `&nbsp;({total_number_of_agreements} 件のうち {which_agreement_number} に同意）`,
   },
   {
     key: `Congratulations! You're all done!`,
     description: `Progress bar display when there are no tasks left to do`,
-    text: `お疲れさまでした。これですべて完了です。`
+    text: `お疲れさまでした。これですべて完了です。`,
   },
   {
     key: `Congratulations!`,
     description: `Title of the done screen`,
-    text: `お疲れさまでした。`
+    text: `お疲れさまでした。`,
   },
   {
     key: `Review Recordings (optional)`,
     description: `Button on done screen which returns to the recording screen, if the user wants to listen to recordings`,
-    text: `録音の確認（省略可）`
+    text: `録音の確認（省略可）`,
   },
   {
     key: `
@@ -481,7 +481,7 @@ export const JA_STRINGS: ELocaleString[] = [
     <br/><br/>
     (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
     description: `Descriptive text on the done screen`,
-    text: `すべてのカードを完了しました。近日中に Google で確認して問題がなければ、7～10 営業日以内に、ギフトカード獲得用のリンクの入ったメールが、rewards@perks.com から届きます。<br/><br/><b>Project Euphonia の <b class=count>{number_of_completed_cards} カード</b>にご協力いただき、ありがとうございます。</b><br/><br/>（ご希望であれば戻って録音を確認できますが、これは必須ではありません。<b>これで完了です</b>）`
+    text: `すべてのカードを完了しました。近日中に Google で確認して問題がなければ、7～10 営業日以内に、ギフトカード獲得用のリンクの入ったメールが、rewards@perks.com から届きます。<br/><br/><b>Project Euphonia の <b class=count>{number_of_completed_cards} カード</b>にご協力いただき、ありがとうございます。</b><br/><br/>（ご希望であれば戻って録音を確認できますが、これは必須ではありません。<b>これで完了です</b>）`,
   },
   {
     key: `__INTEREST_FORM_HTML__`,
@@ -1004,6 +1004,6 @@ export const JA_STRINGS: ELocaleString[] = [
     </div>
     <input id=ifotherinfo class=formtext />
     </div>
-`
+`,
   },
 ];

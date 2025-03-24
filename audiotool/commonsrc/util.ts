@@ -16,66 +16,85 @@
 
 // Makes a string like YYYYMMDDHHMMSS out of a Date
 export function formatDateCode(date: Date) {
-  const month = `${(date.getMonth() + 1)}`.padStart(2, '0');
-  const day = `${date.getDate()}`.padStart(2, '0');
-  const hour = `${date.getHours()}`.padStart(2, '0');
-  const minute = `${date.getMinutes()}`.padStart(2, '0');
-  const second = `${date.getSeconds()}`.padStart(2, '0');
+  const month = `${date.getMonth() + 1}`.padStart(2, "0");
+  const day = `${date.getDate()}`.padStart(2, "0");
+  const hour = `${date.getHours()}`.padStart(2, "0");
+  const minute = `${date.getMinutes()}`.padStart(2, "0");
+  const second = `${date.getSeconds()}`.padStart(2, "0");
   return `${date.getFullYear()}${month}${day}${hour}${minute}${second}`;
 }
 
 // Makes a human-readable date out of a Date
 export function formatDate(date: Date) {
   // Destructure the date
-  const f = new Intl.DateTimeFormat('en-us', { dateStyle: 'short', timeStyle: 'long' });
-  const parts: any = {year:'', month:'', day:'', hour:'', minute:'', dayPeriod:'', timeZoneName:''};
-  for (const {type, value} of f.formatToParts(date)) {
+  const f = new Intl.DateTimeFormat("en-us", {
+    dateStyle: "short",
+    timeStyle: "long",
+  });
+  const parts: any = {
+    year: "",
+    month: "",
+    day: "",
+    hour: "",
+    minute: "",
+    dayPeriod: "",
+    timeZoneName: "",
+  };
+  for (const { type, value } of f.formatToParts(date)) {
     parts[type] = value;
   }
 
   // Return a sortable datetime
-  const d = `20${parts.year.padStart(2, '0')}/${parts.month.padStart(2, '0')}/${parts.day.padStart(2, '0')}`;
-  const t = `${parts.hour.padStart(2, '0')}:${parts.minute.padStart(2, '0')}${parts.dayPeriod.toLowerCase()}`;
+  const d = `20${parts.year.padStart(2, "0")}/${parts.month.padStart(2, "0")}/${parts.day.padStart(2, "0")}`;
+  const t = `${parts.hour.padStart(2, "0")}:${parts.minute.padStart(2, "0")}${parts.dayPeriod.toLowerCase()}`;
   return `${d} ${t} ${parts.timeZoneName}`;
 }
 
 // Same as above, but formats a timestamp
 export function formatTimestamp(ts: number, opt_noneValue?: string) {
   if (ts < 1) {
-    return opt_noneValue ? opt_noneValue : '-';
+    return opt_noneValue ? opt_noneValue : "-";
   } else {
     return formatDate(new Date(ts));
   }
 }
 
 // Returns a Date from a string, or undefined if could not parse
-export function parseTimestamp(text: string): number|undefined {
+export function parseTimestamp(text: string): number | undefined {
   const d = new Date(text);
   return isNaN(d.getTime()) ? undefined : d.getTime();
 }
 
 // Parses a normalized array of tags from the given user inputted string of space-separated tags.
-export function parseTags(tagsString: string|null|undefined): string[] {
+export function parseTags(tagsString: string | null | undefined): string[] {
   if (!tagsString) {
     return [];
   }
   const obj: string[] = tagsString.split(/\s+/);
-  return [...obj.map(tag => normalizeTag(tag)).filter(tag => tag !== '' ? true : false)];
+  return [
+    ...obj
+      .map((tag) => normalizeTag(tag))
+      .filter((tag) => (tag !== "" ? true : false)),
+  ];
 }
 
 // Returns a canonicalized version of one tag string
 export function normalizeTag(tag: string) {
   if (!tag) {
-    return '';
+    return "";
   }
   tag = tag.trim().toLowerCase();
-  tag = tag.replace(/[^a-z0-9_]/g, '');
+  tag = tag.replace(/[^a-z0-9_]/g, "");
   return tag;
 }
 
 // Returns a canonicalized version of the given array of tags
 export function normalizeTags(tags: string[]) {
-  return [...tags.filter(tag => tag ? tag.trim() !== '' : false).map(tag => normalizeTag(tag))];
+  return [
+    ...tags
+      .filter((tag) => (tag ? tag.trim() !== "" : false))
+      .map((tag) => normalizeTag(tag)),
+  ];
 }
 
 // Shuffles a given array in place using https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle.
@@ -139,8 +158,8 @@ export function listhas<X>(item: X, ...list: X[]) {
 }
 
 // Returns the last item in an iterable
-export function lastitem<X>(items: Iterable<X>): X|undefined {
-  let last: X|undefined = undefined;
+export function lastitem<X>(items: Iterable<X>): X | undefined {
+  let last: X | undefined = undefined;
   for (const item of items) {
     last = item;
   }
@@ -149,7 +168,7 @@ export function lastitem<X>(items: Iterable<X>): X|undefined {
 
 // Encodes an array of binary data as a base64 string.
 export function toBase64(buffer: ArrayBuffer): string {
-  let result = '';
+  let result = "";
   const bytes = new Uint8Array(buffer);
   const len = bytes.byteLength;
   for (var i = 0; i < len; i++) {
@@ -169,7 +188,7 @@ export class WavBuilder {
   }
 
   addData(data: Float32Array) {
-    data = new Float32Array(data);  // superstitious coersion for iPad
+    data = new Float32Array(data); // superstitious coersion for iPad
     if (data.length > 0) {
       this.chunks.push(data);
       this.recordedSize += data.length;
@@ -182,18 +201,18 @@ export class WavBuilder {
     const view = new DataView(buffer);
 
     // Build the boilerplate WAV header
-    this.setText(view, 0, 'RIFF');
+    this.setText(view, 0, "RIFF");
     view.setUint32(4, 36 + this.recordedSize * 2, true);
-    this.setText(view, 8, 'WAVE');
-    this.setText(view, 12, 'fmt ');
-    view.setUint32(16, 16, true);  // sample size (bits)
-    view.setUint16(20, 1, true);  // raw format
-    view.setUint16(22, 1, true);  // 1 channel
+    this.setText(view, 8, "WAVE");
+    this.setText(view, 12, "fmt ");
+    view.setUint32(16, 16, true); // sample size (bits)
+    view.setUint16(20, 1, true); // raw format
+    view.setUint16(22, 1, true); // 1 channel
     view.setUint32(24, this.sampleRate, true);
-    view.setUint32(28, this.sampleRate * 2, true);  // byte rate
-    view.setUint16(32, 2, true);  // sample size (bytes)
-    view.setUint16(34, 16, true);  // sample size (bits)
-    this.setText(view, 36, 'data');
+    view.setUint32(28, this.sampleRate * 2, true); // byte rate
+    view.setUint16(32, 2, true); // sample size (bytes)
+    view.setUint16(34, 16, true); // sample size (bits)
+    this.setText(view, 36, "data");
     view.setUint32(40, this.recordedSize * 2, true);
 
     // Add all the chunks

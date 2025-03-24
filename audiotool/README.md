@@ -8,37 +8,43 @@ NOTE: To get this demo fully working for yourself, you will need to set up a Goo
 
 1. Install node: https://nodejs.org/en/download/
 2. Run the installer to completion. As of this writing I get:
+
 ```
-- Node.js v16.14.1 to /usr/local/bin/node
-- npm v8.5.0 to /usr/local/bin/npm
+- Node.js v22.13.1 to /usr/local/bin/node
+- npm v10.9.2 to /usr/local/bin/npm
 ```
+
 3. (Optional) I would recommend also installing NVM, it helps juggle multiple node versions on your computer: https://github.com/nvm-sh/nvm
 
 4. git clone https://github.com/google/euphonia.git
 
 5. cd euphonia/audiotool
 
-6. cp ./deploy_test.json.example ./deploy_local.json 
+6. cp ./deploy/local.json.example ./deploy/local.json
 
-7. Edit ./deploy_local.json and fill in your GCP project credentials (or get this file from an existing team member)
+7. Edit ./deploy/local.json and fill in your GCP project credentials (or get this file from an existing team member)
 
-8. ./node_modules/.bin/firebase login
-
+8. npx firebase login
 
 ## Run Firebase locally
 
-1. ./serve.sh
+1. npm start
 2. http://localhost:8991
 
+## Deploy to production
+
+1. Create a deploy/production.json file by copying and modifying the example file (local.json.example)
+2. Fill in all the required values in this file
+3. ./deploy/deploy.sh production
+4. https://yourproject.web.app/
 
 ## Deploy to test
 
-1. Create a deploy_test.json file by copying and modifying the example file (deploy_test.json.example)
+1. Create a deploy/test.json file by copying and modifying the example file (local.json.example)
 2. Create a test_key.json by downloading this file from your Firebase project console (or get this file from a team member)
 3. Fill in all the required values in both files, such as project name and hosting site name
-4. ./deploy.sh
+4. ./deploy/deploy.sh test
 5. https://yourproject.web.app/
-
 
 # Compatibility
 
@@ -72,4 +78,3 @@ notes on compatibility based on my testing:
 
 - If you get an error like `Error: Failed to get Firebase project`,
   try doing "firebase logout" and then "firebase login" again
-  
