@@ -2,7 +2,7 @@
   "name": "euphonia",
   "scripts": {
     "dev:client": "esbuild src/app.ts src/admin/admin.ts --bundle --sourcemap=inline --outdir=public --watch",
-    "dev:functions": "cd functions && npm run dev",
+    "dev:functions": "cd functions && npm run build:watch",
     "dev": "npm run gentemplate local && concurrently \"npm run dev:client\" \"npm run dev:functions\"",
     "build:client": "esbuild src/app.ts src/admin/admin.ts --bundle --outdir=public --minify",
     "build:functions": "cd functions && npm run build",

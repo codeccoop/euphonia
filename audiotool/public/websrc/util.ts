@@ -1,0 +1,400 @@
+/**
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import {formatWithArgs} from '../commonsrc/localization';
+import {SUPPORTED_LANGUAGES} from '../commonsrc/schema';
+
+// Some simply JQuery conveniences
+$.fn.eadd = function(spec) {
+  const newChild = $(spec);
+  this.append(newChild);
+  return newChild;
+};
+
+$.fn.eins = function(spec) {
+  const newChild = $(spec);
+  this.prepend(newChild);
+  return newChild;
+};
+
+// Sets the text contents of this node and returns it
+$.fn.etext = function(text): JQuery<HTMLElement> {
+  this.text(text);
+  return this;
+};
+
+// Sets the HTML contents of this node and returns it
+$.fn.ehtml = function(text): JQuery<HTMLElement> {
+  this.html(text);
+  return this;
+};
+
+// Sets the textual value of this input node and returns it
+$.fn.evalue = function(text): JQuery<HTMLElement> {
+  this.val(text);
+  return this;
+};
+
+$.fn.eshow = function(show) {
+  if (show) {
+    this.show();
+  } else {
+    this.hide();
+  }
+};
+
+$.fn.evisible = function(show) {
+  if (show) {
+    this.css('opacity', '1');
+  } else {
+    this.css('opacity', '0');
+  }
+};
+
+$.fn.eenable = function(enabled: boolean) {
+  this.prop('disabled', !enabled);
+};
+
+$.fn.echecked = function(isChecked: boolean) {
+  this.prop('checked', isChecked);
+};
+
+
+$.fn.eclass = function(className: string|undefined, wanted: boolean) {
+  if (!className) {
+    return;
+  }
+  if (wanted) {
+    this.addClass(className);
+  } else {
+    this.removeClass(className);
+  }
+};
+
+$.fn.efade = async function(show) {
+  if (show) {
+    this.show();
+    await fadeIn(this);
+  } else {
+    await fadeOut(this);
+    this.hide();
+  }
+};
+
+// Adds a row to a table.
+$.fn.eaddtr = function(cellNodes: JQuery<HTMLElement>[], rowClass?: string): JQuery<HTMLElement>[] {
+  const tr = this.eadd('<tr />');
+  const result:JQuery<HTMLElement>[] = [];
+  tr.eclass(rowClass, !!rowClass);
+  for (const cell of cellNodes) {
+    const td = tr.eadd('<td />');
+    td.append(cell);
+    result.push(cell);
+  }
+  return result;
+}
+
+// The user's selected language, from their profile or from the URL.
+let CURRENT_LANGUAGE = 'en-US';
+
+export function setDisplayLanguage(lang: string) {
+  if (SUPPORTED_LANGUAGES.has(lang)) {
+    CURRENT_LANGUAGE = lang;
+  }
+}
+
+$.fn.eitext = function(formatString: string, ...args: string[]): JQuery<HTMLElement> {
+  return this.etext(formatWithArgs(CURRENT_LANGUAGE, formatString, ...args));
+};
+
+$.fn.eihtml = function(formatString: string, ...args: string[]): JQuery<HTMLElement> {
+  return this.ehtml(formatWithArgs(CURRENT_LANGUAGE, formatString, ...args));
+};
+
+$.fn.eiprop = function(propertyName: string, formatString: string, ...args: string[]): JQuery<HTMLElement> {
+  this.prop(propertyName, formatWithArgs(CURRENT_LANGUAGE, formatString, ...args));
+  return this;
+};
+
+// Awaitable sleep function.
+export function sleep(ms: number) {
+  if (ms < 0) {
+    return;
+  }
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+// Awaits the browser's next animation frame.
+export function sleepFrame() { 
+  return new Promise(requestAnimationFrame); 
+}
+
+// Runs an async function next time the event loop finishes; does not await it.
+export function fork<X>(fn: () => Promise<X>): void {
+  setTimeout(fn, 1);
+}
+
+// Eases an opacity change one div over time.
+export async function animateOpacity(div: JQuery, start: number, end: number, opt_speed?: number) {
+  if (!opt_speed) {
+    opt_speed = 0.3;
+  }
+  div.css('opacity', `${start}`);
+  await sleep(100);
+  div.css('transition', `opacity ease-in ${opt_speed}s`);
+  div.css('opacity', `${end}`);
+  await sleep(Math.round(opt_speed * 1000));
+  div.css('transition', '');
+}
+
+export async function fadeIn(div: JQuery, opt_speed?: number) {
+  await animateOpacity(div, 0, 1, opt_speed);
+}
+
+export async function fadeOut(div: JQuery, opt_speed?: number) {
+  await animateOpacity(div, 1, 0, opt_speed);
+}
+
+// Eases a background color change over time.
+export async function animateCss(div: JQuery, fromClass: string, toClass: string, opt_speed?: number) {
+  if (!opt_speed) {
+    opt_speed = 0.3;
+  }
+  div.addClass(fromClass);
+  await sleep(100);
+  div.addClass(toClass);
+  await sleep(Math.round(opt_speed * 1000));
+  div.removeClass(fromClass);
+  div.removeClass(toClass);
+}
+
+export function toURL(path: string, opt_args?: any): URL {
+  const url = new URL(window.location.origin + path);
+  if (opt_args) {
+    for (const k in opt_args) {
+      url.searchParams.append(k, opt_args[k]);
+    }
+  }
+  return url;
+}
+
+// Performs a network fetch to the server, providing the signed-in user's token, with 1 auth-related retry. Throws an exception on non-200 responses.
+export async function authenticatedFetch(path: string, opt_args?: any, opt_method?: string, opt_rawBody?: ArrayBuffer, retries = 1) {
+  const method = opt_method == null ? 'get' : opt_method;
+  const args = opt_args == null ? {} : opt_args;
+  const options: RequestInit = { method };
+  const url = toURL(path, args);
+  if (opt_rawBody) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/octet-stream');
+    options.headers = headers;
+    options.body = opt_rawBody;
+  }
+  let triesLeft = retries;
+  while (true) {
+    triesLeft--;
+    const token = await firebase.auth().currentUser.getIdToken();
+    document.cookie = '__session=' + token + ';max-age=3600;path=/';
+    const rsp = await fetch(url.toString(), options);
+    if (rsp.ok) {
+      return rsp;
+
+    } else if (0 < triesLeft && (rsp.status === 401 || rsp.status === 403)) {
+      continue;  // try again; the failed response will cause a cookie refresh
+
+    } else {
+      // The server will usually give application errors in JSON format
+      const contentType = rsp.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const message = await rsp.json();
+        throw new Error(message[0]);
+      } else {
+        // Otherwise just report a generic error
+        throw new Error('Error during request');
+      }
+    }
+  }
+}
+
+// Returns true if the current browser is Safari.
+export function isSafari() {
+  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+}
+
+// Same as above, but POSTs a JSON body and receives JSON blob, which it parses.
+export async function postAsJson(path: string, jsonObj: any): Promise<unknown> {
+  const body = new TextEncoder().encode(JSON.stringify(jsonObj));
+  const rsp = await authenticatedFetch(path, {}, 'post', body);
+  return await rsp.json();
+}
+
+// Shows a fire-and-forget floating message to the user.
+export function toast(message: string, duration: number = 1000, cssClasses: string = 'toast') {
+  setTimeout(async x => {
+    const div = $('BODY').eins(`<div class="${cssClasses}" />`);
+    div.text(message);
+    await fadeIn(div);
+    await sleep(duration);
+    await fadeOut(div);
+    div.remove();
+  }, 1);
+}
+
+export function errorToast(message: string) {
+  toast(message, 3000, 'toast errortoast');
+}
+
+export function isIOS() {
+  return [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+  ].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document); // iPad on iOS 13 detection
+}
+
+
+// Blocks out the UI with a global modal spinner
+export class Spinner {
+  waiters: number = 0;
+  overlay?: JQuery<HTMLElement>;
+  div?: JQuery<HTMLElement>;
+
+  static self?: Spinner;
+
+  static async waitFor<X>(fn: () => Promise<X>): Promise<X> {
+    if (!Spinner.self) {
+      Spinner.self = new Spinner();
+    }
+    Spinner.self.waiters++;
+    try {
+      return await fn();
+    } finally {
+      Spinner.self.waiters--;
+      if (Spinner.self.waiters <= 0) {
+        // Last waiter out removes the current spinner
+        Spinner.self.remove();
+        Spinner.self = undefined;
+      }
+    }
+  }
+
+  constructor() {
+    this.overlay = $('BODY').eadd('<div class=spinneroverlay />');
+    this.div = this.overlay.eadd(`<div class=spinner />`);
+  }
+
+  remove() {
+    this.overlay!.remove();
+    this.overlay = undefined;
+    this.div = undefined;
+  }
+}
+
+// Simple manager class for an HTML5 dropdown
+export class Dropdown {
+  select: JQuery<HTMLElement>;
+  options: JQuery<HTMLElement>[] = [];
+
+  constructor(parent: JQuery<HTMLElement>, cssClass?: string) {
+    this.select = parent.eadd(`<select class="${cssClass ? cssClass : ''}" />`);
+  }
+
+  addOption(value: string, label: string): JQuery<HTMLElement> {
+    const option = this.select.eadd('<option />');
+    this.options.push(option);
+    option.text(label);
+    option.val(value);
+    return option;
+  }
+
+  // Returns the value of the selected option.
+  getSelected(): string|undefined {
+    for (const option of this.options) {
+      if (option.is(':selected')) {
+        return `${option.val()}`;
+      }
+    }
+    return undefined;
+  }
+
+  onchange(fn: (e: any) => Promise<void>) {
+    this.select.on('change', fn);
+  }
+}
+
+// Simple class that notifies listeners of swipe directions
+export class Swiper {
+  div: JQuery<HTMLElement>;
+  lastX?: number;
+  lastY?: number;
+  startX?: number;
+  startY?: number;
+  fn: (e: TouchEvent) => Promise<void>;
+  callback: (direction: string) => Promise<void>;
+
+  constructor(div: JQuery<HTMLElement>, callback: (direction: string) => Promise<void>) {
+    this.div = div;
+    this.callback = callback;
+    this.fn = this.handleTouch.bind(this);
+    this.div.get(0)!.addEventListener('touchstart', this.fn);
+    this.div.get(0)!.addEventListener('touchmove', this.fn);
+    this.div.get(0)!.addEventListener('touchend', this.fn);
+  }
+
+  remove() {
+    this.div.get(0)!.removeEventListener('touchstart', this.fn);
+    this.div.get(0)!.removeEventListener('touchmove', this.fn);
+    this.div.get(0)!.removeEventListener('touchend', this.fn);
+  }
+
+  private async handleTouch(e: TouchEvent): Promise<void> {
+    let x, y;
+    for (let i = 0; i < e.touches.length; i++) {
+      const touch = e.touches.item(i);
+      x = touch!.screenX;
+      y = touch!.screenY;
+      break;
+    }
+
+    if (e.type === 'touchstart' && x != undefined) {
+      this.startX = x;
+      this.startY = y;
+      this.lastX = x;
+      this.lastY = y;
+
+    } else if (e.type === 'touchmove' && x != undefined) {
+      this.lastX = x;
+      this.lastY = y;
+
+    } else if (e.type === 'touchend' &&
+        this.startX != undefined && this.startY != undefined &&
+        this.lastX != undefined && this.lastY != undefined) {
+      // Dispatch touch event
+      const dx = this.lastX - this.startX;
+      const dy = this.lastY - this.startY;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        await this.callback(dx < 0 ? 'left' : 'right');
+      } else {
+        await this.callback(dy < 0 ? 'up' : 'down');
+      }
+    }
+  }
+}

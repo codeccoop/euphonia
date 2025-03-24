@@ -19,7 +19,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import useragent from "useragent";
 import bodyParser from "body-parser";
-import { initializeApp } from "firebase-admin";
+import * as admin from "firebase-admin";
 
 import { EStorage } from "./estorage";
 import { checkAuthenticated, checkAdmin } from "./acl";
@@ -61,8 +61,21 @@ import type {
   NewUserInfo,
   TaskType,
 } from "../../commonsrc/schema";
+import firebase from "firebase/compat/app";
+const firebaseConfig = {
+  apiKey: "AIzaSyBuPq1L4vSIMmF133wbAoCSVkaHa8TjrIA",
+  authDomain: "collectivat-euphonia.firebaseapp.com",
+  databaseURL: "https://collectivat-euphonia-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "collectivat-euphonia",
+  storageBucket: "collectivat-euphonia.firebasestorage.app",
+  messagingSenderId: "580963820416",
+  appId: "1:580963820416:web:1f5a8679cfcd6606625765",
+  measurementId: "G-17XSGCLHB9",
+};
 
-initializeApp();
+admin.initializeApp();
+firebase.initializeApp(firebaseConfig);
+
 
 // Implements the API server endpoints and per-request state needed for API logic.
 class AudioApi {
@@ -92,13 +105,13 @@ class AudioApi {
       bodyParser.raw({
         limit: "10000kb",
         type: "application/octet-stream",
-      }),
+      })
     );
     if (deps && deps.auth) {
       server.use(deps.auth);
     } else {
       server.use((req: Request, res: Response, next: NextFunction) =>
-        AudioApi.checkAuth(req, res, next),
+        AudioApi.checkAuth(req, res, next)
       );
     }
 
@@ -108,203 +121,203 @@ class AudioApi {
       deps,
       "/api/getuser",
       "runApiGetUser",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/listconsents",
       "runApiListConsents",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/signup",
       "runApiSignup",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/updateagreements",
       "runApiUpdateAgreements",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/uploadaudio",
       "runApiUploadAudio",
-      "post",
+      "post"
     );
     AudioApi.installStreamApi(
       server,
       deps,
       "/api/getaudio",
       "runApiGetAudio",
-      "get",
+      "get"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/deleteaudio",
       "runApiDeleteAudio",
-      "post",
+      "post"
     );
     AudioApi.installStreamApi(
       server,
       deps,
       "/api/getconsenttext",
       "runApiGetConsentText",
-      "get",
+      "get"
     );
     AudioApi.installStreamApi(
       server,
       deps,
       "/api/gettaskimage",
       "runApiGetTaskImage",
-      "get",
+      "get"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/newuser",
       "runAdminApiNewUser",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/listusers",
       "runAdminApiListUsers",
-      "get",
+      "get"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/listuserwork",
       "runAdminApiListUserWork",
-      "get",
+      "get"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/edituser",
       "runAdminApiEditUser",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/deleteuser",
       "runAdminApiDeleteUser",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/listtasksets",
       "runAdminApiListTaskSets",
-      "get",
+      "get"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/newtaskset",
       "runAdminApiNewTaskSet",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/listtasks",
       "runAdminApiListTasks",
-      "get",
+      "get"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/edittaskset",
       "runAdminApiEditTaskSet",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/newtask",
       "runAdminApiNewTask",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/bulkaddtasks",
       "runAdminApiBulkAddTasks",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/assigntasks",
       "runAdminApiAssignTasks",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/removetasks",
       "runAdminApiRemoveTasks",
-      "post",
+      "post"
     );
     AudioApi.installStreamApi(
       server,
       deps,
       "/api/admin/getaudio",
       "runAdminApiGetAudio",
-      "get",
+      "get"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/listconsents",
       "runAdminApiListConsents",
-      "get",
+      "get"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/newconsent",
       "runAdminApiNewConsent",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/editconsent",
       "runAdminApiEditConsent",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/uploadconsentversion",
       "runAdminApiUploadConsentVersion",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/deleteconsentversion",
       "runAdminApiDeleteConsentVersion",
-      "post",
+      "post"
     );
     AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/uploadtaskimage",
       "runAdminApiUploadTaskImage",
-      "post",
+      "post"
     );
 
     return server;
@@ -322,7 +335,7 @@ class AudioApi {
     deps: any,
     path: string,
     fnkey: keyof AudioApi,
-    method: "get" | "post",
+    method: "get" | "post"
   ) {
     const fn = async (req: Request, rsp: Response) => {
       const result = await AudioApi.runMemberEndpoint(fnkey, req, rsp, deps);
@@ -344,7 +357,7 @@ class AudioApi {
     deps: any,
     path: string,
     fnkey: keyof AudioApi,
-    method: "get" | "post",
+    method: "get" | "post"
   ) {
     const fn = async (req: Request, rsp: Response) => {
       const result = await AudioApi.runMemberEndpoint(fnkey, req, rsp, deps);
@@ -367,7 +380,7 @@ class AudioApi {
     fnkey: keyof AudioApi,
     req: Request,
     rsp: Response,
-    deps: any,
+    deps: any
   ): Promise<unknown[] | undefined> {
     try {
       // Run the function and see if it returns normally
@@ -390,7 +403,7 @@ class AudioApi {
   private static async checkAuth(
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) {
     if (!req.path.startsWith("/api/public/")) {
       // The public endpoints don't require sign-in, but everything else does
@@ -429,7 +442,7 @@ class AudioApi {
   async requireUserByFBUID(opt_txn?: Transaction): Promise<EUser> {
     const user = await this.storage.loadUserByFBUID(
       this.getUser().uid,
-      opt_txn,
+      opt_txn
     );
     if (!user) {
       throw new AccessError("User not enrolled");
@@ -458,7 +471,7 @@ class AudioApi {
     const consents = await this.storage.listApplicableConsents(
       language,
       tags,
-      this.now,
+      this.now
     );
     return consents.map((c: EConsent) => c.infoWithOnlyLiveVersion(this.now));
   }
@@ -480,7 +493,7 @@ class AudioApi {
       !demographics.acceptTos
     ) {
       throw new ParamError(
-        `Attempted to sign up without interest form agreement`,
+        `Attempted to sign up without interest form agreement`
       );
     }
 
@@ -521,7 +534,7 @@ class AudioApi {
   // Creates a recording file for a task.
   async runApiUploadAudio() {
     const task = requireParam(
-      JSON.parse(this.req.query.task as string),
+      JSON.parse(this.req.query.task as string)
     ) as EUserTaskInfo;
     const localdate = requireParam(this.req.query.localdate as string);
     const tzo = requireInt(this.req.query.tzo as string);
@@ -538,7 +551,7 @@ class AudioApi {
       tzo,
       mimeType,
       deviceinfoObj,
-      this.req.body,
+      this.req.body
     );
     return [euser.info, etask.info, recording.metadata];
   }
@@ -552,7 +565,7 @@ class AudioApi {
         const user = await this.requireUserByFBUID(txn);
         const rec = await user.loadRecording(txn, ts);
         return [user, rec.metadata.name, rec.metadata.mimeType];
-      },
+      }
     );
 
     const [wavFile] = this.storage.findRecordingFiles(user.euid, basename);
@@ -591,13 +604,13 @@ class AudioApi {
         const basename = rec.metadata.name;
         await rec.delete(user, task, tsTask, txn);
         return { user, task, basename };
-      },
+      }
     );
 
     // The firestore record is gone, also delete the GCS files
     const [wavFile, jsonFile] = this.storage.findRecordingFiles(
       user.euid,
-      basename,
+      basename
     );
     await wavFile.delete();
     await jsonFile.delete();
@@ -684,7 +697,7 @@ class AudioApi {
         const user = await this.storage.loadUser(euid, txn);
         const tasks = await user.listTasks();
         return [user, tasks];
-      },
+      }
     );
     const taskIdTuples: [string, string][] = [];
 
@@ -708,7 +721,7 @@ class AudioApi {
         // Firestore has the metadata but the actual audio must be deleted from GCS
         const [wavFile, jsonFile] = this.storage.findRecordingFiles(
           user.euid,
-          basename,
+          basename
         );
         await wavFile.delete();
         await jsonFile.delete();
@@ -884,7 +897,7 @@ class AudioApi {
       name,
       language,
       tags,
-      optional,
+      optional
     );
     return [consent.info];
   }
@@ -942,7 +955,7 @@ class AudioApi {
         description,
         liveTimestamp,
         this.req.body,
-        txn,
+        txn
       );
       return consent;
     });
