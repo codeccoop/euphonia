@@ -14,55 +14,62 @@
  * limitations under the License.
  */
 
-import firebaseadmin = require('firebase-admin');
-import express = require('express');
-import * as firebaseconfig from './firebaseconfig';
-firebaseadmin.initializeApp();
+import { auth } from "firebase-admin";
+import * as firebaseconfig from "./firebaseconfig";
+
+import type { Request, Response } from "express";
+import type { DecodedIdToken } from "firebase-admin/auth";
 
 const ADMINS = new Set(firebaseconfig.ADMIN_EMAILS);
 
 // Tightens the Firebase user object to be non-nullable.
-export interface FBUser extends firebaseadmin.auth.DecodedIdToken {
+export interface FBUser extends DecodedIdToken {
   uid: string;
   email: string;
   name: string;
 }
 
 // Extends the Express Request object with the Firebase user.
-export interface UserRequest extends express.Request {
+export interface UserRequest extends Request {
   user: FBUser;
 }
 
 // Ensures that the request is from an authenticated user of some sort, and sets the user on the request.
-export async function checkAuthenticated(req: express.Request, res: express.Response) {
+export async function checkAuthenticated(req: Request, res: Response) {
   // TODO: don't enforce this on our un-authenticated paths
   if (!req.cookies || !req.cookies.__session) {
-    console.error('No __session cookie found.');
-    res.status(403).send('Unauthorized');
+    console.error("No __session cookie found.");
+    res.status(403).send("Unauthorized");
     return false;
   }
-  
+
   try {
-    const user = await firebaseadmin.auth().verifyIdToken(req.cookies.__session);
-    if (user.email_verified && user.firebase.sign_in_provider === 'google.com' && user.email && user.uid && user.name) {
+    const user = await auth().verifyIdToken(req.cookies.__session);
+    if (
+      user.email_verified &&
+      user.firebase.sign_in_provider === "google.com" &&
+      user.email &&
+      user.uid &&
+      user.name
+    ) {
       // This is a valid user with an email address of some sort, set the user and allow them through.
       const ureq = req as UserRequest;
       ureq.user = user as FBUser;
       return true;
     } else {
       // Not a valid user
-      res.status(401).send('Unrecognized credentials');
+      res.status(401).send("Unrecognized credentials");
       return false;
     }
   } catch (error) {
-    console.error('Error while verifying Firebase ID token:', error);
-    res.status(401).send('Error processing credentials');
+    console.error("Error while verifying Firebase ID token:", error);
+    res.status(401).send("Error processing credentials");
     return false;
   }
 }
 
-  // Returns false and responds with a 403 unless the given user is a valid admin
-export async function checkAdmin(req: UserRequest, res: express.Response) {
+// Returns false and responds with a 403 unless the given user is a valid admin
+export async function checkAdmin(req: UserRequest, res: Response) {
   if (!ADMINS.has(req.user.email)) {
     res.status(403).send(`Unauthorized admin: ${req.user.email}`);
     return false;

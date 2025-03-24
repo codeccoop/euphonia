@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-import { ELocaleString } from './schema';
+import { ELocaleString } from "./schema";
 
 export const HI_STRINGS: ELocaleString[] = [
   {
     key: `PAGE_TITLE`,
     en: `Project Euphonia`,
     description: `Web page title for all pages`,
-    text: `प्रोजेक्ट यूफोनिया`
+    text: `प्रोजेक्ट यूफोनिया`,
   },
   {
     key: `HELP_LINK`,
     description: `Help hyperlink HREF property when the user needs help or has questions.`,
-    text: `http://g.co/disabilitysupport`
+    text: `http://g.co/disabilitysupport`,
   },
   {
     key: `WELCOME_TITLE`,
     en: `Welcome to Project Euphonia!`,
     description: `Signup screen and consent screen titles`,
-    text: `Project Euphonia में आपका स्वागत है!`
+    text: `Project Euphonia में आपका स्वागत है!`,
   },
   {
     key: `We're exploring how Google products and services
@@ -41,14 +41,14 @@ export const HI_STRINGS: ELocaleString[] = [
     Voice samples can help us improve how Google understands individuals with speech
     impairments.`,
     description: `Signup screen`,
-    text: `हम ऐसे तरीके एक्सप्लोर कर रहे हैं जिनसे इनपुट के लिए बोली का इस्तेमाल करने वाले Google के प्रॉडक्ट और सेवाएं बेहतर हो सकें. साथ ही, इनका फ़ायदा ज़्यादा से ज़्यादा लोगों को मिले. हम ऐसे वयस्क लोगों से उनकी आवाज़ की रिकॉर्डिंग का योगदान चाहते हैं जिनकी बोली को लोग आसानी से नहीं समझ पाते. बोली के अलग-अलग सैंपल से, Google ऐसे लोगों की बात को बेहतर तरीके से समझ पाता है जिन्हें बोलने में परेशानी होती है.`
+    text: `हम ऐसे तरीके एक्सप्लोर कर रहे हैं जिनसे इनपुट के लिए बोली का इस्तेमाल करने वाले Google के प्रॉडक्ट और सेवाएं बेहतर हो सकें. साथ ही, इनका फ़ायदा ज़्यादा से ज़्यादा लोगों को मिले. हम ऐसे वयस्क लोगों से उनकी आवाज़ की रिकॉर्डिंग का योगदान चाहते हैं जिनकी बोली को लोग आसानी से नहीं समझ पाते. बोली के अलग-अलग सैंपल से, Google ऐसे लोगों की बात को बेहतर तरीके से समझ पाता है जिन्हें बोलने में परेशानी होती है.`,
   },
   {
     key: `<b>IMPORTANT:</b> If you're filling out
     this form on behalf of someone else, please ensure you have their permission
     to do so.`,
     description: `Signup screen`,
-    text: `<b>अहम जानकारी:</b> ऐसे लोग जो किसी और के लिए यह फ़ॉर्म भर रहे हैं, यह पक्का कर लें कि आपने उस व्यक्ति से फ़ॉर्म भरने की अनुमति ली है.`
+    text: `<b>अहम जानकारी:</b> ऐसे लोग जो किसी और के लिए यह फ़ॉर्म भर रहे हैं, यह पक्का कर लें कि आपने उस व्यक्ति से फ़ॉर्म भरने की अनुमति ली है.`,
   },
   {
     key: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
@@ -56,86 +56,86 @@ export const HI_STRINGS: ELocaleString[] = [
     description: `Signup screen`,
     text: `क्या आपको कुछ पूछना है? 
         <a id=signuphelplink target="_blank"
-        >हमसे संपर्क करें</a>`
+        >हमसे संपर्क करें</a>`,
   },
   {
     key: `Already enrolled? &nbsp;`,
     description: `Signup screen`,
-    text: `क्या आपने पहले ही रजिस्टर कर लिया है? &nbsp;`
+    text: `क्या आपने पहले ही रजिस्टर कर लिया है? &nbsp;`,
   },
   {
     key: `Click to sign in and continue recording`,
     description: `Signup screen`,
-    text: `साइन इन करके रिकॉर्ड करने के लिए क्लिक करें`
+    text: `साइन इन करके रिकॉर्ड करने के लिए क्लिक करें`,
   },
   {
     key: `To get started, please confirm your eligibility:`,
     description: `Signup screen`,
-    text: `शुरू करने के लिए, कृपया ज़रूरी शर्तों की पुष्टि करें:`
+    text: `शुरू करने के लिए, कृपया ज़रूरी शर्तों की पुष्टि करें:`,
   },
   {
     key: `Strangers, or voice technologies like Google Assistant, have difficulty understanding my speech (not because of an accent)`,
     description: `Signup screen eligibility question`,
-    text: `अनजान लोगों या आवाज़ की पहचान करने वाली Google Assistant जैसी टेक्नोलॉजी को मेरी बात समझने में दिक्कत होती है. हालांकि, मेरे बोलने का लहजा इसकी वजह नहीं है`
+    text: `अनजान लोगों या आवाज़ की पहचान करने वाली Google Assistant जैसी टेक्नोलॉजी को मेरी बात समझने में दिक्कत होती है. हालांकि, मेरे बोलने का लहजा इसकी वजह नहीं है`,
   },
   {
     key: `I am at least 18 years of age`,
     description: `Signup screen eligibility question`,
-    text: `मेरी उम्र 18 साल से कम नहीं है`
+    text: `मेरी उम्र 18 साल से कम नहीं है`,
   },
   {
     key: `Sign in and continue`,
     description: `Signup screen button`,
-    text: `साइन इन करें और जारी रखें`
+    text: `साइन इन करें और जारी रखें`,
   },
   {
     key: `You will need to sign in with your Google
     Account to contribute to the project. If you do not have a Google Account, you can
     create one when you click to continue.`,
     description: `Signup screen instructions`,
-    text: `इस प्रोजेक्ट में योगदान देने के लिए आपको अपने Google खाते से साइन इन करना होगा. अगर आपके पास Google खाता नहीं है, तो 'जारी रखें' पर क्लिक करके नया खाता बनाएं.`
+    text: `इस प्रोजेक्ट में योगदान देने के लिए आपको अपने Google खाते से साइन इन करना होगा. अगर आपके पास Google खाता नहीं है, तो 'जारी रखें' पर क्लिक करके नया खाता बनाएं.`,
   },
   {
     key: `Next`,
     description: `Interest form button, advance to the next screen`,
-    text: `आगे बढ़ें`
+    text: `आगे बढ़ें`,
   },
   {
     key: `Go Back`,
     description: `Interest form button, go back to the signup screen`,
-    text: `वापस जाएं`
+    text: `वापस जाएं`,
   },
   {
     key: `You must type your name to agree to the terms.`,
     description: `Consent form screen, require consent to proceed`,
-    text: `शर्तों से सहमत होने के लिए अपना नाम डालना ज़रूरी है.`
+    text: `शर्तों से सहमत होने के लिए अपना नाम डालना ज़रूरी है.`,
   },
   {
     key: `Reset form and start over`,
     description: `Interest form button, clear fields and start over`,
-    text: `फ़ॉर्म रीसेट करें और फिर से शुरू करें`
+    text: `फ़ॉर्म रीसेट करें और फिर से शुरू करें`,
   },
   {
     key: `You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
     Please review the following agreement: <span id=consentcounter></span>`,
     description: `Consent screen instructions`,
-    text: `आपने <b id=whoisenrolling>&nbsp;</b> के तौर पर रजिस्टर किया है. कृपया यहां दिए गए कानूनी समझौते को पढ़ें: <span id=consentcounter></span>`
+    text: `आपने <b id=whoisenrolling>&nbsp;</b> के तौर पर रजिस्टर किया है. कृपया यहां दिए गए कानूनी समझौते को पढ़ें: <span id=consentcounter></span>`,
   },
   {
     key: `Enroll`,
     description: `Consent screen, final action; consents to the program and allows recording`,
-    text: `रजिस्टर करें`
+    text: `रजिस्टर करें`,
   },
   {
     key: `Next Agreement`,
     description: `Consent screen, to agree to the current consent and then see the next one. Only shows when there are multiple consents`,
-    text: `अगला कानूनी समझौता`
+    text: `अगला कानूनी समझौता`,
   },
   {
     key: `INSTRUCTIONS_TITLE`,
     en: `Thanks for signing up for Project Euphonia!`,
     description: `Instructions screen title`,
-    text: `Project Euphonia में साइन अप करने के लिए धन्यवाद!`
+    text: `Project Euphonia में साइन अप करने के लिए धन्यवाद!`,
   },
   {
     key: `INSTRUCTIONS_VIDEO_HTML`,
@@ -163,209 +163,209 @@ export const HI_STRINGS: ELocaleString[] = [
     <li>अगली स्क्रीन पर बोलकर पढ़ने के लिए आपको <b>कार्ड</b> दिखेंगे.</li> <li>आपको किसी <b>शांत जगह</b> पर रिकॉर्डिंग करनी चाहिए और बैकग्राउंड के शोर से बचना चाहिए.</li> 
     <li>नीले रंग का रिकॉर्ड बटन दबाएं और फिर जितना हो सके उतने सही तरीके से <b>कार्ड को बोलकर पढ़ें</b>.</li> 
     <li>कार्ड <b>पढ़ने के बाद</b>, रिकॉर्डिंग को बंद करने के लिए, नीले रंग का बटन दबाएं.</li> 
-    <li>सभी कार्ड की रिकॉर्डिंग कर लेने का मतलब है कि आपका काम पूरा हुआ!</li> <li>क्या आपको रिकॉर्डिंग करने में समस्या आ रही है? सहायता के लिए <a target="_blank" href="http://g.co/disabilitysupport">हमसे संपर्क करें</a>.</li>`
+    <li>सभी कार्ड की रिकॉर्डिंग कर लेने का मतलब है कि आपका काम पूरा हुआ!</li> <li>क्या आपको रिकॉर्डिंग करने में समस्या आ रही है? सहायता के लिए <a target="_blank" href="http://g.co/disabilitysupport">हमसे संपर्क करें</a>.</li>`,
   },
   {
     key: `Get Started`,
     description: `Instructions screen button to continue to next screen`,
-    text: `शुरू करें`
+    text: `शुरू करें`,
   },
   {
     key: `Microphone Setup`,
     description: `Microphone and settings screen title`,
-    text: `माइक्रोफ़ोन का सेटअप`
+    text: `माइक्रोफ़ोन का सेटअप`,
   },
   {
     key: `
     In order to record your speech, we need permission to use your microphone
     through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`,
     description: `Microphone permission instructions`,
-    text: `आपकी बोली रिकॉर्ड करने के लिए, Euphonia को वेब ब्राउज़र पर माइक्रोफ़ोन ऐक्सेस करने की अनुमति देना ज़रूरी है. माइक्रोफ़ोन के इस्तेमाल की अनुमति देने के लिए, <b>कृपया "अनुमति दें" पर क्लिक करें</b>.`
+    text: `आपकी बोली रिकॉर्ड करने के लिए, Euphonia को वेब ब्राउज़र पर माइक्रोफ़ोन ऐक्सेस करने की अनुमति देना ज़रूरी है. माइक्रोफ़ोन के इस्तेमाल की अनुमति देने के लिए, <b>कृपया "अनुमति दें" पर क्लिक करें</b>.`,
   },
   {
     key: `
     We could not access your microphone due to a permission problem. You'll need to allow access
     in order to continue.`,
     description: `Microphone permission error message`,
-    text: `अनुमति नहीं मिलने की वजह से Euphonia आपके माइक्रोफ़ोन को ऐक्सेस नहीं कर सका. जारी रखने के लिए आपको माइक्रोफ़ोन को ऐक्सेस करने की अनुमति देनी होगी.`
+    text: `अनुमति नहीं मिलने की वजह से Euphonia आपके माइक्रोफ़ोन को ऐक्सेस नहीं कर सका. जारी रखने के लिए आपको माइक्रोफ़ोन को ऐक्सेस करने की अनुमति देनी होगी.`,
   },
   {
     key: `
     It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
     by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`,
     description: `Microphone permission error message`,
-    text: `ऐसा लगता है कि आपके माइक्रोफ़ोन को ऐक्सेस करने की अनुमति नहीं है. आपको <b>ब्राउज़र के पता बार</b> में क्लिक करके <b>ऐक्सेस की अनुमति</b> देनी होगी और/या अपने माइक्रोफ़ोन के लिए <b>अनुमति रीसेट</b> करनी होगी.`
+    text: `ऐसा लगता है कि आपके माइक्रोफ़ोन को ऐक्सेस करने की अनुमति नहीं है. आपको <b>ब्राउज़र के पता बार</b> में क्लिक करके <b>ऐक्सेस की अनुमति</b> देनी होगी और/या अपने माइक्रोफ़ोन के लिए <b>अनुमति रीसेट</b> करनी होगी.`,
   },
   {
     key: `
     Your microphone is all set! You can start recording as soon as you're ready.`,
     description: `Microphone permission success message`,
-    text: `आपके माइक्रोफ़ोन का इस्तेमाल किया जा सकता है! आप जब तैयार हों, तो रिकॉर्डिंग शुरू करें.`
+    text: `आपके माइक्रोफ़ोन का इस्तेमाल किया जा सकता है! आप जब तैयार हों, तो रिकॉर्डिंग शुरू करें.`,
   },
   {
     key: `Use the default microphone`,
     description: `Let's the user choose the browser's default recording device instead of picking one explicitly`,
-    text: `डिफ़ॉल्ट माइक्रोफ़ोन का इस्तेमाल करें`
+    text: `डिफ़ॉल्ट माइक्रोफ़ोन का इस्तेमाल करें`,
   },
   {
     key: `Save`,
     description: `Microphone configuration screen, accept changes to microphone device`,
-    text: `सेव करें`
+    text: `सेव करें`,
   },
   {
     key: `Try again`,
     description: `Microphone permission failure retry button`,
-    text: `फिर से कोशिश करें`
+    text: `फिर से कोशिश करें`,
   },
   {
     key: `Start recording!`,
     description: `Microphone setup screen button, continue to recording screen`,
-    text: `रिकॉर्डिंग शुरू करें!`
+    text: `रिकॉर्डिंग शुरू करें!`,
   },
   {
     key: `Microphone settings`,
     description: `Microphone setup screen title`,
-    text: `माइक्रोफ़ोन की सेटिंग`
+    text: `माइक्रोफ़ोन की सेटिंग`,
   },
   {
     key: `Previous card`,
     description: `Recording screen button, go back to prior card`,
-    text: `पिछला कार्ड`
+    text: `पिछला कार्ड`,
   },
   {
     key: `Next card`,
     description: `Recording screen button, go forward to next card`,
-    text: `अगला कार्ड`
+    text: `अगला कार्ड`,
   },
   {
     key: `Replay`,
     description: `Recording screen button, listen to previously recorded audio`,
-    text: `फिर से चलाएं`
+    text: `फिर से चलाएं`,
   },
   {
     key: `Stop`,
     description: `Recording screen button, to interrupt a recording that's currently being played back`,
-    text: `बंद करें`
+    text: `बंद करें`,
   },
   {
     key: `Delete`,
     description: `Recording screen button, delete a previous recording`,
-    text: `मिटाएं`
+    text: `मिटाएं`,
   },
   {
     key: `Deleting...`,
     description: `Recording screen button, shown briefly while the recording is being deleted`,
-    text: `मिटाया जा रहा है...`
+    text: `मिटाया जा रहा है...`,
   },
   {
     key: `Record`,
     description: `Recording screen button, record audio for a card`,
-    text: `रिकॉर्ड करें`
+    text: `रिकॉर्ड करें`,
   },
   {
     key: `Record Again`,
     description: `Recording screen button, record audio for a card that already has been recorded`,
-    text: `फिर से रिकॉर्ड करें`
+    text: `फिर से रिकॉर्ड करें`,
   },
   {
     key: `(this card is done)`,
     description: `Labels tasks that have already been recorded once`,
-    text: `(आपने इस कार्ड की रिकॉर्डिंग कर ली है)`
+    text: `(आपने इस कार्ड की रिकॉर्डिंग कर ली है)`,
   },
   {
     key: `Cancel`,
     description: `Recording screen button and microphone setting screen button, cancel recording / microphone changes`,
-    text: `रद्द करें`
+    text: `रद्द करें`,
   },
   {
     key: `Done`,
     description: `Recording screen button, shown while recording to end the recording and start uploading it`,
-    text: `हो गया`
+    text: `हो गया`,
   },
   {
     key: `Starting...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
-    text: `शुरू हो रहा है...`
+    text: `शुरू हो रहा है...`,
   },
   {
     key: `Now recording...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
-    text: `रिकॉर्डिंग शुरू हो गई है...`
+    text: `रिकॉर्डिंग शुरू हो गई है...`,
   },
   {
     key: `Recording uploaded!`,
     description: `Recording screen message when the recording uploaded successfully`,
-    text: `रिकॉर्डिंग अपलोड की गई!`
+    text: `रिकॉर्डिंग अपलोड की गई!`,
   },
   {
     key: `Recording uploaded! Here's the next card.`,
     description: `Recording screen message when the recording uploads successfully and the next card is automatically displayed`,
-    text: `रिकॉर्डिंग अपलोड की गई! यह रहा अगला कार्ड.`
+    text: `रिकॉर्डिंग अपलोड की गई! यह रहा अगला कार्ड.`,
   },
   {
     key: `Recording deleted.`,
     description: `Recording screen message when a recording has just been deleted`,
-    text: `रिकॉर्डिंग मिटाई गई.`
+    text: `रिकॉर्डिंग मिटाई गई.`,
   },
   {
     key: `Recording canceled.`,
     description: `Recording screen message when a recording has just been canceled`,
-    text: `रिकॉर्डिंग रद्द हो गई.`
+    text: `रिकॉर्डिंग रद्द हो गई.`,
   },
   {
     key: `No recording to delete.`,
     description: `Error message when the user deletes but nothing is selected.`,
-    text: `मिटाने के लिए कोई रिकॉर्डिंग उपलब्ध नहीं है.`
+    text: `मिटाने के लिए कोई रिकॉर्डिंग उपलब्ध नहीं है.`,
   },
   {
     key: `No recording to play.`,
     description: `Error message when the user replays but nothing is selected.`,
-    text: `चलाने के लिए कोई रिकॉर्डिंग उपलब्ध नहीं है.`
+    text: `चलाने के लिए कोई रिकॉर्डिंग उपलब्ध नहीं है.`,
   },
   {
     key: `Upload failed, your audio may not be saved.`,
     description: `Error message when the user's recording was not received by the server.`,
-    text: `रिकॉर्डिंग अपलोड नहीं हुई, हो सकता है आपका ऑडियो सेव न हुआ हो.`
+    text: `रिकॉर्डिंग अपलोड नहीं हुई, हो सकता है आपका ऑडियो सेव न हुआ हो.`,
   },
   {
     key: `Canceling...`,
     description: `Recording screen button, shown briefly when the recording is being canceled`,
-    text: `रद्द की जा रही है...`
+    text: `रद्द की जा रही है...`,
   },
   {
     key: `Uploading...`,
     description: `Recording screen button, shown briefly when the recording is being uploaded`,
-    text: `अपलोड हो रही है...`
+    text: `अपलोड हो रही है...`,
   },
   {
     key: `?`,
     description: `Recording screen button, go to help screen`,
-    text: `?`
+    text: `?`,
   },
   {
     key: `&#x1F50A;`,
     description: `Speak prompt button, which uses computerized speech to play the prompt audibly`,
-    text: `&#x1F50A;`
+    text: `&#x1F50A;`,
   },
   {
     key: `Continue`,
     description: `Sign up screen and consent screen buttons, continue to the next page`,
-    text: `जारी रखें`
+    text: `जारी रखें`,
   },
   {
     key: `No assignments`,
     description: `Recording screen, message when the user has no cards to work on`,
-    text: `कोई असाइनमेंट नहीं है`
+    text: `कोई असाइनमेंट नहीं है`,
   },
   {
     key: `<b>{number_of_completed_cards}</b> of <b>{total_number_of_tasks_needed}</b> cards <b>done</b>`,
     description: `Recording screen, progress message of tasks completed so far`,
-    text: `<b>{total_number_of_tasks_needed}</b> में से <b>{number_of_completed_cards}</b> कार्ड <b>रिकॉर्ड किए गए</b>`
+    text: `<b>{total_number_of_tasks_needed}</b> में से <b>{number_of_completed_cards}</b> कार्ड <b>रिकॉर्ड किए गए</b>`,
   },
   {
     key: `Thank you!`,
     description: `Done screen title, shown when the user has finished at least one pass`,
-    text: `धन्यवाद!`
+    text: `धन्यवाद!`,
   },
   {
     key: `          Great work! You've gone through the cards once, and recorded
@@ -373,7 +373,7 @@ export const HI_STRINGS: ELocaleString[] = [
     out of the total (<b>{total_number_of_tasks_needed} cards</b>).
     When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards`,
-    text: `बहुत बढ़िया! आपने सारे कार्ड एक बार देख लिए हैं और कुल <b>{total_number_of_tasks_needed} कार्ड</b> में से <b class=count>{number_of_completed_cards} कार्ड</b> को रिकॉर्ड कर लिया है. जब आप तैयार हों, तब बाकी बचे कार्ड को रिकॉर्ड करने के लिए नीचे दिया गया बटन दबाएं.`
+    text: `बहुत बढ़िया! आपने सारे कार्ड एक बार देख लिए हैं और कुल <b>{total_number_of_tasks_needed} कार्ड</b> में से <b class=count>{number_of_completed_cards} कार्ड</b> को रिकॉर्ड कर लिया है. जब आप तैयार हों, तब बाकी बचे कार्ड को रिकॉर्ड करने के लिए नीचे दिया गया बटन दबाएं.`,
   },
   {
     key: `          You're almost done! You've gone through the cards once, and recorded
@@ -381,92 +381,92 @@ export const HI_STRINGS: ELocaleString[] = [
     out of the total (<b>{total_number_of_tasks_needed} cards</b>).
     When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards. This version displays when the user has done more than 75% of the work.`,
-    text: `आपने करीब-करीब सभी कार्ड की रिकॉर्डिंग कर ली है! आपने सारे कार्ड एक बार देख लिए हैं और कुल <b>{total_number_of_tasks_needed} कार्ड</b> में से <b class=count>{number_of_completed_cards} कार्ड</b> को रिकॉर्ड कर लिया है. जब आप तैयार हों, तब बाकी बचे कार्ड को रिकॉर्ड करने के लिए नीचे दिया गया बटन दबाएं.`
+    text: `आपने करीब-करीब सभी कार्ड की रिकॉर्डिंग कर ली है! आपने सारे कार्ड एक बार देख लिए हैं और कुल <b>{total_number_of_tasks_needed} कार्ड</b> में से <b class=count>{number_of_completed_cards} कार्ड</b> को रिकॉर्ड कर लिया है. जब आप तैयार हों, तब बाकी बचे कार्ड को रिकॉर्ड करने के लिए नीचे दिया गया बटन दबाएं.`,
   },
   {
     key: `Continue Recording`,
     description: `Done screen and instructions screen buttons, return to the recording screen`,
-    text: `रिकॉर्डिंग जारी रखें`
+    text: `रिकॉर्डिंग जारी रखें`,
   },
   {
     key: `Continue recording!`,
     description: `Microphone settings screen, return to the recording screen`,
-    text: `रिकॉर्डिंग जारी रखें!`
+    text: `रिकॉर्डिंग जारी रखें!`,
   },
   {
     key: `You previously indicated that you are eligible.`,
     description: `Signup screen, a message showing that the participant has already completed this form`,
-    text: `आपने पहले यह बताया था कि आप ज़रूरी शर्तें पूरी करते/करती हैं.`
+    text: `आपने पहले यह बताया था कि आप ज़रूरी शर्तें पूरी करते/करती हैं.`,
   },
   {
     key: `You have already completed this form.`,
     description: `Interest form screen, a message showing that the participant has already completed this form`,
-    text: `आपने यह फ़ॉर्म पहले ही भर दिया है.`
+    text: `आपने यह फ़ॉर्म पहले ही भर दिया है.`,
   },
   {
     key: `Country is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `देश का नाम डालना ज़रूरी है.`
+    text: `देश का नाम डालना ज़रूरी है.`,
   },
   {
     key: `State is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `राज्य का नाम डालना ज़रूरी है.`
+    text: `राज्य का नाम डालना ज़रूरी है.`,
   },
   {
     key: `Please tell us if someone will be helping you record.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `अगर रिकॉर्डिंग में कोई आपकी मदद करेगा, तो कृपया हमें इसकी जानकारी दें.`
+    text: `अगर रिकॉर्डिंग में कोई आपकी मदद करेगा, तो कृपया हमें इसकी जानकारी दें.`,
   },
   {
     key: `Please tell us how to email the person helping you.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `जो व्यक्ति रिकॉर्डिंग में आपकी मदद करेगा कृपया उसका ईमेल पता दें.`
+    text: `जो व्यक्ति रिकॉर्डिंग में आपकी मदद करेगा कृपया उसका ईमेल पता दें.`,
   },
   {
     key: `You'll need to give consent to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `आपको जारी रखने के लिए अपनी सहमति देनी होगी.`
+    text: `आपको जारी रखने के लिए अपनी सहमति देनी होगी.`,
   },
   {
     key: `Please write your initials next to your consent.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `कृपया अपनी सहमति के आगे अपने नाम का पहला अक्षर लिखें.`
+    text: `कृपया अपनी सहमति के आगे अपने नाम का पहला अक्षर लिखें.`,
   },
   {
     key: `You'll need to accept the terms to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `जारी रखने के लिए, आपको शर्तें स्वीकार करनी होंगी.`
+    text: `जारी रखने के लिए, आपको शर्तें स्वीकार करनी होंगी.`,
   },
   {
     key: `You have already consented.`,
     description: `Consent screen, a message showing that the participant has already completed this form`,
-    text: `आपने पहले ही सहमति दे दी है.`
+    text: `आपने पहले ही सहमति दे दी है.`,
   },
   {
     key: `By typing my name here, I agree to these terms:`,
     description: `Consent screen, indicates that the participant consents`,
-    text: `अपना नाम लिखने का मतलब है कि मैं इन शर्तों से सहमत हूं:`
+    text: `अपना नाम लिखने का मतलब है कि मैं इन शर्तों से सहमत हूं:`,
   },
   {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
     description: ``,
-    text: `&nbsp;({total_number_of_agreements} में से {which_agreement_number} कानूनी समझौता)`
+    text: `&nbsp;({total_number_of_agreements} में से {which_agreement_number} कानूनी समझौता)`,
   },
   {
     key: `Congratulations! You're all done!`,
     description: `Progress bar display when there are no tasks left to do`,
-    text: `बधाई हो! आपने सभी कार्ड की रिकॉर्डिंग कर ली है!`
+    text: `बधाई हो! आपने सभी कार्ड की रिकॉर्डिंग कर ली है!`,
   },
   {
     key: `Congratulations!`,
     description: `Title of the done screen`,
-    text: `बधाई हो!`
+    text: `बधाई हो!`,
   },
   {
     key: `Review Recordings (optional)`,
     description: `Button on done screen which returns to the recording screen, if the user wants to listen to recordings`,
-    text: `रिकॉर्डिंग की समीक्षा करें (ज़रूरी नहीं)`
+    text: `रिकॉर्डिंग की समीक्षा करें (ज़रूरी नहीं)`,
   },
   {
     key: `
@@ -478,7 +478,7 @@ export const HI_STRINGS: ELocaleString[] = [
     <br/><br/>
     (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
     description: `Descriptive text on the done screen`,
-    text: `आपने सभी कार्ड की रिकॉर्डिंग कर ली है! जल्द ही हम उनकी समीक्षा करेंगे और अगर हमें कोई समस्या नहीं मिली, तो rewards@perks.com से आपको एक ईमेल भेजा जाएगा. यह ईमेल, आपको 7 से 10 कामकाजी दिनों के अंदर मिलेगा. साथ ही, इसमें एक लिंक होगा जिसकी मदद से उपहार कार्ड का दावा किया जा सकता है. <br/><br/> <b>Project Euphonia में <b class=count>{number_of_completed_cards} कार्ड</b> का योगदान देने के लिए धन्यवाद!</b> <br/><br/> आपके पास पीछे जाकर अपनी रिकॉर्डिंग की समीक्षा करने का विकल्प है. हालांकि, ऐसा करना ज़रूरी नहीं है. <b>हो गया!</b>`
+    text: `आपने सभी कार्ड की रिकॉर्डिंग कर ली है! जल्द ही हम उनकी समीक्षा करेंगे और अगर हमें कोई समस्या नहीं मिली, तो rewards@perks.com से आपको एक ईमेल भेजा जाएगा. यह ईमेल, आपको 7 से 10 कामकाजी दिनों के अंदर मिलेगा. साथ ही, इसमें एक लिंक होगा जिसकी मदद से उपहार कार्ड का दावा किया जा सकता है. <br/><br/> <b>Project Euphonia में <b class=count>{number_of_completed_cards} कार्ड</b> का योगदान देने के लिए धन्यवाद!</b> <br/><br/> आपके पास पीछे जाकर अपनी रिकॉर्डिंग की समीक्षा करने का विकल्प है. हालांकि, ऐसा करना ज़रूरी नहीं है. <b>हो गया!</b>`,
   },
   {
     key: `__INTEREST_FORM_HTML__`,
@@ -1001,6 +1001,6 @@ export const HI_STRINGS: ELocaleString[] = [
     </div>
     <input id=ifotherinfo class=formtext />
     </div>
-    `
+    `,
   },
 ];

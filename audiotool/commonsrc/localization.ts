@@ -14,25 +14,30 @@
  * limitations under the License.
  */
 
-import {ELocaleString} from './schema';
-import {EN_STRINGS} from './strings_en';
-import {ES_STRINGS} from './strings_es';
-import {FR_STRINGS} from './strings_fr';
-import {HI_STRINGS} from './strings_hi';
-import {JA_STRINGS} from './strings_ja';
+import { ELocaleString } from "./schema";
+import { EN_STRINGS } from "./strings_en";
+import { ES_STRINGS } from "./strings_es";
+import { FR_STRINGS } from "./strings_fr";
+import { HI_STRINGS } from "./strings_hi";
+import { JA_STRINGS } from "./strings_ja";
 
 // Describes all localizations
-export const LOCALIZED_STRINGS: Map<string, Map<string, ELocaleString>> = new Map([
-  ['en-US', toLocaleTable(EN_STRINGS)],
-  ['en-GB', toLocaleTable(EN_STRINGS)],
-  ['es-ES', toLocaleTable(ES_STRINGS)],
-  ['fr-FR', toLocaleTable(FR_STRINGS)],
-  ['hi-HI', toLocaleTable(HI_STRINGS)],
-  ['ja-JP', toLocaleTable(JA_STRINGS)],
+export const LOCALIZED_STRINGS: Map<
+  string,
+  Map<string, ELocaleString>
+> = new Map([
+  ["en-US", toLocaleTable(EN_STRINGS)],
+  ["en-GB", toLocaleTable(EN_STRINGS)],
+  ["es-ES", toLocaleTable(ES_STRINGS)],
+  ["fr-FR", toLocaleTable(FR_STRINGS)],
+  ["hi-HI", toLocaleTable(HI_STRINGS)],
+  ["ja-JP", toLocaleTable(JA_STRINGS)],
 ]);
 
 // Builds a map of the translated strings for a given language.
-function toLocaleTable(translations: ELocaleString[]): Map<string, ELocaleString> {
+function toLocaleTable(
+  translations: ELocaleString[],
+): Map<string, ELocaleString> {
   const result = new Map();
   for (const s of translations) {
     const key = lkey(s.key);
@@ -46,25 +51,31 @@ function toLocaleTable(translations: ELocaleString[]): Map<string, ELocaleString
 
 // Normalizes case and whitespace for the purposes of localization key lookup.
 function lkey(s: string): string {
-  return s.replace(/\s+/g, ' ').trim().toLowerCase();
-};
+  return s.replace(/\s+/g, " ").trim().toLowerCase();
+}
 
 // Localizes the given string into the given language, substituting arguments
 // in the given format string as needed. Substitution proceeds by inserting any values
 // from the given key/value list into the format string into matching values denoted by
 // curly braces. There is no escape sequence; if text enclosed in any number of curly braces
 // have no exact match to a supplied argument in the map, they are left as-is.
-export function formatWithArgs(lang: string, formatString: string, ...argsList: string[]): string {
-  if (formatString.trim() == '') {
-    return formatString;  // ignore blanks
+export function formatWithArgs(
+  lang: string,
+  formatString: string,
+  ...argsList: string[]
+): string {
+  if (formatString.trim() == "") {
+    return formatString; // ignore blanks
   }
 
   // Target the current language if there is a translation.
   const langMap = LOCALIZED_STRINGS.get(lang);
   const localizedString = langMap ? langMap.get(lkey(formatString)) : undefined;
   if (!langMap || !localizedString) {
-    console.log(`Warning: no localization in lang[${lang}]:\n${formatString}\n===============`);
-    console.log((new Error()).stack);
+    console.log(
+      `Warning: no localization in lang[${lang}]:\n${formatString}\n===============`,
+    );
+    console.log(new Error().stack);
   } else {
     formatString = localizedString.text;
   }
@@ -78,23 +89,25 @@ export function formatWithArgs(lang: string, formatString: string, ...argsList: 
     args.set(key, localizedValue ? localizedValue.text : value);
   }
 
-  if (formatString.indexOf('{') === -1) {
+  if (formatString.indexOf("{") === -1) {
     if (args && args.size > 0) {
-      throw new Error(`Arguments supplied to non-parameterized format string: ${formatString}`);
+      throw new Error(
+        `Arguments supplied to non-parameterized format string: ${formatString}`,
+      );
     }
-    return formatString;  // simple case: no arguments needed
+    return formatString; // simple case: no arguments needed
   }
 
   // Error check argument strings
   for (const arg of args.keys()) {
-    if (arg.indexOf('}') != -1) {
+    if (arg.indexOf("}") != -1) {
       throw new Error(`Invalid format argument: ${arg}`);
     }
   }
 
   const found = new Set();
   let isFirst = true;
-  let result = '';
+  let result = "";
   for (const part of formatString.split(/\{/)) {
     let isSub = false;
     for (const arg of args.keys()) {
@@ -110,7 +123,7 @@ export function formatWithArgs(lang: string, formatString: string, ...argsList: 
     if (!isSub) {
       // No matching argument was found, so leave this unsubstituted
       if (!isFirst) {
-        result += '{';
+        result += "{";
       }
       isFirst = false;
       result += part;

@@ -1,20 +1,10 @@
 {
   "compilerOptions": {
-    "module": "amd",
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noImplicitAny": false,
-    "strictNullChecks": true,
-    "outDir": "public/lib",
-    "sourceMap": true,
+    "noEmit": true,
     "strict": true,
-    "target": "es2017",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "noImplicitAny": true,
+    "module": "NodeNext",
+    "target": "ESNext"
   },
-  "compileOnSave": true,
-  "include": [
-    "websrc",
-    "commonsrc"
-  ]
+  "include": ["src", "commonsrc"]
 }

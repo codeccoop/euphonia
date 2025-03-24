@@ -1,11 +1,11 @@
 # Generated files, see deploy.js
 functions/src/firebaseconfig.ts
-websrc/firebaseconfig.ts
+src/firebaseconfig.ts
 firebase.json
 .firebaserc
-deploy_local.json
-deploy_test.json
-deploy_prod.json
+deploy/*.json
+
+!templates/*
 
 # Logs
 logs
@@ -70,8 +70,8 @@ node_modules/
 .DS_Store
 
 # Output of tsc and source mapping
-public/lib
-public/websrc
+public/app.js
+public/admin/admin.js
 functions/lib
 
 # Yarn Integrity file

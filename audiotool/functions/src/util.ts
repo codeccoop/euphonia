@@ -14,43 +14,47 @@
  * limitations under the License.
  */
 
-import { normalizeTag } from '../../commonsrc/util';
-import * as schema from '../../commonsrc/schema';
+import { normalizeTag } from "../../commonsrc/util";
+import { SUPPORTED_LANGUAGES } from "../../commonsrc/schema";
 
 // Parses a normalized array of tags from the given JSON-encoded string.
-export function parseTagsJSON(json: string): string[]|undefined {
+export function parseTagsJSON(json: string): string[] | undefined {
   const obj: string[] = JSON.parse(json);
   if (!(obj instanceof Array)) {
-    return undefined;  // could not parse
+    return undefined; // could not parse
   }
-  return [...obj.filter(tag => tag ? tag.trim() !== '' : false).map(tag => normalizeTag(tag))];
+  return [
+    ...obj
+      .filter((tag) => (tag ? tag.trim() !== "" : false))
+      .map((tag) => normalizeTag(tag)),
+  ];
 }
 
 // Returns the normalized version of the given email address
 export function normalizeEmail(email: string) {
   email = email.trim().toLowerCase();
 
-  const sep = email.indexOf('@');
-  const name = email.slice(0,sep).replace(/\+.*$/ig, '').replace(/\./g, '');
+  const sep = email.indexOf("@");
+  const name = email.slice(0, sep).replace(/\+.*$/gi, "").replace(/\./g, "");
 
   let domain = email.slice(sep + 1);
-  if (domain === 'googlemail.com') {
-    domain = 'gmail.com';
+  if (domain === "googlemail.com") {
+    domain = "gmail.com";
   }
 
   return `${name}@${domain}`;
 }
 
 // Returns the given value, or fails if it is undefined.
-export function requireParam<X>(value: X|undefined): X {
+export function requireParam<X>(value: X | undefined): X {
   if (value == undefined) {
-    throw new ParamError('Missing required fields');
+    throw new ParamError("Missing required fields");
   }
   return value;
 }
 
 // Returns the given value, or fails if it is undefined or not a valid Firebase Doc ID.
-export function requireDocId(value: string|undefined): string {
+export function requireDocId(value: string | undefined): string {
   value = requireParam(value);
   if (!/^[A-Za-z0-9]+$/.test(value)) {
     throw new ParamError(`Invalid ID format: ${value}`);
@@ -59,7 +63,7 @@ export function requireDocId(value: string|undefined): string {
 }
 
 // Returns the given value, or fails if it is undefined or not a valid lowercase ID.
-export function requireLCId(value: string|undefined): string {
+export function requireLCId(value: string | undefined): string {
   value = requireParam(value);
   if (normalizeTag(value) != value) {
     throw new ParamError(`Invalid ID format: ${value}`);
@@ -68,20 +72,23 @@ export function requireLCId(value: string|undefined): string {
 }
 
 // Returns the given array value, or fails if it is undefined or missing items.
-export function requireArray<X>(value: X[]|undefined, minLength: number = 0): X[] {
+export function requireArray<X>(
+  value: X[] | undefined,
+  minLength: number = 0,
+): X[] {
   if (!value) {
-    throw new ParamError('Missing required fields');
+    throw new ParamError("Missing required fields");
   }
   if (value.length < minLength) {
-    throw new ParamError('Missing required array fields');
+    throw new ParamError("Missing required array fields");
   }
   return value;
 }
 
 // Returns an integer number, failing if it doesn't parse.
-export function requireInt(intText: string|undefined): number {
+export function requireInt(intText: string | undefined): number {
   if (!intText) {
-    throw new ParamError('Missing required field');
+    throw new ParamError("Missing required field");
   }
   const num = Number(intText);
   if (isNaN(num)) {
@@ -91,19 +98,23 @@ export function requireInt(intText: string|undefined): number {
 }
 
 // Returns a language code, failing if it's not a supported language
-export function requireLanguage(language: string|undefined): string {
+export function requireLanguage(language: string | undefined): string {
   if (!language) {
-    throw new ParamError('Missing required language');
+    throw new ParamError("Missing required language");
   }
-  if (!schema.SUPPORTED_LANGUAGES.has(language)) {
+  if (!SUPPORTED_LANGUAGES.has(language)) {
     throw new ParamError(`Unsupported language: ${language}`);
   }
   return language;
 }
 
 // Parses a UTF8-encoded text file of prompts, returning an array of task/order tuples. TODO: csv and other task types
-export function parseTasksFile(file: Buffer, format: string, orderStart: number): Array<[number, string]> {
-  if (format !== 'txt') {
+export function parseTasksFile(
+  file: Buffer,
+  format: string,
+  orderStart: number,
+): Array<[number, string]> {
+  if (format !== "txt") {
     // TODO: support other task file formats
     throw new Error(`Unsupported task file format: ${format}`);
   }
@@ -112,14 +123,14 @@ export function parseTasksFile(file: Buffer, format: string, orderStart: number)
   }
 
   // Parse the input file as a UTF8-encoded list of strings, one per line
-  const lines = file.toString('utf8').split(/\n+/);
+  const lines = file.toString("utf8").split(/\n+/);
 
   let order = orderStart;
   const result: Array<[number, string]> = [];
   for (let line of lines) {
-    line = line ? line.trim() : '';
+    line = line ? line.trim() : "";
     if (!line) {
-      continue;  // Skip blank lines
+      continue; // Skip blank lines
     }
     result.push([order++, line]);
   }
