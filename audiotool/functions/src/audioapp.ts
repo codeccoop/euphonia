@@ -65,7 +65,8 @@ import firebase from "firebase/compat/app";
 const firebaseConfig = {
   apiKey: "AIzaSyBuPq1L4vSIMmF133wbAoCSVkaHa8TjrIA",
   authDomain: "collectivat-euphonia.firebaseapp.com",
-  databaseURL: "https://collectivat-euphonia-default-rtdb.europe-west1.firebasedatabase.app",
+  databaseURL:
+    "https://collectivat-euphonia-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "collectivat-euphonia",
   storageBucket: "collectivat-euphonia.firebasestorage.app",
   messagingSenderId: "580963820416",
@@ -75,7 +76,6 @@ const firebaseConfig = {
 
 admin.initializeApp();
 firebase.initializeApp(firebaseConfig);
-
 
 // Implements the API server endpoints and per-request state needed for API logic.
 class AudioApi {
@@ -101,12 +101,17 @@ class AudioApi {
 
     // Install middleware
     server.use(cookieParser());
+    // server.use(
+    //   bodyParser.raw({
+    //     limit: "10000kb",
+    //     type: "application/octet-stream",
+    //   })
+    // );
+    server.use(bodyParser.json({ limit: "10000kb" })); // Para JSON
     server.use(
-      bodyParser.raw({
-        limit: "10000kb",
-        type: "application/octet-stream",
-      })
-    );
+      bodyParser.raw({ type: "application/octet-stream", limit: "10000kb" })
+    ); // Para binarios
+
     if (deps && deps.auth) {
       server.use(deps.auth);
     } else {
@@ -435,6 +440,7 @@ class AudioApi {
 
   // Parses the request body as JSON and returns the resulting struct
   getBodyJSON(): any {
+    console.log("Raw req.body:", this.req.body);
     return JSON.parse(this.req.body);
   }
 
@@ -764,9 +770,14 @@ class AudioApi {
 
   // Creates a new TaskSet
   async runAdminApiNewTaskSet() {
+    console.log("creating new task set");
+    console.log("this", this);
     const info = this.getBodyJSON();
+    console.log("info", info);
     const id = requireLCId(info.id as string);
+    console.log("id", id);
     const name = requireParam(info.name as string);
+    console.log("name", name);
     const language = requireLanguage(info.language as string);
 
     const ts = await this.storage.createTaskSet(id, name, language);

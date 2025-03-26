@@ -58,7 +58,7 @@ export class AdminView implements Listener {
     // Events
     $(window).on(
       "hashchange",
-      async (e) => await this.navigateTo(this.parseHash()),
+      async (e) => await this.navigateTo(this.parseHash())
     );
   }
 
@@ -115,12 +115,12 @@ export class AdminView implements Listener {
     } else if (path.startsWith("/taskset/")) {
       this.startTaskSetsView();
       await this.tasksets!.startTaskSetDetail(
-        path.substring("/taskset/".length),
+        path.substring("/taskset/".length)
       );
     } else if (path.startsWith("/consent/")) {
       this.startConsentsView();
       await this.consents!.startConsentDetail(
-        path.substring("/consent/".length),
+        path.substring("/consent/".length)
       );
     }
   }

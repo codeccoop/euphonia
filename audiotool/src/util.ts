@@ -96,7 +96,7 @@ $.fn.efade = async function (show) {
 // Adds a row to a table.
 $.fn.eaddtr = function (
   cellNodes: JQuery<HTMLElement>[],
-  rowClass?: string,
+  rowClass?: string
 ): JQuery<HTMLElement>[] {
   const tr = this.eadd("<tr />");
   const result: JQuery<HTMLElement>[] = [];
@@ -139,7 +139,7 @@ $.fn.eiprop = function (
 ): JQuery<HTMLElement> {
   this.prop(
     propertyName,
-    formatWithArgs(CURRENT_LANGUAGE, formatString, ...args),
+    formatWithArgs(CURRENT_LANGUAGE, formatString, ...args)
   );
   return this;
 };
@@ -169,7 +169,7 @@ export async function animateOpacity(
   div: JQuery,
   start: number,
   end: number,
-  opt_speed?: number,
+  opt_speed?: number
 ) {
   if (!opt_speed) {
     opt_speed = 0.3;
@@ -195,7 +195,7 @@ export async function animateCss(
   div: JQuery,
   fromClass: string,
   toClass: string,
-  opt_speed?: number,
+  opt_speed?: number
 ) {
   if (!opt_speed) {
     opt_speed = 0.3;
@@ -224,7 +224,7 @@ export async function authenticatedFetch(
   opt_args?: any,
   opt_method?: string,
   opt_rawBody?: ArrayBuffer,
-  retries = 1,
+  retries = 1
 ) {
   const method = opt_method == null ? "get" : opt_method;
   const args = opt_args == null ? {} : opt_args;
@@ -267,12 +267,13 @@ export function isSafari() {
 
 // Same as above, but POSTs a JSON body and receives JSON blob, which it parses.
 export async function postAsJson(path: string, jsonObj: any): Promise<unknown> {
+  debugger;
   const body = new TextEncoder().encode(JSON.stringify(jsonObj));
   const rsp = await authenticatedFetch(
     path,
     {},
     "post",
-    body.buffer.slice(0, body.byteLength * body.byteOffset) as ArrayBuffer,
+    body.buffer.slice(0, body.byteLength * body.byteOffset) as ArrayBuffer
   );
   return await rsp.json();
 }
@@ -281,7 +282,7 @@ export async function postAsJson(path: string, jsonObj: any): Promise<unknown> {
 export function toast(
   message: string,
   duration: number = 1000,
-  cssClasses: string = "toast",
+  cssClasses: string = "toast"
 ) {
   setTimeout(async () => {
     const div = $("BODY").eins(`<div class="${cssClasses}" />`);
@@ -392,7 +393,7 @@ export class Swiper {
 
   constructor(
     div: JQuery<HTMLElement>,
-    callback: (direction: string) => Promise<void>,
+    callback: (direction: string) => Promise<void>
   ) {
     this.div = div;
     this.callback = callback;
