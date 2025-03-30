@@ -65,7 +65,7 @@ export class AdminData {
   // Accesses the server, shows the user a spinner, and toasts on errors.
   private async run<X>(
     changes: string[] = ["data"],
-    fn: () => Promise<X>,
+    fn: () => Promise<X>
   ): Promise<X | undefined> {
     return await Spinner.waitFor(async () => {
       let result: X | undefined;
@@ -101,13 +101,13 @@ export class AdminData {
     email: string,
     language: string,
     tags: string[],
-    notes: string,
+    notes: string
   ): Promise<void> {
     await this.run(["users", "tasksets"], async () => {
       const existingUser = this.findUserByEmail(email);
       if (existingUser) {
         throw new Error(
-          `Email already enrolled: ${email} is ${existingUser.euid}`,
+          `Email already enrolled: ${email} is ${existingUser.euid}`
         );
       }
       const info: schema.NewUserInfo = {
@@ -120,7 +120,7 @@ export class AdminData {
       };
       const [user, taskSets] = (await postAsJson(
         "/api/admin/newuser",
-        info,
+        info
       )) as [schema.EUserInfo, schema.ETaskSetInfo[]];
       this.users.set(user.euid, user);
 
@@ -138,12 +138,12 @@ export class AdminData {
     email: string,
     language: string,
     tags: string[],
-    notes: string,
+    notes: string
   ) {
     await this.run(["users"], async () => {
       const info = { euid, email, name, language, tags, notes };
       const [user] = (await postAsJson("/api/admin/edituser", info)) as [
-        schema.EUserInfo,
+        schema.EUserInfo
       ];
       this.users.set(user.euid, user);
     });
@@ -154,7 +154,7 @@ export class AdminData {
     await this.run(["users"], async () => {
       const info = { euid };
       const [user] = (await postAsJson("/api/admin/deleteuser", info)) as [
-        schema.EUserInfo,
+        schema.EUserInfo
       ];
       this.users.set(user.euid, user);
     });
@@ -164,7 +164,7 @@ export class AdminData {
   async assignTasks(
     euids: string[],
     taskSetId: string,
-    spec: schema.EAssignmentRule,
+    spec: schema.EAssignmentRule
   ): Promise<string[]> {
     const rv = await this.run(["users", "usertasks", "tasksets"], async () => {
       const result: string[] = [];
@@ -187,7 +187,7 @@ export class AdminData {
   // Deletes tasks from a user
   async removeTasks(
     euid: string,
-    tasks: schema.EUserTaskInfo[],
+    tasks: schema.EUserTaskInfo[]
   ): Promise<void> {
     const idTuples = tasks.map((task) => [task.taskSetId, task.id]);
     await this.run(["users", "usertasks", "tasksets"], async () => {
@@ -204,6 +204,7 @@ export class AdminData {
 
   // Creates a task set and updates the app with it
   async addTaskSet(id: string, name: string, language: string) {
+    console.log("Adding task set", id, name, language);
     await this.run(["tasksets"], async () => {
       const [ts] = (await postAsJson("/api/admin/newtaskset", {
         id,
@@ -221,7 +222,7 @@ export class AdminData {
     order: number,
     tags: string[],
     action: string,
-    sample: number,
+    sample: number
   ): Promise<void> {
     const rule: schema.EAssignmentRule = {
       id,
@@ -251,7 +252,7 @@ export class AdminData {
   async editTaskSetInfo(
     taskSetId: string,
     name: string,
-    language: string,
+    language: string
   ): Promise<void> {
     await this.editTaskSet({
       taskSetId,
@@ -272,7 +273,7 @@ export class AdminData {
   }): Promise<void> {
     await this.run(["tasksets"], async () => {
       const [ts] = (await postAsJson("/api/admin/edittaskset", info)) as [
-        schema.ETaskSetInfo,
+        schema.ETaskSetInfo
       ];
       this.tasksets.set(ts.id, ts);
     });
@@ -284,7 +285,7 @@ export class AdminData {
     taskType: schema.TaskType,
     prompt: string,
     order: number,
-    imageData?: ArrayBuffer,
+    imageData?: ArrayBuffer
   ) {
     await this.run(["tasksets", "tasks"], async () => {
       const newTasks = (await postAsJson("/api/admin/newtask", {
@@ -300,7 +301,7 @@ export class AdminData {
           "/api/admin/uploadtaskimage",
           args,
           "post",
-          imageData,
+          imageData
         );
         // TODO: we could receive and update taskset proto here instead of reloading the whole thing
       }
@@ -311,7 +312,7 @@ export class AdminData {
   async bulkUploadTasks(
     taskSetId: string,
     data: ArrayBuffer,
-    orderStart: number,
+    orderStart: number
   ) {
     await this.run(["tasksets", "tasks"], async () => {
       const format = "txt";
@@ -319,7 +320,7 @@ export class AdminData {
         "/api/admin/bulkaddtasks",
         { taskSetId, format, orderStart },
         "post",
-        data,
+        data
       );
       // TODO: we could receive and update taskset proto here instead of reloading the whole thing
     });
@@ -333,7 +334,7 @@ export class AdminData {
       });
       const [taskset, tasks] = (await rsp.json()) as [
         schema.ETaskSetInfo?,
-        schema.ETaskInfo[]?,
+        schema.ETaskInfo[]?
       ];
       if (!taskset || !tasks) {
         throw new Error("Unexpected empty result from task fetch");
@@ -346,14 +347,14 @@ export class AdminData {
 
   // Gets the detailed list of user tasks and recordings.
   async loadUserWork(
-    euid: string,
+    euid: string
   ): Promise<[schema.EUserTaskInfo[], schema.ERecordingMetadata[]]> {
     const rv = await this.run(["users"], async () => {
       const rsp = await authenticatedFetch("/api/admin/listuserwork", { euid });
       const [user, tasks, recordings] = (await rsp.json()) as [
         schema.EUserInfo?,
         schema.EUserTaskInfo[]?,
-        schema.ERecordingMetadata[]?,
+        schema.ERecordingMetadata[]?
       ];
       if (!user || !tasks || !recordings) {
         throw new Error("Unexpected empty result from user fetch");
@@ -374,7 +375,7 @@ export class AdminData {
     name: string,
     language: string,
     tags: string[],
-    optional: boolean,
+    optional: boolean
   ) {
     await this.run(["consents"], async () => {
       const [consent] = (await postAsJson("/api/admin/newconsent", {
@@ -395,7 +396,7 @@ export class AdminData {
     language: string,
     tags: string[],
     active: boolean,
-    optional: boolean,
+    optional: boolean
   ): Promise<void> {
     await this.run(["consents"], async () => {
       const [consent] = (await postAsJson("/api/admin/editconsent", {
@@ -415,7 +416,7 @@ export class AdminData {
     id: string,
     description: string,
     liveTimestamp: number,
-    html: ArrayBuffer,
+    html: ArrayBuffer
   ): Promise<void> {
     await this.run(["consents"], async () => {
       const args = { id, description, liveTimestamp };
@@ -423,7 +424,7 @@ export class AdminData {
         "/api/admin/uploadconsentversion",
         args,
         "post",
-        html,
+        html
       );
       const [consent] = await rsp.json();
       this.consents.set(consent.id, consent);

@@ -62,17 +62,20 @@ import type {
   TaskType,
 } from "../../commonsrc/schema";
 import firebase from "firebase/compat/app";
-const firebaseConfig = {
-  apiKey: "AIzaSyBuPq1L4vSIMmF133wbAoCSVkaHa8TjrIA",
-  authDomain: "collectivat-euphonia.firebaseapp.com",
-  databaseURL:
-    "https://collectivat-euphonia-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "collectivat-euphonia",
-  storageBucket: "collectivat-euphonia.firebasestorage.app",
-  messagingSenderId: "580963820416",
-  appId: "1:580963820416:web:1f5a8679cfcd6606625765",
-  measurementId: "G-17XSGCLHB9",
+import * as dotenv from "dotenv";
+dotenv.config();
+
+export const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
+
 
 admin.initializeApp();
 firebase.initializeApp(firebaseConfig);
@@ -101,16 +104,12 @@ class AudioApi {
 
     // Install middleware
     server.use(cookieParser());
-    // server.use(
-    //   bodyParser.raw({
-    //     limit: "10000kb",
-    //     type: "application/octet-stream",
-    //   })
-    // );
-    server.use(bodyParser.json({ limit: "10000kb" })); // Para JSON
     server.use(
-      bodyParser.raw({ type: "application/octet-stream", limit: "10000kb" })
-    ); // Para binarios
+      bodyParser.raw({
+        limit: "10000kb",
+        type: "application/octet-stream",
+      })
+    );
 
     if (deps && deps.auth) {
       server.use(deps.auth);
