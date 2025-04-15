@@ -15,7 +15,7 @@
  */
 
 import { auth } from "firebase-admin";
-import * as firebaseconfig from "./firebaseconfig";
+import * as firebaseconfig from "./audioAppParams";
 
 import type { Request, Response } from "express";
 import type { DecodedIdToken } from "firebase-admin/auth";

@@ -219,6 +219,46 @@ export function toURL(path: string, opt_args?: any): URL {
 }
 
 // Performs a network fetch to the server, providing the signed-in user's token, with 1 auth-related retry. Throws an exception on non-200 responses.
+// export async function authenticatedFetch(
+//   path: string,
+//   opt_args?: any,
+//   opt_method?: string,
+//   opt_rawBody?: ArrayBuffer,
+//   retries = 1
+// ) {
+//   const method = opt_method == null ? "get" : opt_method;
+//   const args = opt_args == null ? {} : opt_args;
+//   const options: RequestInit = { method };
+//   const url = toURL(path, args);
+//   if (opt_rawBody) {
+//     const headers = new Headers();
+//     headers.append("Content-Type", "application/octet-stream");
+//     options.headers = headers;
+//     options.body = opt_rawBody;
+//   }
+//   let triesLeft = retries;
+//   while (true) {
+//     triesLeft--;
+//     const token = await firebase.auth().currentUser.getIdToken();
+//     document.cookie = "__session=" + token + ";max-age=3600;path=/";
+//     const rsp = await fetch(url.toString(), options);
+//     if (rsp.ok) {
+//       return rsp;
+//     } else if (0 < triesLeft && (rsp.status === 401 || rsp.status === 403)) {
+//       continue; // try again; the failed response will cause a cookie refresh
+//     } else {
+//       // The server will usually give application errors in JSON format
+//       const contentType = rsp.headers.get("content-type");
+//       if (contentType && contentType.includes("application/json")) {
+//         const message = await rsp.json();
+//         throw new Error(message[0]);
+//       } else {
+//         // Otherwise just report a generic error
+//         throw new Error("Error during request");
+//       }
+//     }
+//   }
+// }
 export async function authenticatedFetch(
   path: string,
   opt_args?: any,
@@ -230,30 +270,34 @@ export async function authenticatedFetch(
   const args = opt_args == null ? {} : opt_args;
   const options: RequestInit = { method };
   const url = toURL(path, args);
+
+  const token = await firebase.auth().currentUser.getIdToken();
+  console.log({ token });
+
+  const headers = new Headers();
+  headers.append("Authorization", `Bearer ${token}`);
+
   if (opt_rawBody) {
-    const headers = new Headers();
     headers.append("Content-Type", "application/octet-stream");
-    options.headers = headers;
     options.body = opt_rawBody;
   }
+
+  options.headers = headers;
+
   let triesLeft = retries;
   while (true) {
     triesLeft--;
-    const token = await firebase.auth().currentUser.getIdToken();
-    document.cookie = "__session=" + token + ";max-age=3600;path=/";
     const rsp = await fetch(url.toString(), options);
     if (rsp.ok) {
       return rsp;
     } else if (0 < triesLeft && (rsp.status === 401 || rsp.status === 403)) {
-      continue; // try again; the failed response will cause a cookie refresh
+      continue; // Retry on auth error
     } else {
-      // The server will usually give application errors in JSON format
       const contentType = rsp.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
         const message = await rsp.json();
         throw new Error(message[0]);
       } else {
-        // Otherwise just report a generic error
         throw new Error("Error during request");
       }
     }
@@ -273,7 +317,8 @@ export async function postAsJson(path: string, jsonObj: any): Promise<unknown> {
     path,
     {},
     "post",
-    body.buffer.slice(0, body.byteLength * body.byteOffset) as ArrayBuffer
+    // body.buffer.slice(0, body.byteLength * body.byteOffset) as ArrayBuffer
+    body.buffer as ArrayBuffer
   );
   return await rsp.json();
 }

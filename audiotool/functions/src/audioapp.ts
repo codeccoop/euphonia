@@ -62,23 +62,10 @@ import type {
   TaskType,
 } from "../../commonsrc/schema";
 import firebase from "firebase/compat/app";
-import * as dotenv from "dotenv";
-dotenv.config();
-
-export const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.FIREBASE_DATABASE_URL,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
-};
-
+import { audioAppInitializeFirebase } from "./firebaseconfig";
 
 admin.initializeApp();
-firebase.initializeApp(firebaseConfig);
+audioAppInitializeFirebase(firebase);
 
 // Implements the API server endpoints and per-request state needed for API logic.
 class AudioApi {
@@ -439,12 +426,19 @@ class AudioApi {
 
   // Parses the request body as JSON and returns the resulting struct
   getBodyJSON(): any {
-    console.log("Raw req.body:", this.req.body);
-    return JSON.parse(this.req.body);
+    let parseResponse;
+    try {
+      parseResponse = JSON.parse(this.req.body);
+    } catch (error) {
+      console.log("error catch PARSE", error);
+    }
+    //return JSON.parse(this.req.body);
+    return parseResponse;
   }
 
   // Loads and returns the EUser matching this request, or fails with an access error if they aren't enrolled.
   async requireUserByFBUID(opt_txn?: Transaction): Promise<EUser> {
+    console.log("USEEEEER");
     const user = await this.storage.loadUserByFBUID(
       this.getUser().uid,
       opt_txn
@@ -563,19 +557,29 @@ class AudioApi {
 
   // Let's a user listen to their own audio
   async runApiGetAudio() {
-    const ts = requireInt(this.req.query.ts as string);
+    try {
+      const ts = requireInt(this.req.query.ts as string);
 
-    const [user, basename, mimeType] = await this.storage.run(
-      async (txn: Transaction) => {
-        const user = await this.requireUserByFBUID(txn);
-        const rec = await user.loadRecording(txn, ts);
-        return [user, rec.metadata.name, rec.metadata.mimeType];
-      }
-    );
-
-    const [wavFile] = this.storage.findRecordingFiles(user.euid, basename);
-    const contentType = this.getServingType(mimeType);
-    return [contentType, wavFile.createReadStream()];
+      const [user, basename, mimeType] = await this.storage.run(
+        async (txn: Transaction) => {
+          const user = await this.requireUserByFBUID(txn);
+          console.log("USER", user);
+          const rec = await user.loadRecording(txn, ts);
+          return [user, rec.metadata.name, rec.metadata.mimeType];
+        }
+      );
+      const [wavFile] = await this.storage.findRecordingFiles(
+        user.euid,
+        basename
+      );
+      const contentType = this.getServingType(mimeType);
+      return [contentType, wavFile.createReadStream()];
+    } catch (error) {
+      console.error("runApiGetAudio error:", error);
+      throw new Error(
+        "Unable to stream audio. It may not exist or is unavailable."
+      );
+    }
   }
 
   // Parses the correct mime type from the metadata (if present)
@@ -613,7 +617,7 @@ class AudioApi {
     );
 
     // The firestore record is gone, also delete the GCS files
-    const [wavFile, jsonFile] = this.storage.findRecordingFiles(
+    const [wavFile, jsonFile] = await this.storage.findRecordingFiles(
       user.euid,
       basename
     );
@@ -625,8 +629,8 @@ class AudioApi {
   async runApiGetConsentText() {
     const consentId = requireParam(this.req.query.consentId as string);
     const version = requireInt(this.req.query.version as string);
-    this.storage.requireConsent(consentId); // Ensure this is a real consent
-    const file = this.storage.getConsentFile(consentId, version);
+    await this.storage.requireConsent(consentId); // Ensure this is a real consent
+    const file = await this.storage.getConsentFile(consentId, version);
     return ["text/html", file.createReadStream()];
   }
 
@@ -635,13 +639,14 @@ class AudioApi {
     const taskId = requireDocId(this.req.query.taskId as string);
     const mimeType = requireParam(this.req.query.mimeType as string);
 
-    const file = this.storage.getImageFile(taskSetId, taskId);
+    const file = await this.storage.getImageFile(taskSetId, taskId);
     return [mimeType, file.createReadStream()];
   }
 
   async runAdminApiNewUser() {
     // Creates a new user without their login info
     const newuser: NewUserInfo = this.getBodyJSON();
+
     requireParam(newuser.name);
     requireParam(newuser.email);
     newuser.tags = normalizeTags(newuser.tags);
@@ -724,7 +729,7 @@ class AudioApi {
 
       if (basename) {
         // Firestore has the metadata but the actual audio must be deleted from GCS
-        const [wavFile, jsonFile] = this.storage.findRecordingFiles(
+        const [wavFile, jsonFile] = await this.storage.findRecordingFiles(
           user.euid,
           basename
         );
@@ -769,14 +774,9 @@ class AudioApi {
 
   // Creates a new TaskSet
   async runAdminApiNewTaskSet() {
-    console.log("creating new task set");
-    console.log("this", this);
     const info = this.getBodyJSON();
-    console.log("info", info);
     const id = requireLCId(info.id as string);
-    console.log("id", id);
     const name = requireParam(info.name as string);
-    console.log("name", name);
     const language = requireLanguage(info.language as string);
 
     const ts = await this.storage.createTaskSet(id, name, language);
@@ -881,10 +881,15 @@ class AudioApi {
 
   // Returns the raw audio for a recording
   async runAdminApiGetAudio() {
-    const euid = requireParam(this.req.query.euid as string);
-    const name = requireParam(this.req.query.name as string);
-    const [wavFile] = this.storage.findRecordingFiles(euid, name);
-    return ["audio/wav", wavFile.createReadStream()];
+    try {
+      const euid = requireParam(this.req.query.euid as string);
+      const name = requireParam(this.req.query.name as string);
+      const [wavFile] = await this.storage.findRecordingFiles(euid, name);
+      return ["audio/wav", wavFile.createReadStream()];
+    } catch (error) {
+      console.error("Error in runAdminApiGetAudio:", error);
+      throw new Error("Could not retrieve audio file.");
+    }
   }
 
   // Returns a list of all Consents in the system

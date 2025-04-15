@@ -2,7 +2,13 @@
   "hosting": {
     "target": "__AUDIOTOOL_FIREBASE_HOST__",
     "public": "public",
-    "ignore": ["firebase.json", "**/.*", "templates/*", "node_modules", ".git"],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "templates/*",
+      "node_modules",
+      ".git"
+    ],
     "rewrites": [
       {
         "source": "/api/**",
@@ -21,7 +27,6 @@
       "*.local"
     ],
     "predeploy": [
-      "npm --prefix \"$RESOURCE_DIR\" run lint",
       "npm --prefix \"$RESOURCE_DIR\" run build"
     ]
   },

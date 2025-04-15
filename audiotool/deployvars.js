@@ -10,11 +10,13 @@ const TEMPLATES = {
   "./templates/.firebaserc": ".firebaserc",
   "./templates/firebaseconfig.web.ts": "src/firebaseconfig.ts",
   "./templates/firebaseconfig.functions.ts": "functions/src/firebaseconfig.ts",
+  "./templates/audioAppParams.ts": "functions/src/audioAppParams.ts",
 };
 
 // The variables we parse from the deploy_blah.json file
 const VARS = [
   "__AUDIOTOOL_FIREBASE_API_KEY__",
+  "__AUDIOTOOL_FIREBASE_APP_ID__",
   "__AUDIOTOOL_FIREBASE_AUTH_DOMAIN__",
   "__AUDIOTOOL_FIREBASE_DATABASE_URL__",
   "__AUDIOTOOL_FIREBASE_PROJECT_ID__",
@@ -52,7 +54,7 @@ class VarParser {
     } else if (this.args[2] == "printvar") {
       if (this.args.length != 5) {
         console.log(
-          'Expected env and variable names, like "deployvars printvar prod __AUDIOTOOL_FIREBASE_PROJECT_ID__"',
+          'Expected env and variable names, like "deployvars printvar prod __AUDIOTOOL_FIREBASE_PROJECT_ID__"'
         );
 
         return 1;

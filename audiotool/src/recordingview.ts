@@ -108,11 +108,11 @@ export class RecordingView {
     this.nextCardDiv = this.cardRibbon.eadd('<div class="card nextcard" />');
     this.prevCardDiv.on(
       "click",
-      async (e) => await this.gotoTask("prev", true),
+      async (e) => await this.gotoTask("prev", true)
     );
     this.nextCardDiv.on(
       "click",
-      async (e) => await this.gotoTask("next", true),
+      async (e) => await this.gotoTask("next", true)
     );
 
     // Progress and status
@@ -130,7 +130,7 @@ export class RecordingView {
     // Record controls at the bottom
     this.buttonBox = this.div.eadd("<div class=controlpanel />");
     this.secondaryControls = this.buttonBox.eadd(
-      "<div class=secondarybuttons />",
+      "<div class=secondarybuttons />"
     );
     const mainControls = this.buttonBox.eadd("<div class=mainbuttons />");
     this.listenButton = this.secondaryControls
@@ -261,10 +261,10 @@ export class RecordingView {
     this.buttonBox.eclass("newcard", !showRecordedCardControls);
     this.deleteButton.eshow(showRecordedCardControls);
     this.listenButton.eshow(
-      showRecordedCardControls && !(isSafari() && this.replayer),
+      showRecordedCardControls && !(isSafari() && this.replayer)
     );
     this.deleteButton.eenable(
-      canNavigate && showRecordedCardControls && !isOldRecording,
+      canNavigate && showRecordedCardControls && !isOldRecording
     );
     this.listenButton.eenable(canNavigate && showRecordedCardControls);
     this.deleteButton.eitext(this.isDeleting ? "Deleting..." : "Delete");
@@ -279,17 +279,17 @@ export class RecordingView {
         !this.isStartingRecord &&
         !this.isStoppingRecord &&
         !this.isDeleting &&
-        !isOldRecording,
+        !isOldRecording
     );
     this.recordButton.eclass(
       "recording",
-      this.isRecording && !this.isStartingRecord && !this.isStoppingRecord,
+      this.isRecording && !this.isStartingRecord && !this.isStoppingRecord
     );
     if (this.isStartingRecord) {
       this.recordButton.eitext("Starting...");
     } else if (this.isStoppingRecord) {
       this.recordButton.eitext(
-        this.isCanceling ? "Canceling..." : "Uploading...",
+        this.isCanceling ? "Canceling..." : "Uploading..."
       );
     } else if (this.isRecording) {
       this.recordButton.empty();
@@ -298,7 +298,7 @@ export class RecordingView {
       this.recordButton.eadd("<div class=recordlight />");
     } else {
       this.recordButton.eitext(
-        showRecordedCardControls ? "Record Again" : "Record",
+        showRecordedCardControls ? "Record Again" : "Record"
       );
     }
 
@@ -338,7 +338,7 @@ export class RecordingView {
           .css("background-image", `url(${toURL("/api/gettaskimage", args)})`);
       }
       this.doneText.eihtml(
-        showRecordedCardControls ? "(this card is done)" : "",
+        showRecordedCardControls ? "(this card is done)" : ""
       );
     } else {
       // Show an empty view
@@ -357,7 +357,7 @@ export class RecordingView {
           "number_of_completed_cards",
           `${user.numCompletedTasks}`,
           "total_number_of_tasks_needed",
-          `${user.numTasks}`,
+          `${user.numTasks}`
         );
       }
       this.progressBar.setRatio(user.numCompletedTasks / user.numTasks);
@@ -413,7 +413,7 @@ export class RecordingView {
   private findTask(
     fromTask: schema.EUserTaskInfo | undefined,
     step: number,
-    unrecorded = false,
+    unrecorded = false
   ): schema.EUserTaskInfo | undefined {
     const isValidTask =
       fromTask &&
@@ -443,7 +443,7 @@ export class RecordingView {
   // Navigates to the desired task, optionally with an animation, returning true if we landed on a valid card.
   private async gotoTask(
     where: "next" | "prev" | "first",
-    animate: boolean,
+    animate: boolean
   ): Promise<boolean> {
     if (
       this.isRecording ||
@@ -593,14 +593,14 @@ export class RecordingView {
 
           // That worked, remove the user's choice and warn them we picked the default.
           this.app.showMessage(
-            `Configured microphone seems unavailable, using the default recording settings.`,
+            `Configured microphone seems unavailable, using the default recording settings.`
           );
           this.data.saveMicrophoneChoice("");
           return stream;
         } catch (e2) {
           this.app.showMessage(
             `Unable to record, check microphone permissions?`,
-            "error",
+            "error"
           );
           throw e2;
         }
@@ -709,7 +709,7 @@ export class RecordingView {
     // Create a player and start it if possible
     const url = await this.getPlaybackURL(this.task);
     this.replayer = this.secondaryControls.eins(
-      `<audio controls src="${url}" />`,
+      `<audio controls src="${url}" />`
     ) as JQuery<HTMLMediaElement>;
     if (!isSafari()) {
       // On safari we leave the widget for the user to click again if they want
@@ -755,6 +755,7 @@ export class RecordingView {
   // Downloads the audio and returns it as a data URL; we do this to handle authentication correctly.
   private async getPlaybackURL(task: schema.EUserTaskInfo): Promise<string> {
     return await Spinner.waitFor(async () => {
+      console.log("recording audio 758");
       const rsp = await authenticatedFetch("/api/getaudio", {
         ts: task.recordedTimestamp,
       });
@@ -825,12 +826,12 @@ export class RecordingView {
       this.updateGUI();
       this.app.showMessage(
         "Upload failed, your audio may not be saved.",
-        "error",
+        "error"
       );
     } else {
       const isValidCard = await this.gotoTask("next", true);
       this.app.showMessage(
-        `Recording uploaded!${isValidCard ? ` Here's the next card.` : ""}`,
+        `Recording uploaded!${isValidCard ? ` Here's the next card.` : ""}`
       );
     }
   }

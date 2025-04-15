@@ -1,5 +1,6 @@
 # Generated files, see deploy.js
 functions/src/firebaseconfig.ts
+functions/src/audioAppParams.ts
 src/firebaseconfig.ts
 firebase.json
 .firebaserc

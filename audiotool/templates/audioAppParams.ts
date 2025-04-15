@@ -16,14 +16,9 @@
 
 // These magic values will be rewritten by deploy.js into the firebaseconfig.ts file.
 
-export function audioAppInitializeFirebase(firebase:any) {
-  // These magic values will be rewritten by deploy.sh into the firebaseconfig.ts file.
-  firebase.initializeApp({
-    apiKey: "__AUDIOTOOL_FIREBASE_API_KEY__",
-    authDomain: "__AUDIOTOOL_FIREBASE_AUTH_DOMAIN__",
-    databaseURL: "__AUDIOTOOL_FIREBASE_DATABASE_URL__",
-    projectId: "__AUDIOTOOL_FIREBASE_PROJECT_ID__",
-    storageBucket: "__AUDIOTOOL_FIREBASE_STORAGE_BUCKET__",
-    appId: "__AUDIOTOOL_FIREBASE_APP_ID__",
-  });
-}
+export const BUCKET = "__AUDIOTOOL_FIREBASE_STORAGE_BUCKET__";
+export const RECORDING_PATH = "__AUDIOTOOL_FIREBASE_STORAGE_RECORDING_PATH__";
+export const CONSENT_PATH = "__AUDIOTOOL_FIREBASE_STORAGE_CONSENTS_PATH__";
+export const IMAGETASKS_PATH = "__AUDIOTOOL_FIREBASE_STORAGE_IMAGETASKS_PATH__";
+export const MAX_TASK_BATCH_SIZE = 450;
+export const ADMIN_EMAILS = [__AUDIOTOOL_ADMIN_EMAILS_LIST__];
