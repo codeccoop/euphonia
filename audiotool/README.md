@@ -9,8 +9,8 @@ NOTE: To get this demo fully working for yourself, you will need to set up a Goo
 1. Install node: https://nodejs.org/en/download/
 2. Run the installer to completion. As of this writing I get:
 ```
-- Node.js v16.14.1 to /usr/local/bin/node
-- npm v8.5.0 to /usr/local/bin/npm
+- Node.js v22.13.1 to /usr/local/bin/node
+- npm v10.9.2 to /usr/local/bin/npm
 ```
 3. (Optional) I would recommend also installing NVM, it helps juggle multiple node versions on your computer: https://github.com/nvm-sh/nvm
 
