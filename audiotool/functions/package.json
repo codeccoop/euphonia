@@ -1,9 +1,9 @@
 {
-  "name": "euphonia-functions",
+  "name": "functions",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
-    "build": "tsc",
-    "build:watch": "tsc --watch",
+    "watch": "esbuild src/audioapp.ts --bundle --sourcemap=inline --outdir=lib --watch --platform=node --packages=external",
+    "build": "tsc && esbuild src/audioapp.ts --bundle --outdir=lib --platform=node --packages=external",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
@@ -13,30 +13,28 @@
   "engines": {
     "node": "22"
   },
-  "main": "lib/functions/src/audioapp.js",
+  "main": "lib/audioapp.js",
   "dependencies": {
-    "@google-cloud/storage": "^7.16.0",
     "@types/cookie-parser": "^1.4.8",
     "@types/useragent": "^2.3.4",
-    "body-parser": "^1.20.3",
+    "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "firebase": "^11.5.0",
-    "firebase-admin": "^13.2.0",
-    "firebase-functions": "^6.3.2",
+    "express": "^5.1.0",
+    "firebase": "^11.6.1",
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1",
     "useragent": "^2.3.0"
   },
   "devDependencies": {
-    "@types/supertest": "^6.0.2",
+    "@types/dotenv": "^6.1.1",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
+    "dotenv": "^16.4.7",
+    "esbuild": "^0.25.3",
     "eslint": "^8.9.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.25.4",
-    "firebase-functions-test": "^3.4.1",
-    "intern": "^4.10.1",
-    "supertest": "^7.1.0",
+    "firebase-functions-test": "^3.1.0",
     "typescript": "^4.9.0"
   },
   "private": true

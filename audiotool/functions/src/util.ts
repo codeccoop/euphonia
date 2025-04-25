@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { normalizeTag } from "../../commonsrc/util";
-import { SUPPORTED_LANGUAGES } from "../../commonsrc/schema";
+import { normalizeTag } from "../../common/util";
+import { SUPPORTED_LANGUAGES } from "../../common/schema";
 
 // Parses a normalized array of tags from the given JSON-encoded string.
 export function parseTagsJSON(json: string): string[] | undefined {

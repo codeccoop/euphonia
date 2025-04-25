@@ -4,8 +4,7 @@
     "skipLibCheck": true,
     "noImplicitAny": true,
     "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "target": "es2017",
+    "target": "ESNext",
     "noEmit": true
   },
   "include": ["src"]

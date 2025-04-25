@@ -1,13 +1,3 @@
-# Generated files, see deploy.js
-functions/src/firebaseconfig.ts
-functions/src/audioAppParams.ts
-src/firebaseconfig.ts
-firebase.json
-.firebaserc
-deploy/*.json
-
-!templates/*
-
 # Logs
 logs
 *.log
@@ -68,19 +58,13 @@ node_modules/
 
 # Output of 'npm pack'
 *.tgz
-.DS_Store
-
-# Output of tsc and source mapping
-public/app.js
-public/admin/admin.js
-functions/lib
 
 # Yarn Integrity file
 .yarn-integrity
 
 # dotenv environment variables file
 .env
+.env.*
 
-# Don't check in key files and local notes
-test_key.json
-TODOs.md
+# dataconnect generated files
+.dataconnect

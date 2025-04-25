@@ -1,0 +1,29 @@
+{
+  "indexes": [],
+  "fieldOverrides": [
+    {
+      "collectionGroup": "ERecordings",
+      "fieldPath": "metadata",
+      "ttl": false,
+      "indexes": []
+    },
+    {
+      "collectionGroup": "ETaskSets",
+      "fieldPath": "info",
+      "ttl": false,
+      "indexes": []
+    },
+    {
+      "collectionGroup": "EUsers",
+      "fieldPath": "info",
+      "ttl": false,
+      "indexes": []
+    },
+    {
+      "collectionGroup": "tasks",
+      "fieldPath": "info",
+      "ttl": false,
+      "indexes": []
+    }
+  ]
+}

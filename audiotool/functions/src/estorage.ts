@@ -15,8 +15,7 @@
  */
 
 // DAO object for working with stored data in GCS and Firestore
-import { getApp } from "firebase/app";
-import { Storage, File } from "@google-cloud/storage";
+// import { Storage, File } from "@google-cloud/storage";
 import {
   getFirestore,
   collection,
@@ -30,23 +29,23 @@ import {
   getDocs,
   documentId,
 } from "firebase/firestore";
-// import {
-//   getStorage,
-//   ref,
-//   uploadBytes,
-//   getBlob,
-//   uploadString,
-// } from "firebase/storage";
-import * as firebaseconfig from "./audioAppParams";
-import * as schema from "../../commonsrc/schema";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getBlob,
+  uploadString,
+} from "firebase/storage";
+import * as params from "./params";
+import * as schema from "../../common/schema";
 import {
   normalizeEmail,
   NotFoundError,
   ParamError,
   requireLanguage,
 } from "./util";
-import { clone, shuffle, toBatches } from "../../commonsrc/util";
-// import type { FirebaseStorage } from "firebase/storage";
+import { clone, shuffle, toBatches } from "../../common/util";
+import type { FirebaseStorage } from "firebase/storage";
 import type {
   CollectionReference,
   Firestore,
@@ -71,47 +70,49 @@ import type {
   EConsentVersion,
   EAgreementInfo,
   TaskType,
-} from "../../commonsrc/schema";
+} from "../../common/schema";
+import { getApp } from "firebase/app";
 
 export class EStorage {
   static EUID_TRIES = 50;
 
   firestore: Firestore;
-  //storage: FirebaseStorage;
-  gcs: Storage;
+  storage: FirebaseStorage;
+  // gcs: Storage;
   bucketName: string;
 
   constructor(deps?: any) {
     this.firestore = deps ? deps.firestore : getFirestore(getApp());
-    // this.storage = deps
-    // ? deps.storage
-    // : getStorage(getApp(), firebaseconfig.BUCKET);
+    this.storage = deps
+      ? deps.storage
+      : getStorage(getApp(), params.bucketName);
     // this.firestore.settings({ ignoreUndefinedProperties: true });
-    this.gcs = new Storage();
-    this.bucketName = firebaseconfig.BUCKET;
+    // this.gcs = new Storage();
+    this.bucketName = params.bucketName;
   }
 
-  get bucket() {
-    return this.gcs.bucket(this.bucketName);
-  }
+  // get bucket() {
+  //   return this.gcs.bucket(this.bucketName);
+  // }
 
   // Accessors for collections and sub-collections
 
   getUsersCollection(): CollectionReference {
+    console.log(schema.USERS_TABLE);
     return collection(this.firestore, `${schema.USERS_TABLE}`);
   }
 
   getRecordingsSubcollection(euid: string): CollectionReference {
     return collection(
       this.firestore,
-      `${schema.RECORDINGS_TABLE}/${euid}/${schema.RECORDINGS_SUBCOLLECTION}`
+      `${schema.RECORDINGS_TABLE}/${euid}/${schema.RECORDINGS_SUBCOLLECTION}`,
     );
   }
 
   getUserTasksSubcollection(euid: string): CollectionReference {
     return collection(
       this.firestore,
-      `${schema.USERS_TABLE}/${euid}/${schema.TASKS_SUBCOLLECTION}`
+      `${schema.USERS_TABLE}/${euid}/${schema.TASKS_SUBCOLLECTION}`,
     );
   }
 
@@ -122,7 +123,7 @@ export class EStorage {
   getTasksSubcollection(tsid: string): CollectionReference {
     return collection(
       this.firestore,
-      `${schema.TASKSETS_TABLE}/${tsid}/${schema.TASKS_SUBCOLLECTION}`
+      `${schema.TASKSETS_TABLE}/${tsid}/${schema.TASKS_SUBCOLLECTION}`,
     );
   }
 
@@ -138,12 +139,12 @@ export class EStorage {
   // Returns the EUser with the given Firebase identity ID, or null if not created.
   async loadUserByFBUID(
     fbuid: string,
-    opt_txn?: Transaction
+    opt_txn?: Transaction,
   ): Promise<EUser | null> {
     // const result = opt_txn ? await opt_txn.get(q) : await getDocs(q);
 
     const q = await getDocs(
-      query(this.getUsersCollection(), where("fbuid", "==", fbuid), limit(1))
+      query(this.getUsersCollection(), where("fbuid", "==", fbuid), limit(1)),
     );
 
     if (q.size === 1) {
@@ -161,13 +162,13 @@ export class EStorage {
   // Returns the EUser with the given email, or null if not created.
   async loadUserByEmail(
     email: string,
-    opt_txn?: Transaction
+    opt_txn?: Transaction,
   ): Promise<EUser | null> {
     const normedEmail = normalizeEmail(email);
     const q = query(
       this.getUsersCollection(),
       where("normalizedEmail", "==", normedEmail),
-      limit(1)
+      limit(1),
     );
 
     // const result = opt_txn ? await opt_txn.get(q) : await q.get();
@@ -204,7 +205,7 @@ export class EStorage {
     const data = await getDocs(this.getUsersCollection());
 
     return data.docs.map(
-      (doc) => new EUser(this, doc.ref.path, doc.data() as EUserData)
+      (doc) => new EUser(this, doc.ref.path, doc.data() as EUserData),
     );
   }
 
@@ -269,7 +270,7 @@ export class EStorage {
           const user = await this.loadUserByEmail(newuser.email, txn);
           if (user) {
             throw new Error(
-              `Email address already in use: ${user.info.email} (${user.normalizedEmail})`
+              `Email address already in use: ${user.info.email} (${user.normalizedEmail})`,
             );
           } else {
             // Try to create a new user with a new EUID. We might have to retry
@@ -285,7 +286,7 @@ export class EStorage {
       }
     }
     throw new Error(
-      `Could not generate EUID after ${EStorage.EUID_TRIES} tries`
+      `Could not generate EUID after ${EStorage.EUID_TRIES} tries`,
     );
   }
 
@@ -346,7 +347,7 @@ export class EStorage {
     tzOffset: number,
     mimeType: string,
     deviceInfo: EDeviceInfo,
-    audioData: Buffer
+    audioData: Buffer,
   ): Promise<[EUser, EUserTask, ERecording]> {
     const euid = user.euid;
     const taskId = task.id;
@@ -380,8 +381,8 @@ export class EStorage {
     }
 
     // Store the recording in GCS
-    // const bucket = this.storage.bucket(firebaseconfig.BUCKET);
-    const dirname = `${firebaseconfig.RECORDING_PATH}/${euid}`;
+    // const bucket = this.storage.bucket(params.bucketName);
+    const dirname = `${params.recordingPath}/${euid}`;
     //await this.storage.file(`${dirname}/${basename}.wav`).save(audioData);
     // await this.storage
     //   .file(`${dirname}/${basename}.json`)
@@ -433,10 +434,10 @@ export class EStorage {
   // Returns the two GCS File objects for a recording and its metadata, throws an error if not found.
   async findRecordingFiles(
     euid: string,
-    basename: string
+    basename: string,
   ): Promise<[File, File]> {
-    const wpath = `${firebaseconfig.RECORDING_PATH}/${euid}/${basename}.wav`;
-    const jpath = `${firebaseconfig.RECORDING_PATH}/${euid}/${basename}.json`;
+    const wpath = `${params.recordingPath}/${euid}/${basename}.wav`;
+    const jpath = `${params.recordingPath}/${euid}/${basename}.json`;
 
     const wavFile = this.bucket.file(wpath);
     const jsonFile = this.bucket.file(jpath);
@@ -466,7 +467,7 @@ export class EStorage {
   // Loads a taskSet by ID, which should be unique.
   async loadTaskSet(
     id: string,
-    opt_txn?: Transaction
+    opt_txn?: Transaction,
   ): Promise<ETaskSet | undefined> {
     const path = schema.taskSetPath(id);
     const docRef = doc(this.firestore, path);
@@ -495,7 +496,7 @@ export class EStorage {
   async listTaskSets(): Promise<ETaskSet[]> {
     const data = await getDocs(this.getTaskSetsCollection());
     return data.docs.map(
-      (doc) => new ETaskSet(this, doc.ref.path, doc.data() as ETaskSetData)
+      (doc) => new ETaskSet(this, doc.ref.path, doc.data() as ETaskSetData),
     );
   }
 
@@ -528,7 +529,7 @@ export class EStorage {
 
   // Loads all of the Assignment Rules that match a particular user, returns [taskSetId, rule] tuples.
   async loadAssignmentRules(
-    user: EUser
+    user: EUser,
   ): Promise<[ETaskSet, EAssignmentRule][]> {
     const userTags: Set<string> = new Set(user.info.tags);
     const userLanguage: string = user.info.language;
@@ -558,7 +559,7 @@ export class EStorage {
 
     // Order the rules
     result.sort((a, b) =>
-      a[1].order < b[1].order ? -1 : a[1].order === b[1].order ? 0 : 1
+      a[1].order < b[1].order ? -1 : a[1].order === b[1].order ? 0 : 1,
     );
     return result;
   }
@@ -566,7 +567,7 @@ export class EStorage {
   // Loads a consent by ID, which should be unique.
   async loadConsent(
     id: string,
-    opt_txn?: Transaction
+    opt_txn?: Transaction,
   ): Promise<EConsent | undefined> {
     const path = schema.consentPath(id);
     const docRef = doc(this.firestore, path);
@@ -594,7 +595,7 @@ export class EStorage {
   async listConsents(): Promise<EConsent[]> {
     const data = await getDocs(this.getConsentsCollection());
     return data.docs.map(
-      (doc) => new EConsent(this, doc.ref.path, doc.data() as EConsentData)
+      (doc) => new EConsent(this, doc.ref.path, doc.data() as EConsentData),
     );
   }
 
@@ -602,7 +603,7 @@ export class EStorage {
   async listApplicableConsents(
     language: string,
     tags: string[],
-    now: number
+    now: number,
   ): Promise<EConsent[]> {
     const result: Set<EConsent> = new Set();
     for (const consent of await this.listConsents()) {
@@ -638,7 +639,7 @@ export class EStorage {
     name: string,
     language: string,
     tags: string[],
-    optional: boolean
+    optional: boolean,
   ) {
     return await this.run(async (txn) => {
       let consent = await this.loadConsent(id, txn);
@@ -668,10 +669,10 @@ export class EStorage {
 
   // Returns the GCS file object for a given consent HTML
   // async getConsentFile(consentId: string, version: number) {
-  //   //const bucket = this.storage.bucket(firebaseconfig.BUCKET);
-  //   // const dirname = `${firebaseconfig.CONSENT_PATH}`;
+  //   //const bucket = this.storage.bucket(params.bucketName);
+  //   // const dirname = `${params.consentsPath}`;
   //   // return this.storage.file(`${dirname}/${consentId}-${version}.html`);
-  //   const path = `${firebaseconfig.CONSENT_PATH}/${consentId}-${version}.html`;
+  //   const path = `${params.consentsPath}/${consentId}-${version}.html`;
   //   const fileRef = ref(this.storage, path);
 
   //   try {
@@ -683,16 +684,16 @@ export class EStorage {
   // }
 
   async getConsentFile(consentId: string, version: number): Promise<File> {
-    const path = `${firebaseconfig.CONSENT_PATH}/${consentId}-${version}.html`;
+    const path = `${params.consentsPath}/${consentId}-${version}.html`;
     return this.bucket.file(path);
   }
 
   // Returns the GCS file object for a graphical task
   // async getImageFile(taskSetId: string, taskId: string) {
-  //   //const bucket = this.storage.bucket(firebaseconfig.BUCKET);
-  //   // const dirname = `${firebaseconfig.IMAGETASKS_PATH}`;
+  //   //const bucket = this.storage.bucket(params.bucketName);
+  //   // const dirname = `${params.imagetasksPath}`;
   //   // return this.storage.file(`${dirname}/image_${taskSetId}_${taskId}.jpg`);
-  //   const path = `${firebaseconfig.IMAGETASKS_PATH}/image_${taskSetId}_${taskId}.jpg`;
+  //   const path = `${params.imagetasksPath}/image_${taskSetId}_${taskId}.jpg`;
   //   const fileRef = ref(this.storage, path);
 
   //   try {
@@ -705,7 +706,7 @@ export class EStorage {
   //   }
   // }
   async getImageFile(taskSetId: string, taskId: string): Promise<File> {
-    const path = `${firebaseconfig.IMAGETASKS_PATH}/image_${taskSetId}_${taskId}.jpg`;
+    const path = `${params.imagetasksPath}/image_${taskSetId}_${taskId}.jpg`;
     return this.bucket.file(path);
   }
 }
@@ -751,7 +752,7 @@ export class EUser {
           this.info.numTasks += delta;
         } else {
           console.log(
-            `Warning: attempted to decrement counter below zero: ${taskSetId} for ${this.euid}`
+            `Warning: attempted to decrement counter below zero: ${taskSetId} for ${this.euid}`,
           );
           this.info.numTasks -= t[1];
           t[1] = 0;
@@ -767,7 +768,7 @@ export class EUser {
       return delta;
     } else {
       console.log(
-        `Warning: attempted to decrement unassigned taskset: ${taskSetId} for ${this.euid}`
+        `Warning: attempted to decrement unassigned taskset: ${taskSetId} for ${this.euid}`,
       );
       return 0; // we don't allow counters to go below zero
     }
@@ -793,7 +794,7 @@ export class EUser {
     for (const c of await this.parent.listApplicableConsents(
       this.info.language,
       this.info.tags,
-      now
+      now,
     )) {
       if (c.info.optional) {
         continue; // Permit user not to have consented if the consent is optional
@@ -826,11 +827,11 @@ export class EUser {
     return await this.parent.run(async (txn) => {
       const consent = await this.parent.requireConsent(
         agreement.consentId,
-        txn
+        txn,
       );
       let [exact, others] = this.findConsents(
         agreement.consentId,
-        agreement.version
+        agreement.version,
       );
       if (exact && exact.revokeTimestamp === 0) {
         // Already consented, just update the timestamps. No change to counters.
@@ -882,7 +883,7 @@ export class EUser {
   // Returns the matching consent, plus any other consents of different versions with the same ID.
   private findConsents(
     consentId: string,
-    version: number
+    version: number,
   ): [EAgreementInfo | undefined, EAgreementInfo[]] {
     let exact: EAgreementInfo | undefined; // ID and version match
     const others: EAgreementInfo[] = []; // only IDs match
@@ -891,7 +892,7 @@ export class EUser {
         if (c.version === version) {
           if (exact) {
             throw new Error(
-              `User ${this.info.euid} has multiple exact consent matches: ${consentId}-${version}`
+              `User ${this.info.euid} has multiple exact consent matches: ${consentId}-${version}`,
             );
           }
           exact = c;
@@ -906,22 +907,22 @@ export class EUser {
   // Returns the user's tasks, if any
   async listTasks(): Promise<EUserTask[]> {
     const data = await getDocs(
-      query(this.parent.getUserTasksSubcollection(this.euid), orderBy("order"))
+      query(this.parent.getUserTasksSubcollection(this.euid), orderBy("order")),
     );
 
     return data.docs.map(
-      (doc) => new EUserTask(this, doc.ref.path, doc.data() as EUserTaskData)
+      (doc) => new EUserTask(this, doc.ref.path, doc.data() as EUserTaskData),
     );
   }
 
   // Returns the user's recordings, if any
   async listRecordings(): Promise<ERecording[]> {
     const data = await getDocs(
-      this.parent.getRecordingsSubcollection(this.euid)
+      this.parent.getRecordingsSubcollection(this.euid),
     );
 
     return data.docs.map(
-      (doc) => new ERecording(this, doc.ref.path, doc.data() as ERecordingData)
+      (doc) => new ERecording(this, doc.ref.path, doc.data() as ERecordingData),
     );
   }
 
@@ -934,7 +935,7 @@ export class EUser {
       return new EUserTask(
         this,
         path,
-        existingTaskData.data() as EUserTaskData
+        existingTaskData.data() as EUserTaskData,
       );
     } else {
       throw new NotFoundError(`No such task: ${taskId}`);
@@ -944,7 +945,7 @@ export class EUser {
   // Loads one Recording using a transaction. Throws an error if not found.
   async loadRecording(
     txn: Transaction,
-    timestamp: number
+    timestamp: number,
   ): Promise<ERecording> {
     const path = schema.recordingPath(this.euid, timestamp);
     const data = await txn.get(doc(this.parent.firestore, path));
@@ -961,13 +962,13 @@ export class EUser {
   async assignTasks(
     txn: Transaction,
     tasks: ETask[],
-    taskSet: ETaskSet
+    taskSet: ETaskSet,
   ): Promise<void> {
     const tsid = taskSet.info.id;
     // Get the currently highest task order number
     const collection = this.parent.getUserTasksSubcollection(this.euid);
     const q = await getDocs(
-      query(collection, orderBy("order", "desc"), limit(1))
+      query(collection, orderBy("order", "desc"), limit(1)),
     );
 
     // const q = await txn.get(collection.orderBy("order", "desc").limit(1));
@@ -1010,7 +1011,7 @@ export class EUser {
   // Removes the list of tasks from a user and updates the user's task counters.
   async removeTasks(
     txn: Transaction,
-    idTuples: [string, string][]
+    idTuples: [string, string][],
   ): Promise<ETaskSet[]> {
     // First load all involved tasksets so we can update their counters.
     const tasksByParent = await this.loadTaskTuples(txn, idTuples);
@@ -1024,7 +1025,7 @@ export class EUser {
         // This user has no tasks left from this taskset, so they drop out of the user counter
         taskSet.info.numAssignedUsers = Math.max(
           0,
-          taskSet.info.numAssignedUsers - 1
+          taskSet.info.numAssignedUsers - 1,
         );
       }
     }
@@ -1049,7 +1050,7 @@ export class EUser {
   // For each [taskSetId, taskId] tuple, loads the parent TaskSet and organizes all its taskIds in a map.
   private async loadTaskTuples(
     txn: Transaction,
-    idTuples: Array<[string, string]>
+    idTuples: Array<[string, string]>,
   ): Promise<Map<ETaskSet, string[]>> {
     const taskSets = new Map();
     const result = new Map();
@@ -1116,24 +1117,24 @@ export class ERecording {
     user: EUser,
     usertask: EUserTask,
     tsTask: ETask,
-    txn: Transaction
+    txn: Transaction,
   ): Promise<void> {
     if (
       user !== this.parent ||
       usertask.info.recordedTimestamp !== this.metadata.timestamp
     ) {
       throw new Error(
-        `Unexpected wrong user/task update: ${user.euid}: ${this.metadata.timestamp}`
+        `Unexpected wrong user/task update: ${user.euid}: ${this.metadata.timestamp}`,
       );
     }
     // The user's recording and task count should decline by one
     this.parent.info.numCompletedTasks = Math.max(
       0,
-      this.parent.info.numCompletedTasks - 1
+      this.parent.info.numCompletedTasks - 1,
     );
     this.parent.info.numRecordings = Math.max(
       0,
-      this.parent.info.numRecordings - 1
+      this.parent.info.numRecordings - 1,
     );
     this.parent.update(txn);
 
@@ -1165,11 +1166,11 @@ export class ETaskSet {
   // Returns all of this TaskSet's tasks.
   async listTasks(): Promise<ETask[]> {
     const data = await getDocs(
-      query(this.parent.getTasksSubcollection(this.info.id), orderBy("order"))
+      query(this.parent.getTasksSubcollection(this.info.id), orderBy("order")),
     );
 
     return data.docs.map(
-      (doc) => new ETask(this, doc.ref.path, doc.data() as ETaskData)
+      (doc) => new ETask(this, doc.ref.path, doc.data() as ETaskData),
     );
   }
 
@@ -1197,22 +1198,22 @@ export class ETaskSet {
       // Firestore IN clauses only support 10 terms
       const q = query(
         this.parent.getTasksSubcollection(this.info.id),
-        where(documentId(), "in", taskIds)
+        where(documentId(), "in", taskIds),
       );
 
       const data = await getDocs(q);
 
       return ordered(
         data.docs.map(
-          (doc) => new ETask(this, doc.ref.path, doc.data() as ETaskData)
-        )
+          (doc) => new ETask(this, doc.ref.path, doc.data() as ETaskData),
+        ),
       );
     } else {
       // Scan the whole collection, assuming this is more efficient than many lookups.
       const set = new Set(taskIds);
       const result: ETask[] = [];
       const data = await getDocs(
-        this.parent.getTasksSubcollection(this.info.id)
+        this.parent.getTasksSubcollection(this.info.id),
       );
       data.docs.map((doc) => {
         if (set.has(doc.id)) {
@@ -1234,7 +1235,7 @@ export class ETaskSet {
     }
 
     return docs.map(
-      (doc) => new ETask(this, doc.ref.path, doc.data() as ETaskData)
+      (doc) => new ETask(this, doc.ref.path, doc.data() as ETaskData),
     );
   }
 
@@ -1267,7 +1268,7 @@ export class ETaskSet {
   // Tries to create new unique tasks. Duplicate prompts are prohibited.
   async addTasks(
     taskType: TaskType,
-    tasks: Array<[number, string]>
+    tasks: Array<[number, string]>,
   ): Promise<ETask[]> {
     const tasksSubcollection = this.parent.getTasksSubcollection(this.info.id);
     for (const [order, prompt] of tasks) {
@@ -1285,7 +1286,7 @@ export class ETaskSet {
           const result: ETask[] = [];
           for (
             let i = pos;
-            i < tasks.length && i < pos + firebaseconfig.MAX_TASK_BATCH_SIZE;
+            i < tasks.length && i < pos + params.maxTaskBatchSize;
             i++
           ) {
             // TODO: prevent duplicate prompts
@@ -1307,7 +1308,7 @@ export class ETaskSet {
             result.push(new ETask(this, newDoc.path, fsdata));
           }
           return result;
-        }
+        },
       );
       pos += r.length;
       results.push.apply(results, r);
@@ -1376,7 +1377,7 @@ export class ETask {
     // Store the image data. TODO: re-render this image so it's scrubbed for metadata / malice / format
     const imageFile = await this.parent.parent.getImageFile(
       this.parent.info.id,
-      this.info.id
+      this.info.id,
     );
     await imageFile.save(contents);
 
@@ -1435,7 +1436,7 @@ export class EConsent {
     const idx = this.getVersionIndex(version);
     if (idx === -1) {
       throw new NotFoundError(
-        `No such consent version: ${this.info.id}-${version}`
+        `No such consent version: ${this.info.id}-${version}`,
       );
     }
     this.info.versions[idx].numUsers += incr;
@@ -1446,7 +1447,7 @@ export class EConsent {
     description: string,
     liveTimestamp: number,
     contents: Buffer,
-    txn: Transaction
+    txn: Transaction,
   ): Promise<void> {
     // Find the lowest unused version number
     const version =
@@ -1472,14 +1473,14 @@ export class EConsent {
     const idx = this.getVersionIndex(version);
     if (idx === -1) {
       throw new NotFoundError(
-        `No such consent version: ${this.info.id}-${version}`
+        `No such consent version: ${this.info.id}-${version}`,
       );
     }
 
     const versionData = this.info.versions[idx];
     if (versionData.numUsers > 0) {
       throw new ParamError(
-        `Consent version is in use and cannot be removed: ${this.info.id}-${version}`
+        `Consent version is in use and cannot be removed: ${this.info.id}-${version}`,
       );
     }
     this.info.versions.splice(idx, 1);

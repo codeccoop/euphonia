@@ -17,13 +17,31 @@
 <html>
   <head>
     <title>Audio Administration</title>
-    <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-auth.js"></script>
+
+    <!-- FIREBASE APP SCRIPT -->
+    <script defer src="/__/firebase/11.6.1/firebase-app-compat.js"></script>
+
+    <!-- FIREBASE FEATURES -->
+    <script defer src="/__/firebase/11.6.1/firebase-auth-compat.js"></script>
+    <script
+      defer
+      src="/__/firebase/11.6.1/firebase-firestore-compat.js"
+    ></script>
+    <script
+      defer
+      src="/__/firebase/11.6.1/firebase-functions-compat.js"
+    ></script>
+    <script defer src="/__/firebase/11.6.1/firebase-storage-compat.js"></script>
+
+    <!-- INITIALIZE FIREBASE SDK -->
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
     <link rel="stylesheet" href="admin.css" />
   </head>
   <body>
     <div id="main"></div>
   </body>
-  <script src="admin.js"></script>
+  <script src="index.js"></script>
 </html>

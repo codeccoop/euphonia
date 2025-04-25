@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "collectivat-euphonia"
+  },
+  "targets": {
+    "collectivat-euphonia": {
+      "hosting": {
+        "collectivat-euphonia": [
+          "collectivat-euphonia"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

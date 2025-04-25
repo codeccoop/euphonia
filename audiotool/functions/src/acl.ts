@@ -15,12 +15,12 @@
  */
 
 import { auth } from "firebase-admin";
-import * as firebaseconfig from "./audioAppParams";
+import { adminEmails } from "./params";
 
 import type { Request, Response } from "express";
 import type { DecodedIdToken } from "firebase-admin/auth";
 
-const ADMINS = new Set(firebaseconfig.ADMIN_EMAILS);
+const ADMINS = new Set(adminEmails);
 
 // Tightens the Firebase user object to be non-nullable.
 export interface FBUser extends DecodedIdToken {
@@ -37,14 +37,20 @@ export interface UserRequest extends Request {
 // Ensures that the request is from an authenticated user of some sort, and sets the user on the request.
 export async function checkAuthenticated(req: Request, res: Response) {
   // TODO: don't enforce this on our un-authenticated paths
-  if (!req.cookies || !req.cookies.__session) {
-    console.error("No __session cookie found.");
+  // if (!req.cookies || !req.cookies.__session) {
+  //   console.error("No __session cookie found.");
+  //   res.status(403).send("Unauthorized");
+  //   return false;
+  // }
+
+  const idToken = await getIdToken(req);
+  if (!idToken) {
     res.status(403).send("Unauthorized");
-    return false;
   }
 
   try {
-    const user = await auth().verifyIdToken(req.cookies.__session);
+    const user = await auth().verifyIdToken(idToken);
+
     if (
       user.email_verified &&
       user.firebase.sign_in_provider === "google.com" &&
@@ -70,9 +76,29 @@ export async function checkAuthenticated(req: Request, res: Response) {
 
 // Returns false and responds with a 403 unless the given user is a valid admin
 export async function checkAdmin(req: UserRequest, res: Response) {
+  console.log(ADMINS);
   if (!ADMINS.has(req.user.email)) {
     res.status(403).send(`Unauthorized admin: ${req.user.email}`);
     return false;
   }
   return true;
+}
+
+async function getIdToken(req: Request) {
+  if (
+    (!req.headers.authorization ||
+      !req.headers.authorization.startsWith("Bearer ")) &&
+    !(req.cookies && req.cookies.__session)
+  ) {
+    return;
+  }
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer ")
+  ) {
+    return req.headers.authorization.split("Bearer ")[1];
+  } else if (req.cookies) {
+    return req.cookies.__session;
+  }
 }

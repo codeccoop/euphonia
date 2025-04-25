@@ -1,0 +1,22 @@
+{
+  "name": "euphonia-client",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts",
+    "watch": "esbuild src/index.ts src/admin/index.ts --bundle --sourcemap=inline --outdir=../public --watch",
+    "build": "tsc && esbuild src/index.ts src/admin/index.ts --bundle --outdir=../public --minify"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.32",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "esbuild": "^0.25.3",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "typescript": "^5.8.2"
+  },
+  "private": true
+}

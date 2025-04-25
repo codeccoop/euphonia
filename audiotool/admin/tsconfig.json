@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "AMD",
+    "esModuleInterop": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outFile": "../public/admin/index.js",
+    "sourceMap": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "downlevelIteration": true
+  },
+  "compileOnSave": true,
+  "include": ["src"]
+}

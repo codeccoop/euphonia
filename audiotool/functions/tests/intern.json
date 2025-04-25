@@ -1,4 +1,0 @@
-{
-  "suites": "**/*.ts",
-  "environments": ["node"]
-}
