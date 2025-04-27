@@ -33,7 +33,7 @@ export const LOCALIZED_STRINGS: Map<
   ["fr-FR", toLocaleTable(FR_STRINGS)],
   ["hi-HI", toLocaleTable(HI_STRINGS)],
   ["ja-JP", toLocaleTable(JA_STRINGS)],
-  ["ca", toLocaleTable(CA_STRINGS)],
+  ["ca-ES", toLocaleTable(CA_STRINGS)],
 ]);
 
 // Builds a map of the translated strings for a given language.

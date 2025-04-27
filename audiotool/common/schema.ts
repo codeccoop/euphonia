@@ -26,7 +26,7 @@ export const SUPPORTED_LANGUAGES = new Set([
   "es-ES",
   "hi-HI",
   "ja-JP",
-  "ca",
+  "ca-ES",
 ]);
 
 // Paths of documents, collections, and sub-collections
