@@ -17,7 +17,7 @@
 import { AdminData } from "./admindata";
 import { TaskSetsView } from "./tasksets";
 import { ETaskSetInfo, ETaskInfo } from "../../../common/schema";
-import { Spinner, toast, toURL } from "../util";
+import { authenticatedFetch, Spinner, toast, toURL } from "../util";
 import { formatTimestamp, parseTags } from "../../../common/util";
 import { Dialog, ChoiceDialog } from "../dialog";
 import * as schema from "../../../common/schema";
@@ -172,9 +172,15 @@ export class TaskSetDetailView {
           const args = { taskSetId, taskId: task.id, mimeType: task.imageType };
           const imageURL = toURL("/api/gettaskimage", args);
           ptd
-            .eadd("<a class=imglink target=_blank />")
-            .etext("[image]")
-            .prop("href", imageURL);
+            .eadd("<button>⬇</button>")
+            .css("margin-left", "0.5em")
+            .on("click", async function () {
+              const res = await authenticatedFetch(
+                imageURL.pathname + imageURL.search,
+              );
+              const { url } = await res.json();
+              window.open(url);
+            });
         }
         tr.eadd("<td class=created />").text(
           formatTimestamp(task.creationTimestamp),

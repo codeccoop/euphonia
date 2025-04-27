@@ -21,6 +21,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import useragent from "useragent";
 import bodyParser from "body-parser";
+import { Readable } from "stream";
 
 import { checkAuthenticated, checkAdmin } from "./acl";
 import { EStorage } from "./estorage";
@@ -42,7 +43,6 @@ import { normalizeTags, listhas, toBatches } from "../../common/util";
 import type { HttpsFunction } from "firebase-functions/https";
 import type { Transaction } from "firebase/firestore";
 import type { Express, Request, Response, NextFunction } from "express";
-import type { Readable } from "stream";
 import type { UserRequest, FBUser } from "./acl";
 import type {
   EConsent,
@@ -65,12 +65,12 @@ import type {
 
 admin.initializeApp();
 initializeApp({
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.FIREBASE_DATABASE_URL,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  appId: process.env.FIREBASE_APP_ID,
+  apiKey: process.env.EUPHONIA_API_KEY,
+  authDomain: process.env.EUPHONIA_AUTH_DOMAIN,
+  databaseURL: process.env.EUPHONIA_DATABASE_URL,
+  projectId: process.env.EUPHONIA_PROJECT_ID,
+  storageBucket: process.env.EUPHONIA_STORAGE_BUCKET,
+  appId: process.env.EUPHONIA_APP_ID,
 });
 
 // Implements the API server endpoints and per-request state needed for API logic.
@@ -148,7 +148,7 @@ class AudioApi {
       "runApiUploadAudio",
       "post",
     );
-    AudioApi.installStreamApi(
+    AudioApi.installJSONApi(
       server,
       deps,
       "/api/getaudio",
@@ -162,14 +162,14 @@ class AudioApi {
       "runApiDeleteAudio",
       "post",
     );
-    AudioApi.installStreamApi(
+    AudioApi.installJSONApi(
       server,
       deps,
       "/api/getconsenttext",
       "runApiGetConsentText",
       "get",
     );
-    AudioApi.installStreamApi(
+    AudioApi.installJSONApi(
       server,
       deps,
       "/api/gettaskimage",
@@ -267,7 +267,7 @@ class AudioApi {
       "runAdminApiRemoveTasks",
       "post",
     );
-    AudioApi.installStreamApi(
+    AudioApi.installJSONApi(
       server,
       deps,
       "/api/admin/getaudio",
@@ -348,30 +348,6 @@ class AudioApi {
     }
   }
 
-  // Defines a streaming express endpoint with error handling.
-  static installStreamApi(
-    server: Express,
-    deps: any,
-    path: string,
-    fnkey: keyof AudioApi,
-    method: "get" | "post",
-  ) {
-    const fn = async (req: Request, rsp: Response) => {
-      const result = await AudioApi.runMemberEndpoint(fnkey, req, rsp, deps);
-      if (result) {
-        const [ctype, readStream] = result as [string, Readable];
-        rsp.type(ctype);
-        readStream.pipe(rsp);
-      }
-    };
-
-    if (method === "get") {
-      server.get(path, fn);
-    } else {
-      server.post(path, fn);
-    }
-  }
-
   // Instantiates the request-scoped helper and runs the endpoint.
   private static async runMemberEndpoint(
     fnkey: keyof AudioApi,
@@ -438,11 +414,9 @@ class AudioApi {
   }
 
   // Loads and returns the EUser matching this request, or fails with an access error if they aren't enrolled.
-  async requireUserByFBUID(opt_txn?: Transaction): Promise<EUser> {
-    const user = await this.storage.loadUserByFBUID(
-      this.getUser().uid,
-      opt_txn,
-    );
+  async requireUserByFBUID(): Promise<EUser> {
+    const user = await this.storage.loadUserByFBUID(this.getUser().uid);
+
     if (!user) {
       throw new AccessError("User not enrolled");
     }
@@ -452,7 +426,6 @@ class AudioApi {
   // Returns the currently logged in user, all their tasks, and their consent status
   async runApiGetUser(): Promise<[EUserInfo, EUserTaskInfo[], boolean] | []> {
     const user = await this.storage.loadUserByFBUID(this.getUser().uid);
-    console.log(user);
 
     if (user) {
       const tasks = await user.listTasks();
@@ -560,24 +533,23 @@ class AudioApi {
   // Let's a user listen to their own audio
   async runApiGetAudio() {
     try {
-      const ts = requireInt(this.req.query.ts as string);
+      const ts = requireParam(this.req.query.ts as string);
 
-      const [user, basename, mimeType] = await this.storage.run(
-        async (txn: Transaction) => {
-          const user = await this.requireUserByFBUID(txn);
-          const rec = await user.loadRecording(txn, ts);
-          return [user, rec.metadata.name, rec.metadata.mimeType];
-        },
-      );
-      const [wavFile] = await this.storage.findRecordingFiles(
+      const [user, basename, mimeType] = await this.storage.run(async (txn) => {
+        const user = await this.requireUserByFBUID();
+        const rec = await user.loadRecording(txn, +ts);
+        return [user, rec.metadata.name, rec.metadata.mimeType];
+      });
+
+      const [url] = await this.storage.findRecordingFilesURL(
         user.euid,
         basename,
       );
-      const contentType = this.getServingType(mimeType);
-      return [contentType, wavFile.createReadStream()];
+
+      return { url };
     } catch (error) {
       console.error("runApiGetAudio error:", error);
-      throw new Error(
+      throw new NotFoundError(
         "Unable to stream audio. It may not exist or is unavailable.",
       );
     }
@@ -603,7 +575,7 @@ class AudioApi {
 
     const { user, task, basename } = await this.storage.run(
       async (txn: Transaction) => {
-        const user = await this.requireUserByFBUID(txn);
+        const user = await this.requireUserByFBUID();
         const task = await user.loadTask(txn, taskId);
         if (task.info.recordedTimestamp === 0) {
           throw new NotFoundError(`No task recording found: ${taskId}`);
@@ -617,13 +589,7 @@ class AudioApi {
       },
     );
 
-    // The firestore record is gone, also delete the GCS files
-    const [wavFile, jsonFile] = await this.storage.findRecordingFiles(
-      user.euid,
-      basename,
-    );
-    await wavFile.delete();
-    await jsonFile.delete();
+    await this.storage.deleteRecordingFiles(user.euid, basename);
     return [user.info, task.info];
   }
 
@@ -631,8 +597,8 @@ class AudioApi {
     const consentId = requireParam(this.req.query.consentId as string);
     const version = requireInt(this.req.query.version as string);
     await this.storage.requireConsent(consentId); // Ensure this is a real consent
-    const file = await this.storage.getConsentFile(consentId, version);
-    return ["text/html", file.createReadStream()];
+    const text = await this.storage.getConsentFileText(consentId, version);
+    return { text };
   }
 
   async runApiGetTaskImage() {
@@ -640,8 +606,8 @@ class AudioApi {
     const taskId = requireDocId(this.req.query.taskId as string);
     const mimeType = requireParam(this.req.query.mimeType as string);
 
-    const file = await this.storage.getImageFile(taskSetId, taskId);
-    return [mimeType, file.createReadStream()];
+    const url = await this.storage.getImageFileURL(taskSetId, taskId);
+    return { url };
   }
 
   async runAdminApiNewUser() {
@@ -685,7 +651,7 @@ class AudioApi {
     const notes: string = info.notes;
 
     const user: EUser = await this.storage.run(async (txn: Transaction) => {
-      const u = await this.storage.loadUser(euid, txn);
+      const u = await this.storage.loadUser(euid);
       u.info.name = name;
       u.info.email = email;
       u.info.language = language;
@@ -702,14 +668,8 @@ class AudioApi {
     const info = this.getBodyJSON();
     const euid: string = requireParam(info.euid);
 
-    // Load the user and all their tasks, so we can find the recordings by ID
-    let [user, tasks]: [EUser, EUserTask[]] = await this.storage.run(
-      async (txn: Transaction) => {
-        const user = await this.storage.loadUser(euid, txn);
-        const tasks = await user.listTasks();
-        return [user, tasks];
-      },
-    );
+    let user = await this.storage.loadUser(euid);
+    const tasks = await user.listTasks();
     const taskIdTuples: [string, string][] = [];
 
     // Delete the recordings using the DAO, so that the counters are correctly updated
@@ -719,37 +679,54 @@ class AudioApi {
       if (task.info.recordedTimestamp === 0) {
         continue;
       }
-      const basename = await this.storage.run(async (txn: Transaction) => {
-        const taskSet = await this.storage.requireTaskSet(task.info.taskSetId);
-        const tsTask = await taskSet.loadTask(txn, task.info.task.id);
-        const rec = await user.loadRecording(txn, task.info.recordedTimestamp);
-        const basename = rec.metadata.name;
-        await rec.delete(user, task, tsTask, txn);
-        return basename;
-      });
 
-      if (basename) {
-        // Firestore has the metadata but the actual audio must be deleted from GCS
-        const [wavFile, jsonFile] = await this.storage.findRecordingFiles(
-          user.euid,
-          basename,
-        );
-        await wavFile.delete();
-        await jsonFile.delete();
+      try {
+        const basename = await this.storage.run(async (txn: Transaction) => {
+          const taskSet = await this.storage.requireTaskSet(
+            task.info.taskSetId,
+          );
+          const tsTask = await taskSet.loadTask(txn, task.info.task.id);
+          const rec = await user.loadRecording(
+            txn,
+            task.info.recordedTimestamp,
+          );
+          const basename = rec.metadata.name;
+          await rec.delete(user, task, tsTask, txn);
+          return basename;
+        });
+
+        if (basename) {
+          // Firestore has the metadata but the actual audio must be deleted from GCS
+          await this.storage.deleteRecordingFiles(user.euid, basename);
+        }
+      } catch (err: any) {
+        if (err instanceof NotFoundError) {
+          continue;
+        }
+
+        throw err;
       }
     }
 
     // Unassign all tasks, again using the DAO to keep the counters correct
     for (const idTuplesBatch of toBatches(taskIdTuples, 450)) {
-      await this.storage.run(async (txn: Transaction) => {
-        const user = await this.storage.loadUser(euid, txn);
-        await user.removeTasks(txn, idTuplesBatch);
-      });
+      try {
+        await this.storage.run(async (txn: Transaction) => {
+          const user = await this.storage.loadUser(euid);
+          await user.removeTasks(txn, idTuplesBatch);
+        });
+      } catch (err: any) {
+        if (err instanceof NotFoundError) {
+          continue;
+        }
+
+        throw err;
+      }
     }
 
     // Lastly, redact the user's identity.
     user = await this.storage.run(async (txn: Transaction) => {
-      const u = await this.storage.loadUser(euid, txn);
+      const u = await this.storage.loadUser(euid);
       u.fbuid = "REDACTED"; // this disassociates the user record from the person's login
       u.info.deleted = true;
       u.info.name = "REDACTED";
@@ -804,7 +781,7 @@ class AudioApi {
       throw new ParamError("Must change at least one field");
     }
     const ts: ETaskSet = await this.storage.run(async (txn: Transaction) => {
-      const ts = await this.storage.requireTaskSet(taskSetId, txn);
+      const ts = await this.storage.requireTaskSet(taskSetId);
       if (addrules.length > 0 || delrules.length > 0) {
         ts.changeRules(addrules, delrules);
       }
@@ -870,7 +847,7 @@ class AudioApi {
     let taskSets: ETaskSet[];
     for (const idTuplesBatch of toBatches(idTuples, 450)) {
       [user, taskSets] = await this.storage.run(async (txn: Transaction) => {
-        const u = await this.storage.loadUser(euid, txn);
+        const u = await this.storage.loadUser(euid);
         const tss = await u.removeTasks(txn, idTuplesBatch);
         return [u, tss];
       });
@@ -885,8 +862,8 @@ class AudioApi {
     try {
       const euid = requireParam(this.req.query.euid as string);
       const name = requireParam(this.req.query.name as string);
-      const [wavFile] = await this.storage.findRecordingFiles(euid, name);
-      return ["audio/wav", wavFile.createReadStream()];
+      const [url] = await this.storage.findRecordingFilesURL(euid, name);
+      return { url };
     } catch (error) {
       console.error("Error in runAdminApiGetAudio:", error);
       throw new Error("Could not retrieve audio file.");
@@ -938,7 +915,7 @@ class AudioApi {
     }
 
     const { info } = await this.storage.run(async (txn: Transaction) => {
-      let consent = await this.storage.requireConsent(consentId, txn);
+      let consent = await this.storage.requireConsent(consentId);
       if (name) {
         consent.info.name = name;
       }
@@ -966,7 +943,7 @@ class AudioApi {
     const description = requireParam(this.req.query.description as string);
     const liveTimestamp = requireInt(this.req.query.liveTimestamp as string);
     const { info } = await this.storage.run(async (txn: Transaction) => {
-      const consent = await this.storage.requireConsent(consentId, txn);
+      const consent = await this.storage.requireConsent(consentId);
       await consent.createVersion(
         description,
         liveTimestamp,
@@ -985,7 +962,7 @@ class AudioApi {
     const version = requireInt(pinfo.version as string);
 
     const { info } = await this.storage.run(async (txn: Transaction) => {
-      const consent = await this.storage.requireConsent(consentId, txn);
+      const consent = await this.storage.requireConsent(consentId);
       consent.deleteVersion(version, txn);
       return consent;
     });
@@ -999,7 +976,7 @@ class AudioApi {
 
     // Save the image and convert the task to be an image task.
     return await this.storage.run(async (txn: Transaction) => {
-      const taskSet = await this.storage.requireTaskSet(taskSetId, txn);
+      const taskSet = await this.storage.requireTaskSet(taskSetId);
       const task = await taskSet.loadTask(txn, taskId);
       await task.addImage(this.req.body, txn);
       return task.info;

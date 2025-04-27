@@ -16,6 +16,7 @@
 
 // DAO object for working with stored data in GCS and Firestore
 // import { Storage, File } from "@google-cloud/storage";
+import { getApp } from "firebase/app";
 import {
   getFirestore,
   collection,
@@ -33,8 +34,10 @@ import {
   getStorage,
   ref,
   uploadBytes,
-  getBlob,
   uploadString,
+  getDownloadURL,
+  deleteObject,
+  getBytes,
 } from "firebase/storage";
 import * as params from "./params";
 import * as schema from "../../common/schema";
@@ -45,6 +48,8 @@ import {
   requireLanguage,
 } from "./util";
 import { clone, shuffle, toBatches } from "../../common/util";
+
+// types
 import type { FirebaseStorage } from "firebase/storage";
 import type {
   CollectionReference,
@@ -71,34 +76,22 @@ import type {
   EAgreementInfo,
   TaskType,
 } from "../../common/schema";
-import { getApp } from "firebase/app";
 
 export class EStorage {
   static EUID_TRIES = 50;
 
   firestore: Firestore;
   storage: FirebaseStorage;
-  // gcs: Storage;
-  bucketName: string;
 
   constructor(deps?: any) {
     this.firestore = deps ? deps.firestore : getFirestore(getApp());
     this.storage = deps
       ? deps.storage
-      : getStorage(getApp(), params.bucketName);
-    // this.firestore.settings({ ignoreUndefinedProperties: true });
-    // this.gcs = new Storage();
-    this.bucketName = params.bucketName;
+      : getStorage(getApp(), "gs://" + params.bucketName);
   }
 
-  // get bucket() {
-  //   return this.gcs.bucket(this.bucketName);
-  // }
-
   // Accessors for collections and sub-collections
-
   getUsersCollection(): CollectionReference {
-    console.log(schema.USERS_TABLE);
     return collection(this.firestore, `${schema.USERS_TABLE}`);
   }
 
@@ -137,21 +130,14 @@ export class EStorage {
   }
 
   // Returns the EUser with the given Firebase identity ID, or null if not created.
-  async loadUserByFBUID(
-    fbuid: string,
-    opt_txn?: Transaction,
-  ): Promise<EUser | null> {
-    // const result = opt_txn ? await opt_txn.get(q) : await getDocs(q);
-
+  async loadUserByFBUID(fbuid: string): Promise<EUser | null> {
     const q = await getDocs(
       query(this.getUsersCollection(), where("fbuid", "==", fbuid), limit(1)),
     );
 
     if (q.size === 1) {
       for (const doc of q.docs) {
-        const data = (
-          opt_txn ? await opt_txn.get(doc.ref) : doc.data()
-        ) as EUserData;
+        const data = doc.data() as EUserData;
         return new EUser(this, schema.userPath(data.euid), data);
       }
     }
@@ -160,10 +146,7 @@ export class EStorage {
   }
 
   // Returns the EUser with the given email, or null if not created.
-  async loadUserByEmail(
-    email: string,
-    opt_txn?: Transaction,
-  ): Promise<EUser | null> {
+  async loadUserByEmail(email: string): Promise<EUser | null> {
     const normedEmail = normalizeEmail(email);
     const q = query(
       this.getUsersCollection(),
@@ -171,7 +154,6 @@ export class EStorage {
       limit(1),
     );
 
-    // const result = opt_txn ? await opt_txn.get(q) : await q.get();
     const result = await getDocs(q);
     if (result.size === 1) {
       for (const doc of result.docs) {
@@ -184,13 +166,9 @@ export class EStorage {
   }
 
   // Returns the EUser with the given EUID, or fails if not created.
-  async loadUser(euid: string, opt_txn?: Transaction): Promise<EUser> {
+  async loadUser(euid: string): Promise<EUser> {
     const path = schema.userPath(euid);
     const userDoc = doc(this.firestore, path);
-
-    // const existingUserData = opt_txn
-    //   ? await opt_txn.get(userDoc)
-    //   : await getDoc(userDoc);
 
     const existingUserData = await getDoc(userDoc);
     if (existingUserData.exists()) {
@@ -202,9 +180,9 @@ export class EStorage {
 
   // Loads all users.
   async listUsers(): Promise<EUser[]> {
-    const data = await getDocs(this.getUsersCollection());
+    const snapshot = await getDocs(this.getUsersCollection());
 
-    return data.docs.map(
+    return snapshot.docs.map(
       (doc) => new EUser(this, doc.ref.path, doc.data() as EUserData),
     );
   }
@@ -216,11 +194,12 @@ export class EStorage {
     if (!fbuid) {
       throw new ParamError("FBUser info required for signup");
     }
+
     const user = await this.run(async (txn) => {
-      let existingUser = await this.loadUserByFBUID(fbuid, txn);
+      let existingUser = await this.loadUserByFBUID(fbuid);
       if (!existingUser) {
         // The user may have been pre-enrolled by an administrator
-        existingUser = await this.loadUserByEmail(newuser.email, txn);
+        existingUser = await this.loadUserByEmail(newuser.email);
         if (!existingUser) {
           return null; // This is a fresh signup, no existing record to update
         }
@@ -267,7 +246,7 @@ export class EStorage {
       try {
         return await this.run(async (txn) => {
           // Make sure the normalized email is unique
-          const user = await this.loadUserByEmail(newuser.email, txn);
+          const user = await this.loadUserByEmail(newuser.email);
           if (user) {
             throw new Error(
               `Email address already in use: ${user.info.email} (${user.normalizedEmail})`,
@@ -347,7 +326,7 @@ export class EStorage {
     tzOffset: number,
     mimeType: string,
     deviceInfo: EDeviceInfo,
-    audioData: Buffer,
+    audioData: Uint8Array,
   ): Promise<[EUser, EUserTask, ERecording]> {
     const euid = user.euid;
     const taskId = task.id;
@@ -380,23 +359,22 @@ export class EStorage {
       metadata.transcript = task.task.prompt;
     }
 
-    // Store the recording in GCS
-    // const bucket = this.storage.bucket(params.bucketName);
-    const dirname = `${params.recordingPath}/${euid}`;
-    //await this.storage.file(`${dirname}/${basename}.wav`).save(audioData);
-    // await this.storage
-    //   .file(`${dirname}/${basename}.json`)
-    //   .save(JSON.stringify(metadata, null, 2));
-    await this.bucket.file(`${dirname}/${basename}.wav`).save(audioData);
-    await this.bucket
-      .file(`${dirname}/${basename}.json`)
-      .save(JSON.stringify(metadata, null, 2));
-    //await uploadBytes(audioDataRef, audioData);
+    const audioDataRef = ref(
+      this.storage,
+      `${params.recordingPath}/${euid}/${basename}.wav`,
+    );
+    const audioMetaRef = ref(
+      this.storage,
+      `${params.recordingPath}/${euid}/${basename}.json`,
+    );
+
+    await uploadBytes(audioDataRef, audioData, { contentType: "audio/wav" });
+    await uploadString(audioMetaRef, JSON.stringify(metadata, null, 2));
 
     // Also put a record in Firestore so the GUI can easily query, with updated user and task counters.
     return await runTransaction(this.firestore, async (txn: Transaction) => {
       // Reload the user and task within the transaction to get the freshest versions.
-      const user = await this.loadUser(euid, txn);
+      const user = await this.loadUser(euid);
       const usertask = await user.loadTask(txn, taskId);
       const tstask = await taskSet.loadTask(txn, usertask.info.task.id);
 
@@ -431,31 +409,40 @@ export class EStorage {
     });
   }
 
-  // Returns the two GCS File objects for a recording and its metadata, throws an error if not found.
-  async findRecordingFiles(
-    euid: string,
-    basename: string,
-  ): Promise<[File, File]> {
+  async deleteRecordingFiles(euid: string, basename: string) {
     const wpath = `${params.recordingPath}/${euid}/${basename}.wav`;
     const jpath = `${params.recordingPath}/${euid}/${basename}.json`;
 
-    const wavFile = this.bucket.file(wpath);
-    const jsonFile = this.bucket.file(jpath);
+    const wavRef = ref(this.storage, wpath);
+    const jsonRef = ref(this.storage, jpath);
 
-    const [wExists] = await wavFile.exists();
-    const [jExists] = await jsonFile.exists();
+    await deleteObject(wavRef);
+    await deleteObject(jsonRef);
+  }
 
-    if (!wExists || !jExists) {
-      console.warn(`⚠️ Missing file(s):`, {
-        wpath,
-        jpath,
-        wExists,
-        jExists,
-      });
-      throw new NotFoundError(`No such recording: ${basename}`);
+  // Returns the two GCS File objects for a recording and its metadata, throws an error if not found.
+  async findRecordingFilesURL(
+    euid: string,
+    basename: string,
+  ): Promise<[string, string]> {
+    const wpath = `${params.recordingPath}/${euid}/${basename}.wav`;
+    const jpath = `${params.recordingPath}/${euid}/${basename}.json`;
+
+    const wavRef = ref(this.storage, wpath);
+    const jsonRef = ref(this.storage, jpath);
+
+    try {
+      return Promise.all([
+        await getDownloadURL(wavRef),
+        await getDownloadURL(jsonRef),
+      ]);
+    } catch (err: any) {
+      if (err.code === "storage/object-not-found") {
+        throw new NotFoundError(`No such recording: ${basename}`);
+      }
+
+      throw err;
     }
-
-    return [wavFile, jsonFile];
   }
 
   // Queries the user's recordings to count how many there are.
@@ -465,16 +452,11 @@ export class EStorage {
   }
 
   // Loads a taskSet by ID, which should be unique.
-  async loadTaskSet(
-    id: string,
-    opt_txn?: Transaction,
-  ): Promise<ETaskSet | undefined> {
+  async loadTaskSet(id: string): Promise<ETaskSet | undefined> {
     const path = schema.taskSetPath(id);
     const docRef = doc(this.firestore, path);
 
-    const existingData = opt_txn
-      ? await opt_txn.get(docRef)
-      : await getDoc(docRef);
+    const existingData = await getDoc(docRef);
 
     if (existingData.exists()) {
       return new ETaskSet(this, path, existingData.data() as ETaskSetData);
@@ -484,8 +466,8 @@ export class EStorage {
   }
 
   // Same as above, but fails if the taskSet is missing.
-  async requireTaskSet(id: string, opt_txn?: Transaction): Promise<ETaskSet> {
-    const ts = await this.loadTaskSet(id, opt_txn);
+  async requireTaskSet(id: string): Promise<ETaskSet> {
+    const ts = await this.loadTaskSet(id);
     if (!ts) {
       throw new NotFoundError(`No such TaskSet: ${id}`);
     }
@@ -503,7 +485,7 @@ export class EStorage {
   // Creates a new TaskSet
   async createTaskSet(id: string, name: string, language: string) {
     return await this.run(async (txn) => {
-      let taskSet = await this.loadTaskSet(id, txn);
+      let taskSet = await this.loadTaskSet(id);
       if (taskSet) {
         throw new Error(`TaskSet with this id already exists: ${id}`);
       }
@@ -565,15 +547,10 @@ export class EStorage {
   }
 
   // Loads a consent by ID, which should be unique.
-  async loadConsent(
-    id: string,
-    opt_txn?: Transaction,
-  ): Promise<EConsent | undefined> {
+  async loadConsent(id: string): Promise<EConsent | undefined> {
     const path = schema.consentPath(id);
     const docRef = doc(this.firestore, path);
-    const existingData = opt_txn
-      ? await opt_txn.get(docRef)
-      : await getDoc(docRef);
+    const existingData = await getDoc(docRef);
 
     if (existingData.exists()) {
       return new EConsent(this, path, existingData.data() as EConsentData);
@@ -583,8 +560,8 @@ export class EStorage {
   }
 
   // Same as above, but fails if the consent is missing.
-  async requireConsent(id: string, opt_txn?: Transaction): Promise<EConsent> {
-    const consent = await this.loadConsent(id, opt_txn);
+  async requireConsent(id: string): Promise<EConsent> {
+    const consent = await this.loadConsent(id);
     if (!consent) {
       throw new NotFoundError(`No such Consent: ${id}`);
     }
@@ -642,7 +619,7 @@ export class EStorage {
     optional: boolean,
   ) {
     return await this.run(async (txn) => {
-      let consent = await this.loadConsent(id, txn);
+      let consent = await this.loadConsent(id);
       if (consent) {
         throw new Error(`Consent with this id already exists: ${id}`);
       }
@@ -683,31 +660,59 @@ export class EStorage {
   //   }
   // }
 
-  async getConsentFile(consentId: string, version: number): Promise<File> {
-    const path = `${params.consentsPath}/${consentId}-${version}.html`;
-    return this.bucket.file(path);
+  async getConsentFileText(
+    consentId: string,
+    version: number,
+  ): Promise<string> {
+    const consentRef = ref(
+      this.storage,
+      `${params.consentsPath}/${consentId}-${version}.html`,
+    );
+
+    try {
+      const bytes = await getBytes(consentRef);
+      return new TextDecoder().decode(bytes);
+    } catch (err: any) {
+      if (err.code === "storage/object-not-found") {
+        throw new NotFoundError(`No such consent file ${consentRef.fullPath}`);
+      }
+
+      throw err;
+    }
   }
 
-  // Returns the GCS file object for a graphical task
-  // async getImageFile(taskSetId: string, taskId: string) {
-  //   //const bucket = this.storage.bucket(params.bucketName);
-  //   // const dirname = `${params.imagetasksPath}`;
-  //   // return this.storage.file(`${dirname}/image_${taskSetId}_${taskId}.jpg`);
-  //   const path = `${params.imagetasksPath}/image_${taskSetId}_${taskId}.jpg`;
-  //   const fileRef = ref(this.storage, path);
+  async getConsentFileURL(consentId: string, version: number): Promise<string> {
+    const consentRef = ref(
+      this.storage,
+      `${params.consentsPath}/${consentId}-${version}.html`,
+    );
 
-  //   try {
-  //     const blob = await getBlob(fileRef);
-  //     return blob;
-  //   } catch (error) {
-  //     throw new NotFoundError(
-  //       `No such image: image_${taskSetId}_${taskId}.jpg`
-  //     );
-  //   }
-  // }
-  async getImageFile(taskSetId: string, taskId: string): Promise<File> {
-    const path = `${params.imagetasksPath}/image_${taskSetId}_${taskId}.jpg`;
-    return this.bucket.file(path);
+    try {
+      return await getDownloadURL(consentRef);
+    } catch (err: any) {
+      if (err.code === "storage/object-not-found") {
+        throw new NotFoundError(`No such consent file ${consentRef.fullPath}`);
+      }
+
+      throw err;
+    }
+  }
+
+  async getImageFileURL(taskSetId: string, taskId: string): Promise<string> {
+    const imageRef = ref(
+      this.storage,
+      `${params.imagetasksPath}/image_${taskSetId}_${taskId}.jpg`,
+    );
+
+    try {
+      return await getDownloadURL(imageRef);
+    } catch (err: any) {
+      if (err.code === "storage/object-not-found") {
+        throw new NotFoundError(`No such image: ${imageRef.fullPath}`);
+      }
+
+      throw err;
+    }
   }
 }
 
@@ -825,10 +830,7 @@ export class EUser {
   // Records that the user agreed to a particular consent.
   async addConsent(now: number, agreement: EAgreementInfo): Promise<EUser> {
     return await this.parent.run(async (txn) => {
-      const consent = await this.parent.requireConsent(
-        agreement.consentId,
-        txn,
-      );
+      const consent = await this.parent.requireConsent(agreement.consentId);
       let [exact, others] = this.findConsents(
         agreement.consentId,
         agreement.version,
@@ -867,7 +869,7 @@ export class EUser {
 
   // Records that the user revoked a consent across all versions
   async revokeConsent(consentId: string, txn: Transaction): Promise<void> {
-    const consent = await this.parent.requireConsent(consentId, txn);
+    const consent = await this.parent.requireConsent(consentId);
     let [, consentRecords] = this.findConsents(consentId, -1);
     for (const c of consentRecords) {
       if (c.consentTimestamp && !c.revokeTimestamp) {
@@ -949,7 +951,6 @@ export class EUser {
   ): Promise<ERecording> {
     const path = schema.recordingPath(this.euid, timestamp);
     const data = await txn.get(doc(this.parent.firestore, path));
-    console.log("data", data);
 
     if (data.exists()) {
       return new ERecording(this, path, data.data() as ERecordingData);
@@ -1057,7 +1058,7 @@ export class EUser {
     for (const [taskSetId, taskId] of idTuples) {
       let taskSet = taskSets.get(taskSetId);
       if (!taskSet) {
-        taskSet = await this.parent.requireTaskSet(taskSetId, txn);
+        taskSet = await this.parent.requireTaskSet(taskSetId);
         result.set(taskSet, []);
         taskSets.set(taskSetId, taskSet);
       }
@@ -1265,6 +1266,10 @@ export class ETaskSet {
     txn.update(doc(this.parent.firestore, this.path), { info });
   }
 
+  async delete(txn: Transaction) {
+    txn.delete(doc(this.parent.firestore, this.path));
+  }
+
   // Tries to create new unique tasks. Duplicate prompts are prohibited.
   async addTasks(
     taskType: TaskType,
@@ -1339,8 +1344,8 @@ export class ETaskSet {
     let t: ETaskSet;
     for (const taskBatch of toBatches(tasks, 450)) {
       [u, t] = await this.parent.run(async (txn) => {
-        const ts = await this.parent.requireTaskSet(this.info.id, txn); // transactionally reload
-        const user = await this.parent.loadUser(euid, txn);
+        const ts = await this.parent.requireTaskSet(this.info.id); // transactionally reload
+        const user = await this.parent.loadUser(euid);
         await user.assignTasks(txn, taskBatch, ts);
         return [user, ts];
       });
@@ -1372,14 +1377,19 @@ export class ETask {
     });
   }
 
+  delete(txn: Transaction) {
+    txn.delete(doc(this.parent.parent.firestore, this.path));
+  }
+
   // Adds a graphical image to the task, and stores it. Any previous image is replaced.
   async addImage(contents: Buffer, txn: Transaction): Promise<void> {
     // Store the image data. TODO: re-render this image so it's scrubbed for metadata / malice / format
-    const imageFile = await this.parent.parent.getImageFile(
-      this.parent.info.id,
-      this.info.id,
+    const imageRef = ref(
+      this.parent.parent.storage,
+      `${params.imagetasksPath}/image_${this.parent.info.id}_${this.info.id}.jpg`,
     );
-    await imageFile.save(contents);
+
+    await uploadBytes(imageRef, contents);
 
     // Once the contents are written, add the metadata. We only support JPG for now.
     this.info.imageType = "image/jpeg";
@@ -1453,9 +1463,11 @@ export class EConsent {
     const version =
       this.info.versions.reduce((n, v) => Math.max(n, v.version), 0) + 1;
 
-    // Store the consent text; these are immutable
-    const file = await this.parent.getConsentFile(this.info.id, version);
-    await file.save(contents);
+    const versionRef = ref(
+      this.parent.storage,
+      `${params.consentsPath}/${this.info.id}-${version}.html`,
+    );
+    await uploadBytes(versionRef, contents);
 
     // Once the contents are written, add the metadata
     this.info.versions.push({
@@ -1486,9 +1498,12 @@ export class EConsent {
     this.info.versions.splice(idx, 1);
     this.update(txn);
 
-    // Also clean up the GCS file since it was never used
-    const file = await this.parent.getConsentFile(this.info.id, version);
-    await file.delete();
+    const versionRef = ref(
+      this.parent.storage,
+      `${params.consentsPath}/${this.info.id}-${version}.html`,
+    );
+
+    await deleteObject(versionRef);
   }
 
   // Commits changes to Consent properties. Don't use this for version creation or deletion.

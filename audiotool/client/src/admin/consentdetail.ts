@@ -17,7 +17,7 @@
 import { AdminData } from "./admindata";
 import { ConsentsView } from "./consents";
 import { EConsentInfo } from "../../../common/schema";
-import { Spinner, toast, toURL } from "../util";
+import { authenticatedFetch, Spinner, toast, toURL } from "../util";
 import {
   formatTimestamp,
   parseTimestamp,
@@ -118,7 +118,8 @@ export class ConsentDetailView {
       buttonTd
         .eadd("<a target=_blank />")
         .etext("Contents")
-        .prop("href", textURL);
+        .prop("href", textURL)
+        .on("click", (e) => this.downloadContent(e));
       if (version.numUsers === 0) {
         const delbtn = buttonTd
           .eadd("<button class=delversionbtn />")
@@ -130,6 +131,17 @@ export class ConsentDetailView {
       }
     }
     this.parent.app.setNav(`/consent/${this.consent.id}`);
+  }
+
+  async downloadContent(ev: any) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    const url = new URL(ev.target.href);
+    const res = await authenticatedFetch(url.pathname + url.search);
+    const { text } = await res.json();
+    const blob = new Blob([text], { type: "text/html" });
+    const fileURL = URL.createObjectURL(blob);
+    window.open(fileURL);
   }
 
   getVersions() {

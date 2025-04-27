@@ -118,6 +118,10 @@ export function setDisplayLanguage(lang: string) {
   }
 }
 
+export function getDisplayLanguage() {
+  return CURRENT_LANGUAGE;
+}
+
 $.fn.eitext = function (
   formatString: string,
   ...args: string[]
@@ -310,7 +314,6 @@ export function isSafari() {
 
 // Same as above, but POSTs a JSON body and receives JSON blob, which it parses.
 export async function postAsJson(path: string, jsonObj: any): Promise<unknown> {
-  debugger;
   const body = new TextEncoder().encode(JSON.stringify(jsonObj));
   const rsp = await authenticatedFetch(
     path,

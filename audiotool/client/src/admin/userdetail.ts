@@ -16,7 +16,7 @@
 
 import { AdminData } from "./admindata";
 import { UsersView } from "./users";
-import { Spinner, toast, toURL } from "../util";
+import { authenticatedFetch, Spinner, toast, toURL } from "../util";
 import { Dialog, ChoiceDialog } from "../dialog";
 import {
   EUserInfo,
@@ -271,9 +271,15 @@ export class UserDetailView {
           };
           const imageURL = toURL("/api/gettaskimage", args);
           ptd
-            .eadd("<a class=imglink target=_blank />")
-            .etext("[image]")
-            .prop("href", imageURL);
+            .eadd("<button>⬇</button>")
+            .css("margin-left", "0.5em")
+            .on("click", async function () {
+              const res = await authenticatedFetch(
+                imageURL.pathname + imageURL.search,
+              );
+              const { url } = await res.json();
+              window.open(url);
+            });
         }
         tr.eadd("<td class=assigned />").text(
           formatTimestamp(task.assignedTimestamp),
@@ -287,9 +293,34 @@ export class UserDetailView {
             window.location.origin +
               `/api/admin/getaudio?euid=${this.user.euid}&name=${rec.name}`,
           );
-          playerTd.eadd(
-            `<audio src="${url}" type="audio/x-wav" controls preload="none" />`,
-          );
+
+          const player = playerTd
+            .eadd(`<audio type="audio/x-wav" controls preload="none" />`)
+            .hide();
+
+          const control = playerTd.eadd("<button>▶</button>");
+
+          player.on("pause", function () {
+            control.show();
+            player.hide();
+          });
+
+          control.on("click", async function () {
+            try {
+              if (!player.attr("src")) {
+                const res = await authenticatedFetch(url.pathname + url.search);
+                const { url: downloadURL } = await res.json();
+
+                player.attr("src", downloadURL);
+              }
+              control.hide();
+              player.show();
+              const _player = player.get(0) as HTMLAudioElement;
+              _player.play();
+            } catch {
+              control.attr("disabled", "true");
+            }
+          });
         }
       }
     });

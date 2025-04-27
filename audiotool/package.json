@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "start": "npm run serve",
+    "watch:client": "cd client && npm run watch",
+    "watch:functions": "cd functions && npm run watch",
+    "watch": "concurrently \"npm run watch:client\" \"npm run watch:functions\"",
+    "serve": "firebase serve --host localhost --port 8991",
+    "deploy": "firebase deploy --only hosting,functions:audioapp,firestore,storage"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

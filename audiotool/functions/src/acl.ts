@@ -46,6 +46,7 @@ export async function checkAuthenticated(req: Request, res: Response) {
   const idToken = await getIdToken(req);
   if (!idToken) {
     res.status(403).send("Unauthorized");
+    return false;
   }
 
   try {
@@ -76,11 +77,11 @@ export async function checkAuthenticated(req: Request, res: Response) {
 
 // Returns false and responds with a 403 unless the given user is a valid admin
 export async function checkAdmin(req: UserRequest, res: Response) {
-  console.log(ADMINS);
   if (!ADMINS.has(req.user.email)) {
     res.status(403).send(`Unauthorized admin: ${req.user.email}`);
     return false;
   }
+
   return true;
 }
 

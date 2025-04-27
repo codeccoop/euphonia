@@ -20,6 +20,7 @@ import { ES_STRINGS } from "./strings_es";
 import { FR_STRINGS } from "./strings_fr";
 import { HI_STRINGS } from "./strings_hi";
 import { JA_STRINGS } from "./strings_ja";
+import { CA_STRINGS } from "./strings_ca";
 
 // Describes all localizations
 export const LOCALIZED_STRINGS: Map<
@@ -32,6 +33,7 @@ export const LOCALIZED_STRINGS: Map<
   ["fr-FR", toLocaleTable(FR_STRINGS)],
   ["hi-HI", toLocaleTable(HI_STRINGS)],
   ["ja-JP", toLocaleTable(JA_STRINGS)],
+  ["ca", toLocaleTable(CA_STRINGS)],
 ]);
 
 // Builds a map of the translated strings for a given language.

@@ -25,6 +25,7 @@ import {
   isSafari,
   Swiper,
   toURL,
+  getDisplayLanguage,
 } from "./util";
 import { ProgressWidget } from "./progresswidget";
 import * as schema from "../../common/schema";
@@ -333,9 +334,14 @@ export class RecordingView {
           taskId: t.task.id,
           mimeType: t.task.imageType,
         };
-        this.cardDiv
-          .eadd("<div class=image />")
-          .css("background-image", `url(${toURL("/api/gettaskimage", args)})`);
+        const url = toURL("/api/gettaskimage", args);
+        authenticatedFetch(url.pathname + url.search)
+          .then((res) => res.json())
+          .then(({ url }) => {
+            this.cardDiv
+              .eadd("<div class=image />")
+              .css("background-image", `url(${url})`);
+          });
       }
       this.doneText.eihtml(
         showRecordedCardControls ? "(this card is done)" : "",
@@ -689,7 +695,18 @@ export class RecordingView {
 
     // Create a player and start it if possible
     const utt = new SpeechSynthesisUtterance(this.task.task.prompt);
-    utt.addEventListener("end", (e) => this.updateGUI());
+    utt.addEventListener("end", () => this.updateGUI());
+    const lang = getDisplayLanguage();
+    const voice = window.speechSynthesis
+      .getVoices()
+      .find((voice) => lang.indexOf(voice.lang) === 0);
+
+    console.log(lang);
+    if (voice) {
+      console.log(voice);
+      utt.voice = voice;
+    }
+
     window.speechSynthesis.speak(utt);
     this.updateGUI();
   }
@@ -759,12 +776,8 @@ export class RecordingView {
       const rsp = await authenticatedFetch("/api/getaudio", {
         ts: task.recordedTimestamp,
       });
-      let contentType = rsp.headers.get("Content-Type");
-      if (!contentType || contentType == "application/octet-stream") {
-        contentType = "audio/wav"; // here's hoping!
-      }
-      const b64String = toBase64(await rsp.arrayBuffer());
-      return `data:${contentType};base64,${b64String}`;
+      const { url } = await rsp.json();
+      return url;
     });
   }
 

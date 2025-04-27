@@ -88,7 +88,8 @@ export class Data {
       { consentId, version },
       "get",
     );
-    return await rsp.text();
+    const { text } = await rsp.json();
+    return text;
   }
 
   // Creates a new user account. The user must be signed in.
