@@ -296,6 +296,11 @@ export const CA_STRINGS: ELocaleString[] = [
     text: `Fet`,
   },
   {
+    key: `Automatic swipe`,
+    description: `Label for the checkbox that controls if recording will be automatic swipped after recording ends`,
+    text: `Deslliça automàticament`,
+  },
+  {
     key: `Starting...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
     text: `Començant...`,

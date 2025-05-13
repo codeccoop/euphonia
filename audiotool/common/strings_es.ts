@@ -286,6 +286,11 @@ export const ES_STRINGS: ELocaleString[] = [
     text: `Listo`,
   },
   {
+    key: `Automatic swipe`,
+    description: `Label for the checkbox that controls if recording will be automatic swipped after recording ends`,
+    text: `Desliza automáticamente`,
+  },
+  {
     key: `Starting...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
     text: `Iniciando...`,

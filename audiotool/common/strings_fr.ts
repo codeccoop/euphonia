@@ -283,6 +283,11 @@ export const FR_STRINGS: ELocaleString[] = [
     text: `OK`,
   },
   {
+    key: `Automatic swipe`,
+    description: `Label for the checkbox that controls if recording will be automatic swipped after recording ends`,
+    text: `Automatic swipe`,
+  },
+  {
     key: `Starting...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
     text: `Démarrage…`,

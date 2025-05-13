@@ -154,6 +154,15 @@ export class RecordingView {
     this.helpButton.on("click", async (e) => await this.toggleHelp());
     this.ttsButton.on("click", async (e) => await this.toggleSpeak());
 
+    const settingButtons = this.buttonBox.eadd("<div class=settingsbuttons />");
+    settingButtons
+      .eadd("<label />")
+      .eitext("Automatic swipe")
+      .eadd(
+        `<input type=checkbox ${this.carouselMode === "auto" ? "checked" : ""}/>`,
+      )
+      .on("click", () => this.toggleCarouselMode());
+
     // Keyboard and swipe handling
     this.keyfn = this.handleKey.bind(this);
   }
@@ -211,6 +220,26 @@ export class RecordingView {
     if (this.task && !this.data.tasksById.has(this.task.id)) {
       await this.gotoTask("first", true);
     }
+    this.updateGUI();
+  }
+
+  private get carouselMode() {
+    return /autoswipe=true/i.test(window.location.hash) ? "auto" : "manual";
+  }
+
+  private toggleCarouselMode() {
+    if (this.carouselMode === "auto") {
+      window.location.hash = window.location.hash
+        .split(";")
+        .filter((param) => param !== "autoswipe=true")
+        .join(";");
+    } else {
+      window.location.hash = (window.location.hash + ";autoswipe=true").replace(
+        /^;/,
+        "",
+      );
+    }
+
     this.updateGUI();
   }
 
@@ -376,6 +405,8 @@ export class RecordingView {
     if (!this.isShown) {
       return; // do nothing when we're not displayed
     }
+
+    if (e.ctrlKey) return;
 
     switch (e.key) {
       case " ": // spacebar
@@ -834,18 +865,23 @@ export class RecordingView {
 
     if (canceled) {
       this.updateGUI();
-      this.app.showMessage("Recording canceled.", "error");
+      this.app.showMessage("Enregistrament cancelat.", "error");
     } else if (!uploaded) {
       this.updateGUI();
       this.app.showMessage(
-        "Upload failed, your audio may not be saved.",
+        "Error de pujada, pot ser que el teu audio no s'hagi guardat correctament.",
         "error",
       );
     } else {
-      const isValidCard = await this.gotoTask("next", true);
-      this.app.showMessage(
-        `Recording uploaded!${isValidCard ? ` Here's the next card.` : ""}`,
-      );
+      if (this.carouselMode === "auto") {
+        const isValidCard = await this.gotoTask("next", true);
+        this.app.showMessage(
+          `Enregistrament guardat!${isValidCard ? ` Aquí tens la tasca següent.` : ""}`,
+        );
+      } else {
+        this.app.showMessage("Enregistrament guardat!");
+        this.updateGUI();
+      }
     }
   }
 }
