@@ -89,6 +89,8 @@ export class RecordingView {
   // Playback and TTS state tracking for review
   replayer?: JQuery<HTMLMediaElement>;
 
+  taskImageURL: string | null = null;
+
   constructor(app: App) {
     this.app = app;
     this.data = app.data;
@@ -357,21 +359,29 @@ export class RecordingView {
       this.cardDiv.empty();
       this.cardDiv.eadd("<div class=text />").etext(this.task.task.prompt);
       if (isImageTask) {
-        const t = this.task;
-        const args = {
-          taskSetId: t.taskSetId,
-          taskId: t.task.id,
-          mimeType: t.task.imageType,
-        };
-        const url = toURL("/api/gettaskimage", args);
-        authenticatedFetch(url.pathname + url.search)
-          .then((res) => res.json())
-          .then(({ url }) => {
-            this.cardDiv
-              .eadd("<div class=image />")
-              .css("background-image", `url(${url})`);
-          });
+        if (this.taskImageURL === null) {
+          const t = this.task;
+          const args = {
+            taskSetId: t.taskSetId,
+            taskId: t.task.id,
+            mimeType: t.task.imageType,
+          };
+          const url = toURL("/api/gettaskimage", args);
+          authenticatedFetch(url.pathname + url.search)
+            .then((res) => res.json())
+            .then(({ url }) => {
+              this.taskImageURL = url;
+              this.cardDiv
+                .eadd("<div class=image />")
+                .css("background-image", `url(${url})`);
+            });
+        } else {
+          this.cardDiv
+            .eadd("<div class=image />")
+            .css("background-image", `url(${this.taskImageURL})`);
+        }
       }
+
       this.doneText.eihtml(
         showRecordedCardControls ? "(this card is done)" : "",
       );
@@ -497,6 +507,8 @@ export class RecordingView {
     if (this.taskOrder.length < 1) {
       return false; // nothing to do if there are no tasks
     }
+
+    this.taskImageURL = null;
 
     // Choose which task we're going to, and how it will look
     let animateForward = true;
