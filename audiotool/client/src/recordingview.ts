@@ -585,7 +585,14 @@ export class RecordingView {
     this.stream = await this.getAudioStream();
     this.recordedWav = new WavBuilder();
     this.setupProcessor();
-    await sleep(startTime + MIN_START_DELAY_MS - Date.now());
+
+    let countdown = 1;
+    while (countdown < 4) {
+      this.app.showMessage(`L'enregistrament comença en: ${4 - countdown}`);
+      await sleep(500);
+      countdown++;
+    }
+
     this.isStartingRecord = false;
     this.isRecording = true;
     this.app.showMessage(`Enregistrant...`);
