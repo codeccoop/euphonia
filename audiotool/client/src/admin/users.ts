@@ -316,7 +316,7 @@ export class UsersView {
   // Shows the add user dialog
   async startNewUser() {
     const defaults = new UserValues();
-    defaults.language = "en-US";
+    defaults.language = "ca-ES";
     await new AddUserDialog(this, defaults).start();
   }
 

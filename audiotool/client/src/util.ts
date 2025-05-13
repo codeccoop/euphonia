@@ -110,7 +110,7 @@ $.fn.eaddtr = function (
 };
 
 // The user's selected language, from their profile or from the URL.
-let CURRENT_LANGUAGE = "en-US";
+let CURRENT_LANGUAGE = "ca-ES";
 
 export function setDisplayLanguage(lang: string) {
   if (SUPPORTED_LANGUAGES.has(lang)) {

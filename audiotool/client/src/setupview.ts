@@ -45,16 +45,16 @@ export class SetupView {
     // Basic permission flow
     this.div.eadd("<div class=title />").eitext(`Microphone Setup`);
     this.requestText = this.div.eadd("<div class=requesttext />").eihtml(`
-        In order to record your speech, we need permission to use your microphone
-        through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`);
+        Per tal d'enregistrar la teva veu, necessitem el teu permís per fer ús del micròfon
+        del teu navegador web. <b>Si us plau, fes clic a "Permet"</b> per facilitar l'ús del micròfon.`);
     this.deniedText = this.div.eadd("<div class=deniedtext />").eitext(`
-        We could not access your microphone due to a permission problem. You'll need to allow access
-        in order to continue.`);
+        No podem accedir al teu micròfon degut a problemes amb els permisos. Hauràs de permetre l'accés
+        si vols continuar.`);
     this.denied2Text = this.div.eadd("<div class=deniedtext />").eihtml(`
-        It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
-        by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`);
+        Sembla que els permisos del teu micròfon estan bloquejats. Hauràs de <b>permetre l'accés</b>
+        fent clic a la <b>barra de cerca del navegador</b>, i/o <b>reiniciar els permisos</b> del micròfon.`);
     this.successText = this.div.eadd("<div class=successtext />").eihtml(`
-        Your microphone is all set! You can start recording as soon as you're ready.`);
+        El teu micròfon està preparat! Pots començar a enregistrar quan siguis llest.`);
 
     // Advanced microphone settings, only shown after permission is granted
     this.microphoneSettings = new MicrophoneSettingsPanel(this);
@@ -64,10 +64,10 @@ export class SetupView {
     this.askButton = buttons.eadd("<button class=ask />").eitext("Try again");
     this.doneButton = buttons
       .eadd("<button class=start />")
-      .eitext("Start recording!");
+      .eitext("Comença a enregistrar!");
     this.settingsButton = buttons
       .eadd("<button class=settings />")
-      .eitext("Microphone settings");
+      .eitext("Configuració del micròfon");
 
     this.askButton.on("click", async (e) => await this.tryMicrophone());
     this.doneButton.on(

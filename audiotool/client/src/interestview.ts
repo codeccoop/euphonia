@@ -19,6 +19,7 @@ import { App } from "./app";
 import { UserDemographics } from "../../common/schema";
 import { listhas } from "../../common/util";
 
+// TODO: Negotate demographic contents
 // Implements the Interest form experience.
 export class InterestView {
   app: App;

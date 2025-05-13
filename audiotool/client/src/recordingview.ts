@@ -557,7 +557,7 @@ export class RecordingView {
     await sleep(startTime + MIN_START_DELAY_MS - Date.now());
     this.isStartingRecord = false;
     this.isRecording = true;
-    this.app.showMessage(`Now recording...`);
+    this.app.showMessage(`Enregistrant...`);
     this.updateGUI();
   }
 

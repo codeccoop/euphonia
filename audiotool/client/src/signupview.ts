@@ -118,6 +118,7 @@ export class SignupView {
       // already signed up. They'll come back here once logged in.
       await this.login(true);
     } else {
+      // TODO: Skip interest? Go to consent directly
       await this.app.navigateTo("/interest");
     }
   }

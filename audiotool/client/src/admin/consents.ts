@@ -131,7 +131,7 @@ class AddConsentDialog extends Dialog {
     );
     const languageField = this.addFormField(
       "Language:",
-      '<input type=text name=language value="en-US" />',
+      '<input type=text name=language value="ca-ES" />',
     );
     const tagsField = this.addFormField(
       "Tags:",

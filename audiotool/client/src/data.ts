@@ -241,12 +241,13 @@ export class Data {
     const tagsJson = localStorage.getItem("tags");
 
     return [
-      lang ? lang : "en-US",
+      lang ? lang : "ca-ES",
       tagsJson ? (JSON.parse(tagsJson) as string[]) : [],
     ];
   }
 
   // Returns true if all required fields in the demographics struct are complete.
+  // TODO: Return true if interest view should be skipped
   isCompletedDemographics(): boolean {
     let d: schema.UserDemographics;
     if (this.user && this.user.demographics) {

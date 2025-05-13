@@ -68,7 +68,7 @@ export class App implements Listener {
 
     // Default spinner view, so we don't draw the GUI until we've seen one update.
     this.waitingDiv = this.main.eadd("<div class=waiting />");
-    this.waitingDiv.text("Loading, please wait...");
+    this.waitingDiv.text("Carregant, espera si us plau...");
     this.waitingSpinner = new Spinner();
 
     // Events
@@ -142,6 +142,7 @@ export class App implements Listener {
     if (!this.data.fbuser || !this.signupView.eligible) {
       this.navPath = "/enroll"; // They need to sign-in before we can do anything with them
     } else if (!this.data.isCompletedDemographics()) {
+      // TODO: isCompletedDemographics should be shortcircuit if its skipped
       this.navPath = "/interest"; // They need to complete the interest form
     } else if (!this.data.consented || !this.data.user) {
       this.navPath = "/consent"; // They need to consent, or re-consent, and then create their records.

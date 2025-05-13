@@ -19,7 +19,6 @@ import { ELocaleString } from "./schema";
 export const CA_STRINGS: ELocaleString[] = [
   {
     key: `PAGE_TITLE`,
-    en: `Project Euphonia`,
     description: `Web page title for all pages`,
     text: `Projecte Euphonia`,
   },
@@ -30,315 +29,326 @@ export const CA_STRINGS: ELocaleString[] = [
   },
   {
     key: `WELCOME_TITLE`,
-    en: `Welcome to Project Euphonia!`,
     description: `Signup screen and consent screen titles`,
-    text: `¡Et donem la benvinguda a Projecte Euphonia!`,
+    text: `Et donem la benvinguda al Projecte Euphonia!`,
   },
   {
     key: `We're exploring how Google products and services
-    that use speech as an input method could work better for more people. We're seeking
-    voice contributions from adults who have difficulty being understood by others.
-
-    Voice samples can help us improve how Google understands individuals with speech
-    impairments.`,
+          that use speech as an input method could work better for more people. We're seeking
+          voice contributions from adults who have difficulty being understood by others.
+          Voice samples can help us improve how Google understands individuals with speech
+          impairments.`,
     description: `Signup screen`,
-    text: `Estem investigan com podrien funcionar millor i arribar a més persones els productes i serveis de Google que utilitzen la veu com a mètode d'introducció de text. Necessitem la aportació de persones adultes la veu dels quals resulti difícil d'entendre. Les mostres de veu poden ajudar-nos a fer que Google entengui millor a les persones que presentin algún transtorn de la parla.`,
+    text: `Estem explorant com els productes i serveis de Google
+           que utilitzen la parla com a mètode d'entrada podrien funcionar millor per a més persones. 
+           Busquem contribucions de veu de les persones adultes que tenen dificultats 
+           per ser enteses per les altres. Les mostres de veu poden ajudar-nos a millorar 
+           la manera en què Google entén les persones amb dificultats de la parla.`,
   },
   {
     key: `<b>IMPORTANT:</b> If you're filling out
-    this form on behalf of someone else, please ensure you have their permission
-    to do so.`,
+          this form on behalf of someone else, please ensure you have their permission
+          to do so.`,
     description: `Signup screen`,
-    text: `<b>IMPORTANTE:</b> Si quieres rellenar este formulario en nombre de otra persona, asegúrate de tener su permiso para hacerlo.`,
+    text: `<b>IMPORTANT:</b> Si ompliu aquest formulari a nom d'una altra persona, 
+          si us plau assegureu-vos de comptar amb la seva autorització per fer-ho.`,
   },
   {
     key: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
-    en: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
     description: `Signup screen`,
-    text: `¿Tienes alguna pregunta? 
-        <a id=signuphelplink target="_blank"
-        >Contacta con nosotros</a>`,
+    text: `Dubtes <a id=signuphelplink target="_blank">Contacta amb nosaltres</a>`,
   },
   {
     key: `Already enrolled? &nbsp;`,
     description: `Signup screen`,
-    text: `¿Ya te has registrado? &nbsp;`,
+    text: `Ja estàs inscrit/a? &nbsp;`,
   },
   {
     key: `Click to sign in and continue recording`,
     description: `Signup screen`,
-    text: `Haz clic para iniciar sesión y seguir grabando`,
+    text: `Fes clic per iniciar sessió i continuar l'enregistrament`,
   },
   {
     key: `To get started, please confirm your eligibility:`,
     description: `Signup screen`,
-    text: `Para empezar, confirma que cumples los requisitos:`,
+    text: `Per començar, sisplau confirma si compleixes els requisits:`,
   },
   {
     key: `Strangers, or voice technologies like Google Assistant, have difficulty understanding my speech (not because of an accent)`,
     description: `Signup screen eligibility question`,
-    text: `A las personas que no me conocen o a las tecnologías de voz, como el Asistente de Google, les resulta difícil entenderme cuando hablo (no por mi acento)`,
+    text: `Les persones desconegudes, o les tecnologies de veu com l'Assistent de Google, tenen dificultats per entendre la meva parla (no degut a l'accent)`,
   },
   {
     key: `I am at least 18 years of age`,
     description: `Signup screen eligibility question`,
-    text: `Tengo 18 años o más`,
+    text: `Tinc almenys 18 anys`,
   },
   {
     key: `Sign in and continue`,
     description: `Signup screen button`,
-    text: `Iniciar sesión y continuar`,
+    text: `Inicia sessió i continua`,
   },
   {
     key: `You will need to sign in with your Google
-    Account to contribute to the project. If you do not have a Google Account, you can
-    create one when you click to continue.`,
+         Account to contribute to the project. If you do not have a Google Account, you can
+         create one when you click to continue.`,
     description: `Signup screen instructions`,
-    text: `Tendrás que iniciar sesión con tu cuenta de Google para poder colaborar en el proyecto. Si no tienes una cuenta de Google, puedes crear una cuando hagas clic para continuar.`,
+    text: `Hauràs d'iniciar la sessió amb el teu compte de Google per contribuir al projecte. 
+          Si no tens un compte de Google, pots crear-ne un en fer clic per continuar.`,
   },
   {
     key: `Next`,
     description: `Interest form button, advance to the next screen`,
-    text: `Siguiente`,
+    text: `Següent`,
   },
   {
     key: `Go Back`,
-    description: `Interest form button, go back to the signup screen`,
-    text: `Volver`,
+    description: `Interest form and consent form buttons, go back to the previous screen`,
+    text: `Enrere`,
   },
   {
     key: `You must type your name to agree to the terms.`,
     description: `Consent form screen, require consent to proceed`,
-    text: `Debes escribir tu nombre para aceptar los términos.`,
+    text: `Has d'escriure el teu nom per acceptar les condicions.`,
   },
   {
     key: `Reset form and start over`,
     description: `Interest form button, clear fields and start over`,
-    text: `Borrar formulario y volver a empezar`,
+    text: `Reinicia el formulari i torna a començar`,
   },
   {
     key: `You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
-    Please review the following agreement: <span id=consentcounter></span>`,
+          Please review the following agreement: <span id=consentcounter></span>`,
     description: `Consent screen instructions`,
-    text: `Te estás registrando como <b id=whoisenrolling>&nbsp;</b>. Lee el siguiente contrato: <span id=consentcounter></span>`,
+    text: `T'inscrius com
+        <b id=whoisenrolling>&nbsp;</b>.
+        Sisplau, revisa el següent acord:
+        <span id=consentcounter></span>`,
   },
   {
     key: `Enroll`,
     description: `Consent screen, final action; consents to the program and allows recording`,
-    text: `Registrarse`,
+    text: `Inscriu-te`,
   },
   {
     key: `Next Agreement`,
     description: `Consent screen, to agree to the current consent and then see the next one. Only shows when there are multiple consents`,
-    text: `Siguiente contrato`,
+    text: `Següent Acord`,
   },
   {
     key: `INSTRUCTIONS_TITLE`,
     en: `Thanks for signing up for Project Euphonia!`,
     description: `Instructions screen title`,
-    text: `¡Gracias por registrarte en Project Euphonia!`,
+    text: `Gràcies per inscriure't al Projecte Euphonia!`,
   },
   {
     key: `INSTRUCTIONS_VIDEO_HTML`,
     description: `Instructional video iframe from YouTube`,
     text: `
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/sMLED9xrLts"
-        title="YouTube video player" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/y-ewGIghpyo?si=KxOHE_nyfqWdPaAC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     `,
   },
   {
     key: `INSTRUCTIONS_HTML`,
     en: `    <ul>
-    <li>Please take a moment to watch this video introduction.</li>
-    <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
-    <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
-    <li>You'll press the blue Record button, and then <b>read the
-    card aloud</b>, as accurately as possible.</li>
-    <li>When you are <b>finished speaking</b>, press the blue button again to stop recording.</li>
-    <li>When you finish recording all the cards, you're done!</li>
-    <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>`,
+      <li>Please take a moment to watch this video introduction.</li>
+      <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
+      <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
+      <li>You'll press the blue Record button, and then <b>read the
+      card aloud</b>, as accurately as possible.</li>
+      <li>When you are <b>finished speaking</b>, press the blue button again to stop recording.</li>
+      <li>When you finish recording all the cards, you're done!</li>
+      <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>`,
     description: `Instructions screen details`,
     text: `<ul>
-    <li>Dedica unos minutos a ver este vídeo introductorio.</li>
-    <li>En la pantalla siguiente, verás unas <b>tarjetas</b> que tendrás que leer en alto.</li>
-    <li>Te recomendamos que estés en un <b>entorno tranquilo</b> en el que no haya ruidos de fondo.</li>
-    <li>Tendrás que pulsar el botón azul para grabar y, a continuación, <b>leer la tarjeta en voz alta</b> con la mayor precisión posible.</li> <li>Cuando hayas <b>terminado de hablar</b>, pulsa de nuevo el botón azul para dejar de grabar.</li>
-    <li>Una vez grabadas todas las tarjetas, habrás terminado.</li>
-    <li>¿Tienes problemas para grabar?
-    <a target="_blank" href="http://g.co/disabilitysupport">Ponte en contacto con nosotros</a> para que te ayudemos.</li>`,
+      <li>Sisplau dedica un moment a veure aquest vídeo d'introducció.</li>
+      <li>A la pantalla següent, veuràs <b>targetes</b> per llegir en veu alta.</li>
+      <li>Hauràs d'estar en un <b>entorn tranquil i silenciós</b> i evitar qualsevol soroll de fons.</li>
+      <li>Fes clic al botó Enregistra de color blau i després <b>llegeix la targeta en veu alta</b>, 
+      amb la màxima precisió possible.</li>
+      <li>Has de pulsar el botó blau Enregistrar i , a continuació, <b>llegir la targeta en veu alta</b>, amb la major precisió possible.</li>
+      <li>Quan hagis <b>acabat de parlar</b>, torna a fer clic al botó blau per aturar l'enregistrament.</li>
+      <li>Quan acabis d'enregistrar totes les targetes, ja estaràs!</li>
+      <li>Tens problemes per enregistrar? 
+      Posa't en <a target="_blank" href="http://g.co/disabilitysupport">contacte</a>
+      amb nosaltres per demanar ajuda.</li>`,
   },
   {
     key: `Get Started`,
     description: `Instructions screen button to continue to next screen`,
-    text: `Empezar`,
+    text: `Comença`,
   },
   {
     key: `Microphone Setup`,
     description: `Microphone and settings screen title`,
-    text: `Configuración del micrófono`,
+    text: `Configuració del micròfon`,
   },
   {
     key: `
-    In order to record your speech, we need permission to use your microphone
-    through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`,
+          In order to record your speech, we need permission to use your microphone
+          through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`,
     description: `Microphone permission instructions`,
-    text: `Para poder grabar lo que dices, Euphonia necesita permiso para usar el micrófono a través de tu navegador web. <b>Haz clic en "Permitir"</b> para concedérselo.`,
+    text: `Per enregistrar la teva parla, Euphonia necessita permís per utilitzar el teu micròfon a través del navegador web.
+          <b>Sisplau fes clic a "Permetre"</b>
+          per autoritzar l'ús del micròfon.`,
   },
   {
     key: `
-    We could not access your microphone due to a permission problem. You'll need to allow access
-    in order to continue.`,
+          We could not access your microphone due to a permission problem. You'll need to allow access
+          in order to continue.`,
     description: `Microphone permission error message`,
-    text: `Euphonia no ha podido acceder a tu micrófono porque hay un problema con el permiso. Para continuar, tienes que permitir el acceso.`,
+    text: `Euphonia no ha pogut accedir al teu micròfon a causa d'un problema amb l'autorització. 
+          Per poder continuar, has d'autoritzar l'accés.`,
   },
   {
     key: `
-    It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
-    by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`,
+          It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
+          by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`,
     description: `Microphone permission error message`,
-    text: `Parece que el permiso de acceso a tu micrófono está bloqueado. Tienes que <b>permitir el acceso</b> haciendo clic en la <b>barra de direcciones de tu navegador</b>, o <b>restablecer el permiso</b> del micrófono.`,
+    text: `Sembla que el teu permís de l'accés al micròfon està bloquejat. 
+          Hauràs de <b>permetre l'accés</b> fent clic a la <b>barra d'adreces del teu navegador</b>,
+          and/or <b>restablint el permís</b> per al micròfon.`,
   },
   {
     key: `
-    Your microphone is all set! You can start recording as soon as you're ready.`,
+          Your microphone is all set! You can start recording as soon as you're ready.`,
     description: `Microphone permission success message`,
-    text: `¡El micrófono ya está listo! Puedes empezar a grabar cuando quieras.`,
+    text: `El teu micròfon ja està configurat! Pots començar a enregistrar quan puguis.`,
   },
   {
     key: `Use the default microphone`,
     description: `Let's the user choose the browser's default recording device instead of picking one explicitly`,
-    text: `Usar el micrófono predeterminado`,
+    text: `Utilitza el micròfon per defecte`,
   },
   {
     key: `Save`,
     description: `Microphone configuration screen, accept changes to microphone device`,
-    text: `Guardar`,
+    text: `Desa`,
   },
   {
     key: `Try again`,
     description: `Microphone permission failure retry button`,
-    text: `Reintentar`,
+    text: `Torna a provar`,
   },
   {
     key: `Start recording!`,
     description: `Microphone setup screen button, continue to recording screen`,
-    text: `¡Empieza a grabar!`,
+    text: `Comença a enregistrar!`,
   },
   {
     key: `Microphone settings`,
     description: `Microphone setup screen title`,
-    text: `Ajustes del micrófono`,
+    text: `Configuració del micròfon`,
   },
   {
     key: `Previous card`,
     description: `Recording screen button, go back to prior card`,
-    text: `Tarjeta anterior`,
+    text: `Targeta anterior`,
   },
   {
     key: `Next card`,
     description: `Recording screen button, go forward to next card`,
-    text: `Tarjeta siguiente`,
+    text: `Targeta següent`,
   },
   {
     key: `Replay`,
     description: `Recording screen button, listen to previously recorded audio`,
-    text: `Volver a reproducir`,
+    text: `Reprodueix`,
   },
   {
     key: `Stop`,
     description: `Recording screen button, to interrupt a recording that's currently being played back`,
-    text: `Detener`,
+    text: `Atura`,
   },
   {
     key: `Delete`,
     description: `Recording screen button, delete a previous recording`,
-    text: `Eliminar`,
+    text: `Suprimeix`,
   },
   {
     key: `Deleting...`,
     description: `Recording screen button, shown briefly while the recording is being deleted`,
-    text: `Eliminando...`,
+    text: `Suprimint...`,
   },
   {
     key: `Record`,
     description: `Recording screen button, record audio for a card`,
-    text: `Grabar`,
+    text: `Enregistra`,
   },
   {
     key: `Record Again`,
     description: `Recording screen button, record audio for a card that already has been recorded`,
-    text: `Volver a grabar`,
+    text: `Torna a enregistrar`,
   },
   {
     key: `(this card is done)`,
     description: `Labels tasks that have already been recorded once`,
-    text: `(ya has hecho esta tarjeta)`,
+    text: `(aquesta targeta està feta)`,
   },
   {
     key: `Cancel`,
     description: `Recording screen button and microphone setting screen button, cancel recording / microphone changes`,
-    text: `Cancelar`,
+    text: `Cancel·la`,
   },
   {
     key: `Done`,
     description: `Recording screen button, shown while recording to end the recording and start uploading it`,
-    text: `Listo`,
+    text: `Fet`,
   },
   {
     key: `Starting...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
-    text: `Iniciando...`,
+    text: `Començant...`,
   },
   {
     key: `Now recording...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
-    text: `Grabando ahora...`,
+    text: `Està enregistrant...`,
   },
   {
     key: `Recording uploaded!`,
     description: `Recording screen message when the recording uploaded successfully`,
-    text: `Grabación subida.`,
+    text: `S'ha pujat l'enregistrament!`,
   },
   {
     key: `Recording uploaded! Here's the next card.`,
     description: `Recording screen message when the recording uploads successfully and the next card is automatically displayed`,
-    text: `Grabación subida. Aquí tienes la siguiente tarjeta.`,
+    text: `S'ha pujat l'enregistrament! Aquí tens la següent targeta.`,
   },
   {
     key: `Recording deleted.`,
     description: `Recording screen message when a recording has just been deleted`,
-    text: `Grabación eliminada.`,
+    text: `Enregistrament suprimit.`,
   },
   {
     key: `Recording canceled.`,
     description: `Recording screen message when a recording has just been canceled`,
-    text: `Grabación cancelada.`,
+    text: `Enregistrament cancel·lat.`,
   },
   {
     key: `No recording to delete.`,
     description: `Error message when the user deletes but nothing is selected.`,
-    text: `No hay ninguna grabación que eliminar.`,
+    text: `No hi ha cap enregistrament per suprimir.`,
   },
   {
     key: `No recording to play.`,
     description: `Error message when the user replays but nothing is selected.`,
-    text: `No hay ninguna grabación que reproducir.`,
+    text: `No hi ha cap enregistrament per reproduir.`,
   },
   {
     key: `Upload failed, your audio may not be saved.`,
     description: `Error message when the user's recording was not received by the server.`,
-    text: `No se ha podido subir la grabación. Puede que el audio no se guarde.`,
+    text: `No s'ha pogut pujar l'enregistrament, és possible que l'àudio no s'hagi desat.`,
   },
   {
     key: `Canceling...`,
     description: `Recording screen button, shown briefly when the recording is being canceled`,
-    text: `Cancelando...`,
+    text: `Cancel·lant...`,
   },
   {
     key: `Uploading...`,
     description: `Recording screen button, shown briefly when the recording is being uploaded`,
-    text: `Subiendo...`,
+    text: `S'està pujant...`,
   },
   {
     key: `?`,
@@ -353,659 +363,676 @@ export const CA_STRINGS: ELocaleString[] = [
   {
     key: `Continue`,
     description: `Sign up screen and consent screen buttons, continue to the next page`,
-    text: `Continuar`,
+    text: `Continua`,
   },
   {
     key: `No assignments`,
     description: `Recording screen, message when the user has no cards to work on`,
-    text: `No hay ninguna tarea`,
+    text: `Sense tasques`,
   },
   {
     key: `<b>{number_of_completed_cards}</b> of <b>{total_number_of_tasks_needed}</b> cards <b>done</b>`,
     description: `Recording screen, progress message of tasks completed so far`,
-    text: `<b>{number_of_completed_cards}</b> de <b>{total_number_of_tasks_needed}</b> tarjetas <b>terminadas</b>`,
+    text: `<b>{number_of_completed_cards}</b> de <b>{total_number_of_tasks_needed}</b> targetes <b>fetes</b>`,
   },
   {
     key: `Thank you!`,
     description: `Done screen title, shown when the user has finished at least one pass`,
-    text: `¡Gracias!`,
+    text: `Gràcies!`,
   },
   {
     key: `          Great work! You've gone through the cards once, and recorded
-    <b class=count>{number_of_completed_cards} cards</b>
-    out of the total (<b>{total_number_of_tasks_needed} cards</b>).
-    When you're ready, you can click the button below to finish up the rest of the cards.      `,
+            <b class=count>{number_of_completed_cards} cards</b>
+            out of the total (<b>{total_number_of_tasks_needed} cards</b>).
+            When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards`,
-    text: `¡Buen trabajo! Has visto las tarjetas una vez y has grabado <b class=count>{number_of_completed_cards} tarjetas</b> del total de <b>{total_number_of_tasks_needed}</b>. Cuando quieras, haz clic en el botón de abajo para terminar el resto de las tarjetas.`,
+    text: `
+    Molt bé! Has repassat les targetes una vegada i has enregistrat
+        <b class=count>{number_of_completed_cards} targetes</b>
+        del total de
+        (<b>{total_number_of_tasks_needed} targetes</b>).
+        Quan estiguis a punt, pots fer clic al botó a baix per acabar la resta de targetes.`,
   },
   {
     key: `          You're almost done! You've gone through the cards once, and recorded
-    <b class=count>{number_of_completed_cards} cards</b>
-    out of the total (<b>{total_number_of_tasks_needed} cards</b>).
-    When you're ready, you can click the button below to finish up the rest of the cards.      `,
+            <b class=count>{number_of_completed_cards} cards</b>
+            out of the total (<b>{total_number_of_tasks_needed} cards</b>).
+            When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards.
-  This version displays when the user has done more than 75% of the work.`,
-    text: `¡Ya casi has terminado! Has visto las tarjetas una vez y has grabado <b class=count>{number_of_completed_cards} tarjetas</b> del total de <b>{total_number_of_tasks_needed}</b>. Cuando quieras, haz clic en el botón de abajo para terminar el resto de las tarjetas.`,
+        This version displays when the user has done more than 75% of the work.`,
+    text: `Gairebé acabes! Has repassat les targetes una vegada i has enregistrat
+          <b class=count>{number_of_completed_cards} targetes</b>
+          del total de
+          (<b>{total_number_of_tasks_needed} targetes</b>).
+          Quan estiguis a punt, pots fer clic al botó a baix per acabar la resta de targetes.`,
   },
   {
     key: `Continue Recording`,
     description: `Done screen and instructions screen buttons, return to the recording screen`,
-    text: `Seguir grabando`,
+    text: `Continua enregistrant`,
   },
   {
     key: `Continue recording!`,
     description: `Microphone settings screen, return to the recording screen`,
-    text: `¡Sigue grabando!`,
+    text: `Continua a enregistrar!`,
   },
   {
     key: `You previously indicated that you are eligible.`,
     description: `Signup screen, a message showing that the participant has already completed this form`,
-    text: `Has indicado anteriormente que cumples los requisitos.`,
+    text: `Has indicat prèviament que compleixes els requisits.`,
   },
   {
     key: `You have already completed this form.`,
     description: `Interest form screen, a message showing that the participant has already completed this form`,
-    text: `Ya has completado este formulario.`,
+    text: `Ja has omplert aquest formulari.`,
   },
   {
     key: `Country is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Es obligatorio indicar el país.`,
+    text: `El camp del país és obligatori.`,
   },
   {
     key: `State is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Es obligatorio indicar el estado/provincia.`,
+    text: `El camp de l'estat és obligatori.`,
   },
   {
     key: `Please tell us if someone will be helping you record.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Indícanos si alguien te va a ayudar a grabar.`,
+    text: `Sisplau digues si algú t'acompanyarà a enregistrar.`,
   },
   {
     key: `Please tell us how to email the person helping you.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Indícanos cómo podemos contactar por correo electrónico con la persona que te va a ayudar.`,
+    text: `Sisplau digues com enviar un correu electrònic a la persona que t'acompanya.`,
   },
   {
     key: `You'll need to give consent to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Tendrás que dar tu consentimiento para continuar.`,
+    text: `Hauràs de donar el teu consentiment per procedir.`,
   },
   {
     key: `Please write your initials next to your consent.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Escribe tus iniciales junto a tu consentimiento.`,
+    text: `Sisplau escriu les teves inicials al costat del teu consentiment.`,
   },
   {
     key: `You'll need to accept the terms to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Tendrás que aceptar los términos para continuar.`,
+    text: `Hauràs d'acceptar les condicions per procedir.`,
   },
   {
     key: `You have already consented.`,
     description: `Consent screen, a message showing that the participant has already completed this form`,
-    text: `Ya has dado tu consentimiento.`,
+    text: `Ja has donat el teu consentiment.`,
   },
   {
     key: `By typing my name here, I agree to these terms:`,
-    description: `Consent screen, indicates that the participant consents`,
-    text: `Al escribir mi nombre aquí, acepto los siguientes términos:`,
+    description: `Consent screen, instructs the user to type their name in the adjacent text field`,
+    text: `En escriure el meu nom aquí, accepto aquestes condicions:`,
   },
   {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
     description: ``,
-    text: `&nbsp;(Contrato {which_agreement_number} de {total_number_of_agreements})`,
+    text: `&nbsp;(Acord {which_agreement_number} de {total_number_of_agreements})`,
   },
   {
     key: `Congratulations! You're all done!`,
     description: `Progress bar display when there are no tasks left to do`,
-    text: `¡Enhorabuena! ¡Ya has terminado!`,
+    text: `Enhorabona! Ja ho tens!`,
   },
   {
     key: `Congratulations!`,
     description: `Title of the done screen`,
-    text: `¡Enhorabuena!`,
+    text: `Enhorabona!`,
   },
   {
     key: `Review Recordings (optional)`,
     description: `Button on done screen which returns to the recording screen, if the user wants to listen to recordings`,
-    text: `Revisar grabaciones (opcional)`,
+    text: `Revisa Enregistraments (opcional)`,
   },
   {
     key: `
-    You have completed all your cards! We'll be reviewing them soon, and if everything
-    looks good, you'll be receiving an email from rewards@perks.com within the next 7-10
-    business days with a link to claim your gift card.
-    <br/><br/>
-  <b>Thank you for contributing <b class=count>{number_of_completed_cards} cards</b> to the project!</b>
-    <br/><br/>
-    (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
+        You have completed all your cards! We'll be reviewing them soon, and if everything
+        looks good, you'll be receiving an email from rewards@perks.com within the next 7-10
+        business days with a link to claim your gift card.
+        <br/><br/>
+        <b>Thank you for contributing <b class=count>{number_of_completed_cards} cards</b> to the project!</b>
+        <br/><br/>
+        (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
     description: `Descriptive text on the done screen`,
-    text: `Has completado todas las tarjetas. Las revisaremos próximamente y, si está todo bien, recibirás un correo de rewards@perks.com en los próximos 7-10 días hábiles con un enlace a tu tarjeta regalo. <br/><br/> <b>Gracias por contribuir con <b class=count>{number_of_completed_cards} tarjetas</b> al Proyect Euphonia.</b> <br/><br/> Si quieres, puedes volver y revisar tus grabaciones, pero no es necesario. <b>Ya has acabado</b>.`,
+    text: `Has completat totes les targetes! Aviat les revisarem i,
+        si tot està bé, rebràs un correu electrònic de
+        rewards@perks.com
+        els propers 7-10 dies laborables amb un enllaç per reclamar la teva targeta regal.
+        <br/><br/>
+        <b>Gràcies per contribuir amb
+        <b class=count>{number_of_completed_cards} targetes</b>
+        al Projecte Euphonia!
+        </b><br/><br/>
+        (Si ho desitges, ara pots tornar enrere i revisar els teus enregistraments, tot i que això no és necessari.
+        <b>Ja has acabat!!</b>)`,
   },
-
   {
     key: `__INTEREST_FORM_HTML__`,
     description: `The HTML for the interest form; all HTML IDs must be intact exactly as is!`,
 
+    // Each translatable string is on a line by itself to make it a little easier to translate
     text: `
-
     <div class=title
-    >Proyecto Google Euphonia: formulario de interés</div>
+    >Google Projecte Euphonia: Formulari d'interés</div>
     <div class=sectiontitle
-    >Información sobre ti</div>
+    >Informació personal</div>
     <div class=formbox>
-    <div class=fieldname><label for=ifname
-    >Nombre</label>
-    <span class=optional
-    >(Opcional)</span>
-    </div>
-    <div class=fielddescription
-    >Tu apodo, tu nombre y apellidos, solo tu nombre, etc. La forma en que prefieras que nos dirijamos a ti.</div>
-    <input id=ifname class=formtext />
+      <div class=fieldname><label for=ifname
+      >Nom</label>
+      <span class=optional
+      >(Opcional)</span>
+      </div>
+      <div class=fielddescription
+      >Nickname, nom &amp; cognom, només nom, etc. Qualsevol forma en la que vulguis ser referit!</div>
+      <input id=ifname class=formtext />
     </div>
     
     <div class=formbox>
-    <div class=fieldname><label for=ifcountry
-    >¿En qué país resides?</label>
-    <span class=required>*</span></div>
-    <div class=fielddescription
-    >TEN EN CUENTA LA SIGUIENTE INFORMACIÓN IMPORTANTE: Lamentablemente, en este momento no podemos enviar tarjetas regalo a residentes de los países marcados a continuación con un asterisco (*). Si resides en uno de estos países, puedes participar en la investigación de Proyect Euphonia, y te avisaremos cuando puedas recibir tarjetas regalo.
-    </div>
-    <select id=ifcountry class=formselect>
-    <option value="Spain">España</option>
-    <option value="USA">United States of America</option>
-    <option value="* Afghanistan">* Afghanistan</option>
-    <option value="* Albania">* Albania</option>
-    <option value="Algeria">Algeria</option>
-    <option value="Andorra">Andorra</option>
-    <option value="Angola">Angola</option>
-    <option value="Antigua and Barbuda">Antigua and Barbuda</option>
-    <option value="Argentina">Argentina</option>
-    <option value="Armenia">Armenia</option>
-    <option value="Aruba">Aruba</option>
-    <option value="Australia">Australia</option>
-    <option value="Austria">Austria</option>
-    <option value="Azerbaijan">Azerbaijan</option>
-    <option value="* Bahamas, The">* Bahamas, The</option>
-    <option value="Bahrain">Bahrain</option>
-    <option value="Bangladesh">Bangladesh</option>
-    <option value="* Barbados">* Barbados</option>
-    <option value="* Belarus">* Belarus</option>
-    <option value="Belgium">Belgium</option>
-    <option value="Belize">Belize</option>
-    <option value="* Benin">* Benin</option>
-    <option value="Bhutan">Bhutan</option>
-    <option value="Bolivia">Bolivia</option>
-    <option value="* Bosnia and Herzegovina">* Bosnia and Herzegovina</option>
-    <option value="Botswana">Botswana</option>
-    <option value="Brazil">Brazil</option>
-    <option value="Brunei">Brunei</option>
-    <option value="Bulgaria">Bulgaria</option>
-    <option value="* Burkina Faso">* Burkina Faso</option>
-    <option value="* Burma">* Burma</option>
-    <option value="* Burundi">* Burundi</option>
-    <option value="* Cambodia">* Cambodia</option>
-    <option value="Cameroon">Cameroon</option>
-    <option value="Canada">Canada</option>
-    <option value="Cabo Verde">Cabo Verde</option>
-    <option value="* Central African Republic">* Central African Republic</option>
-    <option value="* Chad">* Chad</option>
-    <option value="Chile">Chile</option>
-    <option value="China">China</option>
-    <option value="* Colombia">* Colombia</option>
-    <option value="* Comoros">* Comoros</option>
-    <option value="* Congo, Democratic Republic of the">* Congo, Democratic Republic of the</option>
-    <option value="* Congo, Republic of the">* Congo, Republic of the</option>
-    <option value="Costa Rica">Costa Rica</option>
-    <option value="* Cote d'Ivoire">* Cote d'Ivoire</option>
-    <option value="Croatia">Croatia</option>
-    <option value="* Cuba">* Cuba</option>
-    <option value="Curacao">Curacao</option>
-    <option value="Cyprus">Cyprus</option>
-    <option value="Czechia">Czechia</option>
-    <option value="Denmark">Denmark</option>
-    <option value="Djibouti">Djibouti</option>
-    <option value="Dominica">Dominica</option>
-    <option value="* Dominican Republic">* Dominican Republic</option>
-    <option value="East Timor (see Timor-Leste)">East Timor (see Timor-Leste)</option>
-    <option value="Ecuador">Ecuador</option>
-    <option value="Egypt">Egypt</option>
-    <option value="El Salvador">El Salvador</option>
-    <option value="* Equatorial Guinea">* Equatorial Guinea</option>
-    <option value="* Eritrea">* Eritrea</option>
-    <option value="Estonia">Estonia</option>
-    <option value="Eswatini">Eswatini</option>
-    <option value="Ethiopia">Ethiopia</option>
-    <option value="Fiji">Fiji</option>
-    <option value="Finland">Finland</option>
-    <option value="France">France</option>
-    <option value="Gabon">Gabon</option>
-    <option value="Gambia, The">Gambia, The</option>
-    <option value="Georgia">Georgia</option>
-    <option value="Germany">Germany</option>
-    <option value="Ghana">Ghana</option>
-    <option value="Greece">Greece</option>
-    <option value="Grenada">Grenada</option>
-    <option value="Guatemala">Guatemala</option>
-    <option value="* Guinea">* Guinea</option>
-    <option value="* Guinea-Bissau">* Guinea-Bissau</option>
-    <option value="Guyana">Guyana</option>
-    <option value="* Haiti">* Haiti</option>
-    <option value="Holy See">Holy See</option>
-    <option value="Honduras">Honduras</option>
-    <option value="Hong Kong">Hong Kong</option>
-    <option value="Hungary">Hungary</option>
-    <option value="Iceland">Iceland</option>
-    <option value="India">India</option>
-    <option value="Indonesia">Indonesia</option>
-    <option value="* Iran">* Iran</option>
-    <option value="* Iraq">* Iraq</option>
-    <option value="Ireland">Ireland</option>
-    <option value="Israel">Israel</option>
-    <option value="Italy">Italy</option>
-    <option value="Jamaica">Jamaica</option>
-    <option value="Japan">Japan</option>
-    <option value="Jordan">Jordan</option>
-    <option value="Kazakhstan">Kazakhstan</option>
-    <option value="Kenya">Kenya</option>
-    <option value="Kiribati">Kiribati</option>
-    <option value="Korea, North">Korea, North</option>
-    <option value="Korea, South">Korea, South</option>
-    <option value="* Kosovo">* Kosovo</option>
-    <option value="Kuwait">Kuwait</option>
-    <option value="Kyrgyzstan">Kyrgyzstan</option>
-    <option value="* Laos">* Laos</option>
-    <option value="* Latvia">* Latvia</option>
-    <option value="* Lebanon">* Lebanon</option>
-    <option value="* Lesotho">* Lesotho</option>
-    <option value="* Liberia">* Liberia</option>
-    <option value="* Libya">* Libya</option>
-    <option value="Liechtenstein">Liechtenstein</option>
-    <option value="Lithuania">Lithuania</option>
-    <option value="Luxembourg">Luxembourg</option>
-    <option value="Macau">Macau</option>
-    <option value="* Madagascar">* Madagascar</option>
-    <option value="Malawi">Malawi</option>
-    <option value="Malaysia">Malaysia</option>
-    <option value="Maldives">Maldives</option>
-    <option value="* Mali">* Mali</option>
-    <option value="Malta">Malta</option>
-    <option value="Marshall Islands">Marshall Islands</option>
-    <option value="Mauritania">Mauritania</option>
-    <option value="* Mauritius">* Mauritius</option>
-    <option value="Mexico">Mexico</option>
-    <option value="Micronesia">Micronesia</option>
-    <option value="Moldova">Moldova</option>
-    <option value="Monaco">Monaco</option>
-    <option value="Mongolia">Mongolia</option>
-    <option value="* Montenegro">* Montenegro</option>
-    <option value="Morocco">Morocco</option>
-    <option value="Mozambique">Mozambique</option>
-    <option value="Namibia">Namibia</option>
-    <option value="Nauru">Nauru</option>
-    <option value="Nepal">Nepal</option>
-    <option value="Netherlands">Netherlands</option>
-    <option value="New Zealand">New Zealand</option>
-    <option value="* Nicaragua">* Nicaragua</option>
-    <option value="Niger">Niger</option>
-    <option value="* Nigeria">* Nigeria</option>
-    <option value="* North Korea">* North Korea</option>
-    <option value="* North Macedonia">* North Macedonia</option>
-    <option value="Norway">Norway</option>
-    <option value="Oman">Oman</option>
-    <option value="Pakistan">Pakistan</option>
-    <option value="Palau">Palau</option>
-    <option value="Palestinian Territories">Palestinian Territories</option>
-    <option value="* Panama">* Panama</option>
-    <option value="Papua New Guinea">Papua New Guinea</option>
-    <option value="Paraguay">Paraguay</option>
-    <option value="Peru">Peru</option>
-    <option value="Philippines">Philippines</option>
-    <option value="Poland">Poland</option>
-    <option value="Portugal">Portugal</option>
-    <option value="Qatar">Qatar</option>
-    <option value="Romania">Romania</option>
-    <option value="* Russia">* Russia</option>
-    <option value="Rwanda">Rwanda</option>
-    <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
-    <option value="Saint Lucia">Saint Lucia</option>
-    <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
-    <option value="Samoa">Samoa</option>
-    <option value="San Marino">San Marino</option>
-    <option value="Sao Tome and Principe">Sao Tome and Principe</option>
-    <option value="Saudi Arabia">Saudi Arabia</option>
-    <option value="Senegal">Senegal</option>
-    <option value="* Serbia">* Serbia</option>
-    <option value="Seychelles">Seychelles</option>
-    <option value="Sierra Leone">Sierra Leone</option>
-    <option value="Singapore">Singapore</option>
-    <option value="Sint Maarten">Sint Maarten</option>
-    <option value="Slovakia">Slovakia</option>
-    <option value="* Slovenia">* Slovenia</option>
-    <option value="Solomon Islands">Solomon Islands</option>
-    <option value="* Somalia">* Somalia</option>
-    <option value="South Africa">South Africa</option>
-    <option value="South Korea">South Korea</option>
-    <option value="* South Sudan">* South Sudan</option>
-    <option value="Sri Lanka">Sri Lanka</option>
-    <option value="* Sudan">* Sudan</option>
-    <option value="Suriname">Suriname</option>
-    <option value="Swaziland">Swaziland</option>
-    <option value="Sweden">Sweden</option>
-    <option value="Switzerland">Switzerland</option>
-    <option value="* Syria">* Syria</option>
-    <option value="Taiwan">Taiwan</option>
-    <option value="Tajikistan">Tajikistan</option>
-    <option value="Tanzania">Tanzania</option>
-    <option value="Thailand">Thailand</option>
-    <option value="Timor-Leste">Timor-Leste</option>
-    <option value="Togo">Togo</option>
-    <option value="Tonga">Tonga</option>
-    <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-    <option value="* Tunisia">* Tunisia</option>
-    <option value="* Turkey">* Turkey</option>
-    <option value="Turkmenistan">Turkmenistan</option>
-    <option value="Tuvalu">Tuvalu</option>
-    <option value="* Uganda">* Uganda</option>
-    <option value="* Ukraine">* Ukraine</option>
-    <option value="United Arab Emirates">United Arab Emirates</option>
-    <option value="United Kingdom">United Kingdom</option>
-    <option value="Uruguay">Uruguay</option>
-    <option value="Uzbekistan">Uzbekistan</option>
-    <option value="Vanuatu">Vanuatu</option>
-    <option value="* Venezuela">* Venezuela</option>
-    <option value="Vietnam">Vietnam</option>
-    <option value="Yemen">Yemen</option>
-    <option value="Zambia">Zambia</option>
-    <option value="* Zimbabwe">* Zimbabwe</option>
-    </select>
+      <div class=fieldname><label for=ifcountry
+      >A quin país resideixes?</label>
+      <span class=required>*</span></div>
+      <div class=fielddescription
+      >IMPORTANT, PLEASE NOTE: We are regrettably unable to send gift cards at this time to residents of the countries indicated below with an asterisk (*). If you reside in one of these countries, you are still welcome to participate in Project Euphonia research, and we'll notify you if and when you'll be able to receive gift cards.
+      </div>
+      <select id=ifcountry class=formselect>
+        <option value="USA">United States of America</option>
+        <option value="* Afghanistan">* Afghanistan</option>
+        <option value="* Albania">* Albania</option>
+        <option value="Algeria">Algeria</option>
+        <option value="Andorra">Andorra</option>
+        <option value="Angola">Angola</option>
+        <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+        <option value="Argentina">Argentina</option>
+        <option value="Armenia">Armenia</option>
+        <option value="Aruba">Aruba</option>
+        <option value="Australia">Australia</option>
+        <option value="Austria">Austria</option>
+        <option value="Azerbaijan">Azerbaijan</option>
+        <option value="* Bahamas, The">* Bahamas, The</option>
+        <option value="Bahrain">Bahrain</option>
+        <option value="Bangladesh">Bangladesh</option>
+        <option value="* Barbados">* Barbados</option>
+        <option value="* Belarus">* Belarus</option>
+        <option value="Belgium">Belgium</option>
+        <option value="Belize">Belize</option>
+        <option value="* Benin">* Benin</option>
+        <option value="Bhutan">Bhutan</option>
+        <option value="Bolivia">Bolivia</option>
+        <option value="* Bosnia and Herzegovina">* Bosnia and Herzegovina</option>
+        <option value="Botswana">Botswana</option>
+        <option value="Brazil">Brazil</option>
+        <option value="Brunei">Brunei</option>
+        <option value="Bulgaria">Bulgaria</option>
+        <option value="* Burkina Faso">* Burkina Faso</option>
+        <option value="* Burma">* Burma</option>
+        <option value="* Burundi">* Burundi</option>
+        <option value="* Cambodia">* Cambodia</option>
+        <option value="Cameroon">Cameroon</option>
+        <option value="Canada">Canada</option>
+        <option value="Cabo Verde">Cabo Verde</option>
+        <option value="* Central African Republic">* Central African Republic</option>
+        <option value="* Chad">* Chad</option>
+        <option value="Chile">Chile</option>
+        <option value="China">China</option>
+        <option value="* Colombia">* Colombia</option>
+        <option value="* Comoros">* Comoros</option>
+        <option value="* Congo, Democratic Republic of the">* Congo, Democratic Republic of the</option>
+        <option value="* Congo, Republic of the">* Congo, Republic of the</option>
+        <option value="Costa Rica">Costa Rica</option>
+        <option value="* Cote d'Ivoire">* Cote d'Ivoire</option>
+        <option value="Croatia">Croatia</option>
+        <option value="* Cuba">* Cuba</option>
+        <option value="Curacao">Curacao</option>
+        <option value="Cyprus">Cyprus</option>
+        <option value="Czechia">Czechia</option>
+        <option value="Denmark">Denmark</option>
+        <option value="Djibouti">Djibouti</option>
+        <option value="Dominica">Dominica</option>
+        <option value="* Dominican Republic">* Dominican Republic</option>
+        <option value="East Timor (see Timor-Leste)">East Timor (see Timor-Leste)</option>
+        <option value="Ecuador">Ecuador</option>
+        <option value="Egypt">Egypt</option>
+        <option value="El Salvador">El Salvador</option>
+        <option value="* Equatorial Guinea">* Equatorial Guinea</option>
+        <option value="* Eritrea">* Eritrea</option>
+        <option value="Estonia">Estonia</option>
+        <option value="Eswatini">Eswatini</option>
+        <option value="Ethiopia">Ethiopia</option>
+        <option value="Fiji">Fiji</option>
+        <option value="Finland">Finland</option>
+        <option value="France">France</option>
+        <option value="Gabon">Gabon</option>
+        <option value="Gambia, The">Gambia, The</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Germany">Germany</option>
+        <option value="Ghana">Ghana</option>
+        <option value="Greece">Greece</option>
+        <option value="Grenada">Grenada</option>
+        <option value="Guatemala">Guatemala</option>
+        <option value="* Guinea">* Guinea</option>
+        <option value="* Guinea-Bissau">* Guinea-Bissau</option>
+        <option value="Guyana">Guyana</option>
+        <option value="* Haiti">* Haiti</option>
+        <option value="Holy See">Holy See</option>
+        <option value="Honduras">Honduras</option>
+        <option value="Hong Kong">Hong Kong</option>
+        <option value="Hungary">Hungary</option>
+        <option value="Iceland">Iceland</option>
+        <option value="India">India</option>
+        <option value="Indonesia">Indonesia</option>
+        <option value="* Iran">* Iran</option>
+        <option value="* Iraq">* Iraq</option>
+        <option value="Ireland">Ireland</option>
+        <option value="Israel">Israel</option>
+        <option value="Italy">Italy</option>
+        <option value="Jamaica">Jamaica</option>
+        <option value="Japan">Japan</option>
+        <option value="Jordan">Jordan</option>
+        <option value="Kazakhstan">Kazakhstan</option>
+        <option value="Kenya">Kenya</option>
+        <option value="Kiribati">Kiribati</option>
+        <option value="Korea, North">Korea, North</option>
+        <option value="Korea, South">Korea, South</option>
+        <option value="* Kosovo">* Kosovo</option>
+        <option value="Kuwait">Kuwait</option>
+        <option value="Kyrgyzstan">Kyrgyzstan</option>
+        <option value="* Laos">* Laos</option>
+        <option value="* Latvia">* Latvia</option>
+        <option value="* Lebanon">* Lebanon</option>
+        <option value="* Lesotho">* Lesotho</option>
+        <option value="* Liberia">* Liberia</option>
+        <option value="* Libya">* Libya</option>
+        <option value="Liechtenstein">Liechtenstein</option>
+        <option value="Lithuania">Lithuania</option>
+        <option value="Luxembourg">Luxembourg</option>
+        <option value="Macau">Macau</option>
+        <option value="* Madagascar">* Madagascar</option>
+        <option value="Malawi">Malawi</option>
+        <option value="Malaysia">Malaysia</option>
+        <option value="Maldives">Maldives</option>
+        <option value="* Mali">* Mali</option>
+        <option value="Malta">Malta</option>
+        <option value="Marshall Islands">Marshall Islands</option>
+        <option value="Mauritania">Mauritania</option>
+        <option value="* Mauritius">* Mauritius</option>
+        <option value="Mexico">Mexico</option>
+        <option value="Micronesia">Micronesia</option>
+        <option value="Moldova">Moldova</option>
+        <option value="Monaco">Monaco</option>
+        <option value="Mongolia">Mongolia</option>
+        <option value="* Montenegro">* Montenegro</option>
+        <option value="Morocco">Morocco</option>
+        <option value="Mozambique">Mozambique</option>
+        <option value="Namibia">Namibia</option>
+        <option value="Nauru">Nauru</option>
+        <option value="Nepal">Nepal</option>
+        <option value="Netherlands">Netherlands</option>
+        <option value="New Zealand">New Zealand</option>
+        <option value="* Nicaragua">* Nicaragua</option>
+        <option value="Niger">Niger</option>
+        <option value="* Nigeria">* Nigeria</option>
+        <option value="* North Korea">* North Korea</option>
+        <option value="* North Macedonia">* North Macedonia</option>
+        <option value="Norway">Norway</option>
+        <option value="Oman">Oman</option>
+        <option value="Pakistan">Pakistan</option>
+        <option value="Palau">Palau</option>
+        <option value="Palestinian Territories">Palestinian Territories</option>
+        <option value="* Panama">* Panama</option>
+        <option value="Papua New Guinea">Papua New Guinea</option>
+        <option value="Paraguay">Paraguay</option>
+        <option value="Peru">Peru</option>
+        <option value="Philippines">Philippines</option>
+        <option value="Poland">Poland</option>
+        <option value="Portugal">Portugal</option>
+        <option value="Qatar">Qatar</option>
+        <option value="Romania">Romania</option>
+        <option value="* Russia">* Russia</option>
+        <option value="Rwanda">Rwanda</option>
+        <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+        <option value="Saint Lucia">Saint Lucia</option>
+        <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+        <option value="Samoa">Samoa</option>
+        <option value="San Marino">San Marino</option>
+        <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+        <option value="Saudi Arabia">Saudi Arabia</option>
+        <option value="Senegal">Senegal</option>
+        <option value="* Serbia">* Serbia</option>
+        <option value="Seychelles">Seychelles</option>
+        <option value="Sierra Leone">Sierra Leone</option>
+        <option value="Singapore">Singapore</option>
+        <option value="Sint Maarten">Sint Maarten</option>
+        <option value="Slovakia">Slovakia</option>
+        <option value="* Slovenia">* Slovenia</option>
+        <option value="Solomon Islands">Solomon Islands</option>
+        <option value="* Somalia">* Somalia</option>
+        <option value="South Africa">South Africa</option>
+        <option value="South Korea">South Korea</option>
+        <option value="* South Sudan">* South Sudan</option>
+        <option value="Spain">Spain</option>
+        <option value="Sri Lanka">Sri Lanka</option>
+        <option value="* Sudan">* Sudan</option>
+        <option value="Suriname">Suriname</option>
+        <option value="Swaziland">Swaziland</option>
+        <option value="Sweden">Sweden</option>
+        <option value="Switzerland">Switzerland</option>
+        <option value="* Syria">* Syria</option>
+        <option value="Taiwan">Taiwan</option>
+        <option value="Tajikistan">Tajikistan</option>
+        <option value="Tanzania">Tanzania</option>
+        <option value="Thailand">Thailand</option>
+        <option value="Timor-Leste">Timor-Leste</option>
+        <option value="Togo">Togo</option>
+        <option value="Tonga">Tonga</option>
+        <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+        <option value="* Tunisia">* Tunisia</option>
+        <option value="* Turkey">* Turkey</option>
+        <option value="Turkmenistan">Turkmenistan</option>
+        <option value="Tuvalu">Tuvalu</option>
+        <option value="* Uganda">* Uganda</option>
+        <option value="* Ukraine">* Ukraine</option>
+        <option value="United Arab Emirates">United Arab Emirates</option>
+        <option value="United Kingdom">United Kingdom</option>
+        <option value="Uruguay">Uruguay</option>
+        <option value="Uzbekistan">Uzbekistan</option>
+        <option value="Vanuatu">Vanuatu</option>
+        <option value="* Venezuela">* Venezuela</option>
+        <option value="Vietnam">Vietnam</option>
+        <option value="Yemen">Yemen</option>
+        <option value="Zambia">Zambia</option>
+        <option value="* Zimbabwe">* Zimbabwe</option>
+          </select>
     </div>
     
     <div class=formbox id=usstatebox>
-    <div class=fieldname><label for=ifstate
-    >¿En qué país o territorio resides?</label>
-    <span class=required>*</span></div>
-    <select id=ifstate class=formselect>
-    <option value=""></option>
-    <option value="AL">Alabama</option>
-    <option value="AK">Alaska</option>
-    <option value="AZ">Arizona</option>
-    <option value="AR">Arkansas</option>
-    <option value="AS">American Samoa</option>
-    <option value="CA">California</option>
-    <option value="CO">Colorado</option>
-    <option value="CT">Connecticut</option>
-    <option value="DE">Delaware</option>
-    <option value="FL">Florida</option>
-    <option value="GA">Georgia</option>
-    <option value="GU">Guam</option>
-    <option value="HI">Hawaii</option>
-    <option value="ID">Idaho</option>
-    <option value="IL">Illinois</option>
-    <option value="IN">Indiana</option>
-    <option value="IA">Iowa</option>
-    <option value="KS">Kansas</option>
-    <option value="KY">Kentucky</option>
-    <option value="LA">Louisiana</option>
-    <option value="ME">Maine</option>
-    <option value="MD">Maryland</option>
-    <option value="MA">Massachusetts</option>
-    <option value="MI">Michigan</option>
-    <option value="MN">Minnesota</option>
-    <option value="MS">Mississippi</option>
-    <option value="MO">Missouri</option>
-    <option value="MT">Montana</option>
-    <option value="NE">Nebraska</option>
-    <option value="NV">Nevada</option>
-    <option value="NH">New Hampshire</option>
-    <option value="NJ">New Jersey</option>
-    <option value="NM">New Mexico</option>
-    <option value="NY">New York</option>
-    <option value="NC">North Carolina</option>
-    <option value="ND">North Dakota</option>
-    <option value="MP">Northern Mariana Islands</option>
-    <option value="OH">Ohio</option>
-    <option value="OK">Oklahoma</option>
-    <option value="OR">Oregon</option>
-    <option value="PA">Pennsylvania</option>
-    <option value="PR">Puerto Rico</option>
-    <option value="RI">Rhode Island</option>
-    <option value="SC">South Carolina</option>
-    <option value="SD">South Dakota</option>
-    <option value="TN">Tennessee</option>
-    <option value="TX">Texas</option>
-    <option value="VI">U.S. Virgin Islands</option>
-    <option value="UT">Utah</option>
-    <option value="VT">Vermont</option>
-    <option value="VA">Virginia</option>
-    <option value="WA">Washington</option>
-    <option value="WV">West Virginia</option>
-    <option value="WI">Wisconsin</option>
-    <option value="WY">Wyoming</option>
-    </select>
+      <div class=fieldname><label for=ifstate
+      >What state or territory do you reside in?</label>
+      <span class=required>*</span></div>
+      <select id=ifstate class=formselect>
+        <option value=""></option>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="AS">American Samoa</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="GU">Guam</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="MP">Northern Mariana Islands</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="PR">Puerto Rico</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="VI">U.S. Virgin Islands</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>          
+      </select>
     </div>
     
     <div class=formbox>
-    <div class=fieldname><label for=ifcity
-    >¿En qué ciudad vives?</label>
-    <span class=optional
-    >(Opcional)</span>
-    </div>
-    <input id=ifcity class=formtext />
+      <div class=fieldname><label for=ifcity
+      >What city do you live in?</label>
+      <span class=optional
+      >(Optional)</span>
+      </div>
+      <input id=ifcity class=formtext />
     </div>
     
     <div class=formbox>
-    <div class=fieldname><label for=ifaccent
-    >¿Cómo describirías tu acento?</label>
-    <span class=optional
-    >(Opcional)</span>
-    </div>
-    <input id=ifaccent class=formtext />
+      <div class=fieldname><label for=ifaccent
+      >How would you characterize your accent?</label>
+      <span class=optional
+      >(Optional)</span>
+      </div>
+      <input id=ifaccent class=formtext />
     </div>
     
     <div class=sectiontitle
-    >Información adicional</div>
+    >Additional information</div>
     
     <div class=formbox>
-    <div class=fieldname><label for=ifreferral
-    >Cuéntanos cómo conociste este proyecto</label>
-    <span class=optional
-    >(Opcional)</span>
-    </div>
-    <input id=ifreferral class=formtext />
+      <div class=fieldname><label for=ifreferral
+      >Please tell us how you heard about this project</label>
+      <span class=optional
+      >(Optional)</span>
+      </div>
+      <input id=ifreferral class=formtext />
     </div>
     
     <div class=formbox role=radiogroup id=ifgendergroup style="display: none;">
-    <div class=fieldname><label for=ifgendergroup
-    >¿Cuál es tu sexo?</label>
-    <span class=optional
-    >(Opcional)</span>
-    </div>
-    <div class=checkboxrow>
-    <input type=radio name=ifgender id=ifgenderfemale />
-    <label for=ifgenderfemale
-    >Mujer</label>
-    </div>
-    <div class=checkboxrow>
-    <input type=radio name=ifgender id=ifgendermale />
-    <label for=ifgendermale
-    >Hombre</label>
-    </div>
-    <div class=checkboxrow>
-    <input type=radio name=ifgender id=ifgenderno />
-    <label for=ifgenderno
-    >Prefiero no decirlo</label>
-    </div>
-    <div class=checkboxrow>
-    <input type=radio name=ifgender id=ifgenderother />
-    <label for=ifgenderother
-    >Otro:</label>
-    <input type=text class=formtext id=ifgenderothertext />
-    </div>
+      <div class=fieldname><label for=ifgendergroup
+      >What is your gender</label>
+      <span class=optional
+      >(Optional)</span>
+      </div>
+      <div class=checkboxrow>
+        <input type=radio name=ifgender id=ifgenderfemale />
+        <label for=ifgenderfemale
+        >Female</label>
+      </div>
+      <div class=checkboxrow>
+        <input type=radio name=ifgender id=ifgendermale />
+        <label for=ifgendermale
+        >Male</label>
+      </div>
+      <div class=checkboxrow>
+        <input type=radio name=ifgender id=ifgenderno />
+        <label for=ifgenderno
+        >Prefer not to say</label>
+      </div>
+      <div class=checkboxrow>
+        <input type=radio name=ifgender id=ifgenderother />
+        <label for=ifgenderother
+        >Other:</label>
+        <input type=text class=formtext id=ifgenderothertext />
+      </div>
     </div>
     
     <div class=formbox style="display: none;">
-    <div class=fieldname><label for=ifrace
-    >¿A qué raza perteneces?</label>
-    <span class=optional
-    >(Opcional)</span>
-    </div>
-    <input id=ifrace class=formtext />
+      <div class=fieldname><label for=ifrace
+      >What is your race</label>
+      <span class=optional
+      >(Optional)</span>
+      </div>
+      <input id=ifrace class=formtext />
     </div>
     
     <div class=formbox>
-    <div class=fieldname
-    >¿A cuál de estos dispositivos tienes acceso?
-    <span class=optional
-    >(Opcional)</span>
-    </div>
-    <div class=checkboxrow>
-    <input type=checkbox id=ifdevicecomputer />
-    <label for=ifdevicecomputer
-    >Un ordenador con conexión a Internet, micrófono y altavoces</label>
-    </div>
-    <div class=checkboxrow>
-    <input type=checkbox id=ifdeviceandroid />
-    <label for=ifdeviceandroid
-    >Un teléfono o tablet Android (por ejemplo, Samsung, Pixel, Nexus, etc.)</label>
-    </div>
-    <div class=checkboxrow>
-    <input type=checkbox id=ifdeviceiphone />
-    <label for=ifdeviceiphone
-    >Un iPhone o un iPad</label>
-    </div>
-    <div class=checkboxrow>
-    <input type=checkbox id=ifdevicenone />
-    <label for=ifdevicenone
-    >Ninguno de los anteriores</label>
-    </div>
-    <div class=checkboxrow>
-    <input type=checkbox id=ifdeviceother />
-    <label for=ifdeviceother
-    >Otro:</label>
-    <input type=text class=formtext id=ifdeviceothertext aria-labelledby="ifdeviceotherlabel" />
-    </div>
+      <div class=fieldname
+      >Which of these do you have access to?
+      <span class=optional
+      >(Optional)</span>
+      </div>
+      <div class=checkboxrow>
+        <input type=checkbox id=ifdevicecomputer />
+        <label for=ifdevicecomputer
+        >An internet-connected computer equipped with a microphone and speakers</label>
+      </div>
+      <div class=checkboxrow>
+        <input type=checkbox id=ifdeviceandroid />
+        <label for=ifdeviceandroid
+        >An Android phone or tablet (like a Samsung, Pixel, Nexus, etc.)</label>
+      </div>
+      <div class=checkboxrow>
+        <input type=checkbox id=ifdeviceiphone />
+        <label for=ifdeviceiphone
+        >An iPhone or iPad</label>
+      </div>
+      <div class=checkboxrow>
+        <input type=checkbox id=ifdevicenone />
+        <label for=ifdevicenone
+        >None of the above</label>
+      </div>
+      <div class=checkboxrow>
+        <input type=checkbox id=ifdeviceother />
+        <label id=ifdeviceotherlabel for=ifdeviceother
+        >Other:</label>
+        <input type=text class=formtext id=ifdeviceothertext aria-labelledby="ifdeviceotherlabel" />
+      </div>
     </div>
     
     <div class=formbox id=helperbox>
-    <div class=fieldname
-    >¿Te va a ayudar alguien a grabar las muestras de voz?
-    <span class=required>*</span></div>
-    <div class=fielddescription
-    >Por ejemplo, un familiar, un logopeda u otra persona</div>
-    <div class=checkboxrow>
-    <input type=radio name=ifhelper id=ifhelperno selected />
-    <label for=ifhelperno
-    >No, voy a participar de forma independiente</label>
-    </div>
-    <div class=checkboxrow>
-    <input type=radio name=ifhelper id=ifhelperyes />
-    <label for=ifhelperyes
-    >Sí, me va a ayudar alguien, y esa persona está de acuerdo con que comparta su información</label>
-    </div>
+      <div class=fieldname
+      >Will someone be helping you record speech samples?
+      <span class=required>*</span></div>
+      <div class=fielddescription
+      >For example, a family member, speech therapist, or other person</div>
+      <div class=checkboxrow>
+        <input type=radio name=ifhelper id=ifhelperno selected />
+        <label for=ifhelperno
+        >No, I'll be participating independently</label>
+      </div>
+      <div class=checkboxrow>
+        <input type=radio name=ifhelper id=ifhelperyes />
+        <label for=ifhelperyes
+        >Yes, someone will be helping me and is comfortable with me sharing their contact info</label>
+      </div>
     </div>
     
     <!-- Helper panel appears if the user chooses "yes" above -->
     <div id=helpersection>
+      <div class=sectiontitle
+      >About the person helping you</div>
+      <div class=formbox>
+        <div class=fielddescription>
+          Please tell us a bit about the person helping you, so we can best stay in touch with both of you. By including your assistant's name, you understand that they will receive information about your participation in this project. You can list more than one Assistant and email: just separate each one with a comma.
+        </div>
+      </div>
+    
+      <div class=formbox>
+        <div class=fieldname><label for=ifassistantname
+        >Assistant's name</label>
+        <span class=optional
+        >(Optional)</span>
+        </div>
+        <input type=text class=formtext id=ifassistantname />
+      </div>
+    
+      <div class=formbox>
+        <div class=fieldname><label for=ifassistantemail
+        >Assistant's email address</label>
+        <span class=required>*</span></div>
+        <input type=text class=formtext id=ifassistantemail />
+      </div>
+    
+      <div class=formbox>
+        <div class=fieldname><label for=ifassistantrelationship
+        >What is this person's relationship to you?</label>
+        <span class=optional
+        >(Optional)</span>
+        </div>
+        <div class=fielddescription
+        >For example:  caregiver, friend, family member, speech therapist, etc.</div>
+        <input type=text class=formtext id=ifassistantrelationship />
+      </div>
+    </div>
+    
     <div class=sectiontitle
-    >Información sobre la persona que te va a ayudar</div>
-    <div class=formbox>
-    <div class=fielddescription>
-    Nos gustaría que nos proporcionases un poco de información sobre la persona que te va a ayudar para que podamos estar en contacto con ambos más fácilmente. Al incluir el nombre de tu asistente, aceptas que reciba información sobre tu participación en este proyecto. Puedes incluir más de un asistente y un correo electrónico. Basta con separarlos con una coma.
-    </div>
-    </div>
-    
-    <div class=formbox>
-    <div class=fieldname><label for=ifassistantname
-    >Nombre del asistente</label>
-    <span class=optional
-    >(Opcional)</span>
-    </div>
-    <input type=text class=formtext id=ifassistantname />
-    </div>
-    
-    <div class=formbox>
-    <div class=fieldname><label for=ifassistantemail
-    >Dirección de correo electrónico del asistente</label>
-    <span class=required>*</span></div>
-    <input type=text class=formtext id=ifassistantemail />
-    </div>
-    
-    <div class=formbox>
-    <div class=fieldname><label for=ifassistantrelationship
-    >¿Qué relación tienes con esta persona?</label>
-    <span class=optional
-    >(Opcional)</span>
-    </div>
-    <div class=fielddescription
-    >Por ejemplo, cuidador, amigo, familiar, logopeda, etc.</div>
-    <input type=text class=formtext id=ifassistantrelationship />
-    </div>
-    </div>
-    
-    <div class=sectiontitle
-    >Proyecto Google Euphonia: consentimiento</div>
+    >Google Project Euphonia: Consent</div>
     
     <div class=forminfobox>
-    <div class=fieldname
-    >Cuestionario para recoger información personal identificable sensible</div>
-    <div class=fielddescription>
-    El objetivo de este cuestionario es verificar que cumples los requisitos para participar en una iniciativa de recogida de datos que realizará Google próximamente. La finalidad de la recogida será ayudar a Google a diseñar, investigar, desarrollar y mejorar la accesibilidad de sus productos y servicios (actuales y futuros) relacionados con tecnologías de voz.
-    La información que proporciones en este cuestionario se puede combinar con otra información y otros datos que decidas proporcionar durante la recogida de datos si se te selecciona para participar.
-    </div>
-    </div>
-    
-    <div class=formbox>
-    <div class=fieldname>
-    Con tu consentimiento, Google recogerá y tratará la información personal que decidas proporcionar a) cuando envíes este cuestionario y b) si se te selecciona para participar en el proyecto, cuando colabores en las tareas de recogida de datos, incluida la información sobre el uso que haces de tecnología asistencial, tu discapacidad o trastorno del habla y tus patrones de voz.
-    <span class=required>*</span>
-    </div>
-    <div class=checkboxrow>
-    <input type=checkbox id=ifformconsent />
-    <label for=ifformconsent>
-    Doy mi consentimiento e incluyo mis iniciales aquí:
-    </label>
-    <input type=text class=formtext id=ifconsentinitials aria-labelledby="ifformconsentlabel" />
-    </div>
+      <div class=fieldname
+      >Questionnaire Collection of Sensitive Personally Identifiable Information</div>
+      <div class=fielddescription>
+        The purpose of this questionnaire is to verify your eligibility for an upcoming data collection effort with Google, and the collection's purpose will be to assist Google to design, research, develop, build, and improve the accessibility of its current and future products and services related to speech technologies.
+        Information you provide in this questionnaire may be combined with other information and data that you chose to provide during the data collection, if you are selected to participate.
+      </div>
     </div>
     
     <div class=formbox>
-    <div class=fieldname>
-    Revisa nuestros Términos y Condiciones, y nuestra Política de Privacidad
-    <span class=required>*</span>
+      <div class=fieldname>
+        With your consent, Google will collect and process the personal information you choose to provide (a) when you submit this questionnaire and (b) if you are selected to participate in the project, when you participate in the data collection tasks, including information about your use of assistive technology, speech disability or impairment, and speech patterns.
+        <span class=required>*</span>
+      </div>
+      <div class=checkboxrow>
+        <input type=checkbox id=ifformconsent />
+        <label id=ifformconsentlabel for=ifformconsent>
+          I give my consent, and will enter my initials here:
+        </label>
+        <input type=text class=formtext id=ifconsentinitials aria-labelledby="ifformconsentlabel" />
+      </div>
     </div>
-    <div class=checkboxrow>
-    <input type=checkbox id=ifformtos />
-    <label for=ifformtos>
-    Acepto los
-    <a target="_blank" href="https://www.google.com/policies/terms/"
-    >Términos y Condiciones</a>
-    y soy consciente de que mi información se va a utilizar para investigar, desarrollar y mejorar productos relacionados con tecnologías del habla de acuerdo con
-    <a target="_blank" href="https://www.google.com/policies/privacy/"
-    >la Política de Privacidad de Google</a>
-    .
-    </label>
-    </div>
+    
+    <div class=formbox>
+      <div class=fieldname>
+        Please review our Terms and Conditions and Privacy Policy
+        <span class=required>*</span>
+      </div>
+      <div class=checkboxrow>
+        <input type=checkbox id=ifformtos />
+        <label for=ifformtos>
+          I accept the 
+          <a target="_blank" href="https://www.google.com/policies/terms/"
+          >Terms and Conditions</a>
+          and acknowledge that my information will be used for the product research, development, and improvement of speech related technologies, and in accordance with
+          <a target="_blank" href="https://www.google.com/policies/privacy/"
+          >Google's Privacy Policy</a>
+          .
+        </label>
+      </div>
     </div>
     
     <div class=forminfobox>
-    <div class=fieldname>
-    Al enviar este formulario, das tu consentimiento a Google y a sus entidades asociadas para que se pongan en contacto contigo por correo electrónico.
-    </div>
+      <div class=fieldname>
+        By submitting this form, you give Google and its affiliates your consent to contact you by email.
+      </div>
     </div>
     
     <div class=formbox>
-    <div class=fieldname><label for=ifotherinfo>
-    ¿Hay alguna otra información que quieras compartir con nosotros?
-    </label>
-    <span class=optional
-    >(Opcional)</span>
+      <div class=fieldname><label for=ifotherinfo>
+        Do you have any other information you would like to share with us?
+        </label>
+        <span class=optional
+        >(Optional)</span>
+      </div>
+      <input id=ifotherinfo class=formtext />
     </div>
-    <input id=ifotherinfo class=formtext />
-    </div>
-
-    `,
+`,
   },
 ];

@@ -459,6 +459,7 @@ class AudioApi {
     const userConsents = requireArray(info.agreements as EAgreementInfo[], 1);
     const demographics = info.demographics as UserDemographics;
 
+    // TODO: Skip demographic checks if demographics should be skipped
     // Interest form safety checks; these shouldn't ever trigger if the form works right.
     if (
       !demographics ||
@@ -471,6 +472,7 @@ class AudioApi {
       );
     }
 
+    // TODO: Recover name from consent not from demographics
     // Define the new user
     const idinfo = this.getUser();
     const newuser: NewUserInfo = {
