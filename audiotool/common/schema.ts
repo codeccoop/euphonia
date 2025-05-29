@@ -96,22 +96,24 @@ export interface EUserInfo {
 // Structured storage of interest form reply
 export interface UserDemographics {
   name?: string;
-  country?: string;
-  state?: string;
+  // country?: string;
+  province?: string;
   city?: string;
-  accent?: string;
-  referral?: string;
+  dialect?: string;
+  disorder?: string;
+  referral?: string[];
   gender?: string; // one of "male", "female", "undisclosed", "", or any other text for "other"
-  race?: string;
+  age?: string; // one of "male", "female", "undisclosed", "", or any other text for "other"
+  // race?: string;
   accessDevices?: string[]; // each entry is one of "computer", "androidphone", "iphone", "none", or any "other" string
 
   hasHelper?: boolean;
-  helperName?: string;
-  helperEmail?: string;
-  helperRelationship?: string;
+  // helperName?: string;
+  // helperEmail?: string;
+  // helperRelationship?: string;
   consentStorage?: boolean;
   consentInitials?: string;
-  acceptTos?: boolean;
+  // acceptTos?: boolean;
   otherInfo?: string;
 }
 

@@ -34,19 +34,6 @@ export class InterestView {
 
     const insetBox = this.div.eadd("<div class=interestformscroll />");
     insetBox.eihtml("__INTEREST_FORM_HTML__");
-    $("#helpersection").hide();
-
-    // State/country box conditional wiring
-    $("#ifcountry").on("change", (e) =>
-      $("#usstatebox").eshow($("#ifcountry").val() === "USA"),
-    );
-
-    // Helper box conditional wiring
-    const helperchangefn = () => {
-      $("#helpersection").eshow($("#ifhelperyes").is(":checked"));
-    };
-    $("#ifhelperyes").on("change", helperchangefn);
-    $("#ifhelperno").on("change", helperchangefn);
 
     const buttons = insetBox.eadd("<div class=ifbuttons />");
     const nextButton = buttons.eadd("<button class=next />").eitext("Next");
@@ -94,22 +81,11 @@ export class InterestView {
 
     // Validate required fields
     try {
-      this.checkRequired("#ifcountry", "Country is required.", !!d.country);
-      this.checkRequired(
-        "#ifstate",
-        "State is required.",
-        d.country !== "USA" || !!d.state,
-      );
-      this.checkRequired(
-        "#helperbox",
-        "Please tell us if someone will be helping you record.",
-        d.hasHelper != undefined,
-      );
-      this.checkRequired(
-        "#ifassistantemail",
-        "Please tell us how to email the person helping you.",
-        !d.hasHelper || !!d.helperEmail,
-      );
+      this.checkRequired("#ifprovince", "Si us plau, respon a la pregunta sobre la província.", !!d.province);
+      this.checkRequired("#ifdialect", "Si us plau, respon a la pregunta sobre la varietat dialectal.", !!d.dialect);
+      this.checkRequired("#ifdisorder", "Si us plau, respon a la pregunta sobre la tipologia de trastorn.", !!d.disorder);
+      // this.checkRequired("#ifgender", "Aquesta pregunta és obligatòria.", !!d.gender);
+      this.checkRequired("#ifage", "Si us plau, respon a la pregunta sobre l'edat.", !!d.age);
       this.checkRequired(
         "#ifformconsent",
         `You'll need to give consent to proceed.`,
@@ -120,11 +96,11 @@ export class InterestView {
         `Please write your initials next to your consent.`,
         !!d.consentInitials,
       );
-      this.checkRequired(
-        "#ifformtos",
-        `You'll need to accept the terms to proceed.`,
-        !!d.acceptTos,
-      );
+      // this.checkRequired(
+      //   "#ifformtos",
+      //   `You'll need to accept the terms to proceed.`,
+      //   !!d.acceptTos,
+      // );
     } catch (e) {
       if (e instanceof Error && e.message === "form incomplete") {
         return false;
@@ -164,40 +140,54 @@ export class InterestView {
     const setBool = (id: string, val: boolean) => $(id).echecked(val);
 
     // Clear error states
-    $("#ifcountry").eclass("formerror", false);
-    $("#ifstate").eclass("formerror", false);
-    $("#helperbox").eclass("formerror", false);
-    $("#ifassistantemail").eclass("formerror", false);
+    $("#ifprovince").eclass("formerror", false);
+    // $("#ifstate").eclass("formerror", false);
+    // $("#helperbox").eclass("formerror", false);
+    // $("#ifassistantemail").eclass("formerror", false);
     $("#ifformconsent").eclass("formerror", false);
     $("#ifconsentinitials").eclass("formerror", false);
-    $("#ifformtos").eclass("formerror", false);
+    // $("#ifformtos").eclass("formerror", false);
 
     // Identity and simple text demographic fields
     setText("#ifname", d.name);
-    setText("#ifcountry", d.country);
-    setText("#ifstate", d.state);
+    // setText("#ifcountry", d.country);
+    // setText("#ifstate", d.state);
+    setText("#ifprovince", d.province);
     setText("#ifcity", d.city);
-    setText("#ifaccent", d.accent);
-    setText("#ifreferral", d.referral);
-    setText("#ifrace", d.race);
-    setText("#ifassistantname", d.helperName);
-    setText("#ifassistantemail", d.helperEmail);
-    setText("#ifassistantrelationship", d.helperRelationship);
+    setText("#ifdialect", d.dialect);
+    // setText("#ifrace", d.race);
+    // setText("#ifassistantname", d.helperName);
+    // setText("#ifassistantemail", d.helperEmail);
+    // setText("#ifassistantrelationship", d.helperRelationship);
     setText("#ifotherinfo", d.otherInfo);
 
     // Optional state field
-    $("#usstatebox").eshow(d.country === "USA");
+    // $("#usstatebox").eshow(d.country === "USA");
+    setBool("#ifdownsyndrome", d.disorder === "Síndrome de Down");
+    setBool("#ifcerebralpalsy", d.disorder === "Paràlisi cerebral");
+    setBool("#ifmultiplesclerosis", d.disorder === "Esclerosi múltiple");
+    setBool("#ifotherdisorders", d.disorder === "Altres trastorns de la parla");
+    setBool("#ifnodisorder", d.disorder === "Sense resposta");
 
     // Gender radio buttons
-    setBool("#ifgenderfemale", "female" === d.gender);
-    setBool("#ifgendermale", "male" === d.gender);
-    setBool("#ifgenderno", "undisclosed" === d.gender);
-    if (d.gender && !listhas(d.gender, "female", "male", "undisclosed")) {
+    setBool("#ifgenderfemale", "Dona" === d.gender);
+    setBool("#ifgendermale", "Home" === d.gender);
+    setBool("#ifgenderno", "No binari" === d.gender);
+    setBool("ifgendernoresponse", "Sense resposta" === d.gender);
+
+    if (d.gender && !listhas(d.gender, "Home", "Dona", "No binari")) {
       setBool("#ifgenderother", true);
       setText("#ifgenderothertext", d.gender);
     } else {
       setBool("#ifgenderother", false);
     }
+
+    // Age radio buttons
+    setBool("#ifage1830", "18-30" === d.age);
+    setBool("#ifage3145", "31-45" === d.age);
+    setBool("#ifage4660", "46-60" === d.age);
+    setBool("#ifage6175", "61-75" === d.age);
+    setBool("#ifage75", "+75" === d.age);
 
     // List of devices they have access to
     const deviceList = d.accessDevices ? d.accessDevices : [];
@@ -215,14 +205,40 @@ export class InterestView {
       }
     }
 
+    // List of referrals
+    const referralsList = d.referral ? d.referral : [];
+    setBool(
+      "#ifreferralentity",
+      listhas("Entitat col·laboradora", ...referralsList),
+    );
+    setBool(
+      "#ifreferralmedia",
+      listhas("Mitjans de comunicació / XXSS", ...referralsList),
+    );
+    setBool("#ifreferralfriends", listhas("Familiar o amic", ...referralsList));
+    for (const referral of referralsList) {
+      if (
+        !listhas(
+          referral,
+          "Entitat col·laboradora",
+          "Mitjans de comunicació / XXSS",
+          "Familiar o amic",
+        )
+      ) {
+        setBool("#ifreferralother", true);
+        setText("#ifreferralothertext", referral);
+        break;
+      }
+    }
+
     // Helper radio button, which should also toggle the helper panel
     setBool("#ifhelperno", d.hasHelper === false);
     setBool("#ifhelperyes", d.hasHelper === true);
-    $("#helpersection").eshow(!!d.hasHelper);
+    // $("#helpersection").eshow(!!d.hasHelper);
 
     // Never restore the consent stuff, always require it be re-entered
     $("#ifformconsent").echecked(false);
-    $("#ifformtos").echecked(false);
+    // $("#ifformtos").echecked(false);
     setText("#ifconsentinitials", "");
 
     // Auto-set defaults from Firestore Auth if the user hasn't entered anything
@@ -236,28 +252,22 @@ export class InterestView {
   private collect(): UserDemographics {
     return {
       name: this.collectText("#ifname"),
-      country: this.collectText("#ifcountry"),
-      state:
-        this.collectText("#ifcountry") === "USA"
-          ? this.collectText("#ifstate")
-          : undefined,
+      province: this.collectText("#ifprovince"),
       city: this.collectText("#ifcity"),
-      accent: this.collectText("#ifaccent"),
-      referral: this.collectText("#ifreferral"),
+      dialect: this.collectText("#ifdialect"),
+      disorder: this.collectDisorder(),
       gender: this.collectGender(),
-      race: this.collectText("#ifrace"),
+      age: this.collectAge(),
+      referral: this.collectReferral(),
       accessDevices: this.collectAccessDevices(),
       hasHelper: this.collectCheckbox("#ifhelperyes")
         ? true
         : this.collectCheckbox("#ifhelperno")
           ? false
           : undefined,
-      helperName: this.collectText("#ifassistantname"),
-      helperEmail: this.collectText("#ifassistantemail"),
-      helperRelationship: this.collectText("#ifassistantrelationship"),
       consentStorage: this.collectCheckbox("#ifformconsent"),
       consentInitials: this.collectText("#ifconsentinitials"),
-      acceptTos: this.collectCheckbox("#ifformtos"),
+      // acceptTos: this.collectCheckbox("#ifformtos"),
       otherInfo: this.collectText("#ifotherinfo"),
     };
   }
@@ -275,21 +285,78 @@ export class InterestView {
     return $(inputId).is(":checked");
   }
 
+  private collectDisorder(): string {
+    if (this.collectCheckbox("#ifdownsyndrome")) {
+      return "Síndrome de Down";
+    } else if (this.collectCheckbox("#ifcerebralpalsy")) {
+      return "Paràlisi cerebral";
+    } else if (this.collectCheckbox("#ifacquireddamange")) {
+      return "Danys cerebrals adquirits";
+    } else if (this.collectCheckbox("#ifmultiplesclerosis")) {
+      return "Esclerosi múltiple";
+    } else if (this.collectCheckbox("#ifotherdisorders")) {
+      return "Altres trastorns de la parla";
+    } else {
+      return "Sense resposta";
+    }
+  }
+
+  private collectAge(): string {
+    if (this.collectCheckbox("#ifage1830")) {
+      return "18-30";
+    } else if (this.collectCheckbox("#ifage3145")) {
+      return "31-45";
+    } else if (this.collectCheckbox("#ifage4660")) {
+      return "46-60";
+    } else if (this.collectCheckbox("#ifage6175")) {
+      return "61-75";
+    } else if (this.collectCheckbox("#fage75")) {
+      return "+75";
+    } else {
+      return "";
+    }
+  }
+
   private collectGender(): string {
     const hasOther = this.collectCheckbox("#ifgenderother");
     const otherText = this.collectText("#ifgenderothertext");
 
     if (this.collectCheckbox("#ifgendermale")) {
-      return "male";
+      return "Home";
     } else if (this.collectCheckbox("#ifgenderfemale")) {
-      return "female";
+      return "Dona";
     } else if (this.collectCheckbox("#ifgenderno")) {
-      return "undisclosed";
+      return "No binari";
     } else if (hasOther && otherText) {
       return otherText.trim();
     } else {
-      return ""; // unanswered or prefer not to say
+      return "Sense resposta"; // unanswered or prefer not to say
     }
+  }
+
+  private collectReferral(): string[] {
+    const result: string[] = [];
+
+    if (this.collectCheckbox("#ifreferralother")) {
+      const otherText = this.collectText("#ifreferralothertext");
+      if (otherText) {
+        result.push(otherText);
+      }
+    }
+
+    if (this.collectCheckbox("#ifreferralmedia")) {
+      result.push("Mitjas de comunicació / XXSS");
+    }
+
+    if (this.collectCheckbox("#ifreferralfriends")) {
+      result.push("Familiar o amic");
+    }
+
+    if (this.collectCheckbox("#ifreferralentity")) {
+      result.push("Entitat col·laboradora");
+    }
+
+    return result;
   }
 
   private collectAccessDevices(): string[] {
@@ -304,15 +371,19 @@ export class InterestView {
     if (this.collectCheckbox("#ifdevicecomputer")) {
       result.push("computer");
     }
+
     if (this.collectCheckbox("#ifdeviceandroid")) {
       result.push("androidphone");
     }
+
     if (this.collectCheckbox("#ifdeviceiphone")) {
       result.push("iphone");
     }
+
     if (this.collectCheckbox("#ifdevicenone")) {
       result.push("none");
     }
+
     return result;
   }
 }

@@ -606,50 +606,50 @@ export const CA_STRINGS: ELocaleString[] = [
       >Aquesta informació ens ajuda a ajustar els models als diferents tipus de parla de la manera més precisa possible. Les dades són completament anonimitzades.
       </div>
       <div class=checkboxrow>
-        <input name=ifdisorder type=radio class=formradio id="Síndrome de Down" />
-        <label for="Síndrome de Down">Síndrome de Down</label><br>
+        <input name=ifdisorder type=radio class=formradio id="ifdownsyndrome" />
+        <label for="ifdownsyndrome">Síndrome de Down</label><br>
       </div>
       <div class=checkboxrow>
-        <input name=ifdisorder type=radio class=formradio id="Paràlisi cerebral" />
-        <label for="Paràlisi cerebral">Paràlisi cerebral</label><br>
+        <input name=ifdisorder type=radio class=formradio id="ifcerebralpalsy" />
+        <label for="ifcerebralpalsy">Paràlisi cerebral</label><br>
       </div>
       <div class=checkboxrow>
-        <input name=ifdisorder type=radio class=formradio id="Danys cerebrals adquirits" />
-        <label for="Danys cerebrals adquirits">Danys cerebrals adquirits</label><br>
+        <input name=ifdisorder type=radio class=formradio id="ifacquireddamage" />
+        <label for="ifacquireddamage">Danys cerebrals adquirits</label><br>
       </div>
       <div class=checkboxrow>
-        <input name=ifdisorder type=radio class=formradio id="Esclerosi múltiple" />
-        <label for="Esclerosi múltiple">Esclerosi múltiple</label><br>
+        <input name=ifdisorder type=radio class=formradio id="ifmultiplesclerosis" />
+        <label for="ifmultiplesclerosis">Esclerosi múltiple</label><br>
       </div>
       <div class=checkboxrow>
-        <input name=ifdisorder type=radio class=formradio id="Altres trastorns de la parla" />
-        <label for="Altres trastorns de la parla">Altres trastorns de la parla</label><br>
+        <input name=ifdisorder type=radio class=formradio id="ifotherdisorders" />
+        <label for="ifotherdisorders">Altres trastorns de la parla</label><br>
       </div>
       <div class=checkboxrow>
-        <input name=ifdisorder type=radio class=formradio id="Prefereixo no especificar-ho" />
-        <label for="Prefereixo no especificar-ho">Prefereixo no especificar-ho</label><br>
+        <input name=ifdisorder type=radio class=formradio id="ifnodisorder" />
+        <label for="ifnodisorder">Prefereixo no especificar-ho</label><br>
       </div>
     </div>
     
-   <div class=formbox>
+    <div class=formbox>
       <div class=fieldname><label for=ifgender
       >Sexe</label>
       <span class=required>*</span></div>
       <div class=checkboxrow>
-        <input name=ifgender type=radio class=formradio id="Dona" />
-        <label for="Dona">Dona</label><br>
+        <input name=ifgender type=radio class=formradio id="ifgenderfemale" />
+        <label for="ifgenderfemale">Dona</label><br>
       </div>
       <div class=checkboxrow>
-        <input name=ifgender type=radio class=formradio id="Home" />
-        <label for="Home">Home</label><br>
+        <input name=ifgender type=radio class=formradio id="ifgendermale" />
+        <label for="ifgendermale">Home</label><br>
       </div>
       <div class=checkboxrow>
-        <input name=ifgender type=radio class=formradio id="No binari" />
-        <label for="No binari">No binari</label><br>
+        <input name=ifgender type=radio class=formradio id="ifgenderno" />
+        <label for="ifgenderno">No binari</label><br>
       </div>
       <div class=checkboxrow>
-        <input name=ifgender type=radio class=formradio id="Prefereixo no respondre" />
-        <label for="Prefereixo no respondre">Prefereixo no respondre</label><br>
+        <input name=ifgender type=radio class=formradio id="ifgendernoresponse" />
+        <label for="ifgendernoresponse">Prefereixo no respondre</label><br>
       </div>
     </div>
     
@@ -658,24 +658,24 @@ export const CA_STRINGS: ELocaleString[] = [
       >Edat</label>
       <span class=required>*</span></div>
       <div class=checkboxrow>
-        <input name=ifage type=radio class=formradio id="18-30" />
-        <label for="18-30">18-30</label><br>
+        <input name=ifage type=radio class=formradio id="ifage1830" />
+        <label for="ifage1830">18-30</label><br>
       </div>
       <div class=checkboxrow>
-        <input name=ifage type=radio class=formradio id="31-45" />
-        <label for="31-45">31-45</label><br>
+        <input name=ifage type=radio class=formradio id="ifage3145" />
+        <label for="ifage3145">31-45</label><br>
       </div>
       <div class=checkboxrow>
-        <input name=ifage type=radio class=formradio id="46-60" />
-        <label for="46-60">46-60</label><br>
+        <input name=ifage type=radio class=formradio id="ifage4660" />
+        <label for="ifage4660">46-60</label><br>
       </div>
       <div class=checkboxrow>
-        <input name=ifage type=radio class=formradio id="61-75" />
-        <label for="61-75">61-75</label><br>
+        <input name=ifage type=radio class=formradio id="ifage6175" />
+        <label for="ifage6175">61-75</label><br>
       </div>
       <div class=checkboxrow>
-        <input name=ifage type=radio class=formradio id="+75" />
-        <label for="+75">Més de 75</label><br>
+        <input name=ifage type=radio class=formradio id="ifage75" />
+        <label for="ifage75">Més de 75</label><br>
       </div>
     </div>
 
@@ -707,7 +707,7 @@ export const CA_STRINGS: ELocaleString[] = [
         <input type=checkbox id=ifreferralother />
         <label id=ifreferralotherlabel for=ifreferralother
         >Altres:</label>
-        <input type=text class=formtext id=ifdeviceothertext aria-labelledby="ifdeviceotherlabel" />
+        <input type=text class=formtext id=ifreferralothertext aria-labelledby="ifreferralotherlabel" />
       </div>
 
     </div>

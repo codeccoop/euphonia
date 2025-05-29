@@ -256,13 +256,13 @@ export class Data {
       d = this.loadDemographics();
     }
     return (
-      !!d.country &&
-      (d.country !== "USA" || !!d.state) &&
+      !!d.province &&
+      !!d.age &&
+      !!d.disorder &&
+      !!d.dialect &&
       d.hasHelper != undefined &&
-      (!d.hasHelper || !!d.helperEmail) &&
       !!d.consentStorage &&
-      !!d.consentInitials &&
-      !!d.acceptTos
+      !!d.consentInitials
     );
   }
 

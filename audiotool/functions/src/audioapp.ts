@@ -464,8 +464,8 @@ class AudioApi {
     if (
       !demographics ||
       !demographics.consentStorage ||
-      !demographics.consentInitials ||
-      !demographics.acceptTos
+      !demographics.consentInitials
+      // !demographics.acceptTos
     ) {
       throw new ParamError(
         `Attempted to sign up without interest form agreement`,
