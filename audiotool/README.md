@@ -11,6 +11,7 @@ NOTE: To get this demo fully working for yourself, you will need to set up a Goo
 ```
 - Node.js v22.13.1 to /usr/local/bin/node
 - npm v10.9.2 to /usr/local/bin/npm
+- firebase-tools v14.2.1 with npm install -g firebase-tools
 ```
 3. (Optional) I would recommend also installing NVM, it helps juggle multiple node versions on your computer: https://github.com/nvm-sh/nvm
 
@@ -18,24 +19,24 @@ NOTE: To get this demo fully working for yourself, you will need to set up a Goo
 
 5. cd euphonia/audiotool
 
-6. cp ./.env.example ./.env 
-6. cp ./functions/.env.example ./functinions/.env 
+6. `cp ./.env.example ./.env`
+6. `cp ./functions/.env.example ./functinions/.env`
 
 7. Edit the dotenv files and fill in your with your Firebase project credentials
 
-8. ./node_modules/.bin/firebase login
+8. `firebase login`
 
 
 ## Run Firebase locally
 
-1. firebase serve --host localhost --port 8991
-2. http://localhost:8991
+1. `npm start`
+2. Open the browser and navigate to http://localhost:8991
 
 
 ## Deploy to test
 
-1. firebase deploy --only "hosting,functions:audioapp,firestore:indexes"
-5. https://yourproject.web.app/
+1. `npm run deploy`
+5. Open the browser and navigate to https://yourproject.web.app/
 
 
 # Compatibility
