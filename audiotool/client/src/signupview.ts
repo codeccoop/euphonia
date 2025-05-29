@@ -43,20 +43,27 @@ export class SignupView {
     const page1Div = this.div.eadd("<div class=page1 />");
     page1Div.eadd("<div class=title />").eitext("WELCOME_TITLE");
     const introDiv = page1Div.eadd("<div class=intro />");
-    introDiv.eadd("<div />")
+    introDiv.eadd("<p />")
       .eitext(`We're exploring how Google products and services
         that use speech as an input method could work better for more people. We're seeking
         voice contributions from adults who have difficulty being understood by others.
         Voice samples can help us improve how Google understands individuals with speech
         impairments.`);
 
-    introDiv.eadd("<div />").eihtml(`<b>IMPORTANT:</b> If you're filling out
+    introDiv.eadd("<p />")
+      .eihtml(`<strong>Què són les dades de veu i per què les necessitem?</strong> Les dades de veu són
+        enregistraments d'àudio de la parla humana, juntament amb les seves transcripcions. Aquestes
+        dades són essencials per desenvolupar tecnologies que puguin entendre la parla. Quan recollim
+        enregistraments de veu, estem proporcionant exemples que ajuden als sistemes a aprendre patrons.
+        Com més diverses siguin les veus recollides, més bé funcionaran aquestes tecnologies per a tothom.`);
+
+    introDiv.eadd("<p />").eihtml(`<b>IMPORTANT:</b> If you're filling out
         this form on behalf of someone else, please ensure you have their permission
         to do so.`);
     introDiv
       .eadd("<div />")
       .eihtml(`Questions? <a id=signuphelplink target="_blank">Contact Us</a>`);
-    $("#signuphelplink").eiprop("href", "HELP_LINK");
+    // $("#signuphelplink").eiprop("href", "HELP_LINK");
     this.signinDiv = introDiv.eadd("<div />");
     this.signinDiv.eadd("<span />").eihtml("Already enrolled? &nbsp;");
     this.signinDiv

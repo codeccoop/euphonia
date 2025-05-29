@@ -30,7 +30,7 @@ export const CA_STRINGS: ELocaleString[] = [
   {
     key: `WELCOME_TITLE`,
     description: `Signup screen and consent screen titles`,
-    text: `Et donem la benvinguda al Projecte Euphonia!`,
+    text: `Et donem la benvinguda al Projecte RAPNIC!`,
   },
   {
     key: `We're exploring how Google products and services
@@ -39,11 +39,10 @@ export const CA_STRINGS: ELocaleString[] = [
           Voice samples can help us improve how Google understands individuals with speech
           impairments.`,
     description: `Signup screen`,
-    text: `Estem explorant com els productes i serveis de Google
-           que utilitzen la parla com a mètode d'entrada podrien funcionar millor per a més persones. 
-           Busquem contribucions de veu de les persones adultes que tenen dificultats 
-           per ser enteses per les altres. Les mostres de veu poden ajudar-nos a millorar 
-           la manera en què Google entén les persones amb dificultats de la parla.`,
+    text: `Estem treballant per fer que totes les persones, independentment de la seva forma de parlar,
+           puguin utilitzar les tecnologies de veu en català. Cerquem contribucions de veu de persones
+           adultes que tenen dificultats per ser enteses pels altres. Les teves mostres de veu ens ajudaran
+           a crear un món digital més inclusiu, on les tecnologies entenguin totes les veus i accents del català.`
   },
   {
     key: `<b>IMPORTANT:</b> If you're filling out
@@ -51,12 +50,12 @@ export const CA_STRINGS: ELocaleString[] = [
           to do so.`,
     description: `Signup screen`,
     text: `<b>IMPORTANT:</b> Si ompliu aquest formulari a nom d'una altra persona, 
-          si us plau assegureu-vos de comptar amb la seva autorització per fer-ho.`,
+          assegureu-vos de comptar amb la seva autorització per fer-ho.`,
   },
   {
     key: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
     description: `Signup screen`,
-    text: `Dubtes <a id=signuphelplink target="_blank">Contacta amb nosaltres</a>`,
+    text: `Dubtes <a id=signuphelplink href="mailto:isocial@isocial.cat">Contacta'ns a isocial@isocial.cat</a>`,
   },
   {
     key: `Already enrolled? &nbsp;`,
@@ -71,7 +70,7 @@ export const CA_STRINGS: ELocaleString[] = [
   {
     key: `To get started, please confirm your eligibility:`,
     description: `Signup screen`,
-    text: `Per començar, sisplau confirma si compleixes els requisits:`,
+    text: `Per començar, confirma si us plau si compleixes els requisits:`,
   },
   {
     key: `Strangers, or voice technologies like Google Assistant, have difficulty understanding my speech (not because of an accent)`,
@@ -81,7 +80,7 @@ export const CA_STRINGS: ELocaleString[] = [
   {
     key: `I am at least 18 years of age`,
     description: `Signup screen eligibility question`,
-    text: `Tinc almenys 18 anys`,
+    text: `Tinc més de 18 anys`,
   },
   {
     key: `Sign in and continue`,
@@ -139,14 +138,12 @@ export const CA_STRINGS: ELocaleString[] = [
     key: `INSTRUCTIONS_TITLE`,
     en: `Thanks for signing up for Project Euphonia!`,
     description: `Instructions screen title`,
-    text: `Gràcies per inscriure't al Projecte Euphonia!`,
+    text: `Gràcies per inscriure't al Projecte RAPNIC!`,
   },
   {
     key: `INSTRUCTIONS_VIDEO_HTML`,
     description: `Instructional video iframe from YouTube`,
-    text: `
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/y-ewGIghpyo?si=KxOHE_nyfqWdPaAC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    `,
+    text: ``,
   },
   {
     key: `INSTRUCTIONS_HTML`,
@@ -160,18 +157,37 @@ export const CA_STRINGS: ELocaleString[] = [
       <li>When you finish recording all the cards, you're done!</li>
       <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>`,
     description: `Instructions screen details`,
-    text: `<ul>
-      <li>Sisplau dedica un moment a veure aquest vídeo d'introducció.</li>
-      <li>A la pantalla següent, veuràs <b>targetes</b> per llegir en veu alta.</li>
-      <li>Hauràs d'estar en un <b>entorn tranquil i silenciós</b> i evitar qualsevol soroll de fons.</li>
-      <li>Fes clic al botó Enregistra de color blau i després <b>llegeix la targeta en veu alta</b>, 
-      amb la màxima precisió possible.</li>
-      <li>Has de pulsar el botó blau Enregistrar i , a continuació, <b>llegir la targeta en veu alta</b>, amb la major precisió possible.</li>
-      <li>Quan hagis <b>acabat de parlar</b>, torna a fer clic al botó blau per aturar l'enregistrament.</li>
-      <li>Quan acabis d'enregistrar totes les targetes, ja estaràs!</li>
-      <li>Tens problemes per enregistrar? 
-      Posa't en <a target="_blank" href="http://g.co/disabilitysupport">contacte</a>
-      amb nosaltres per demanar ajuda.</li>`,
+    text: `
+      <p>Llegeix aquestes instruccions atentament. Durant la sessió trobaràs dos tipus de tasques: llegir frases de text (que has de llegir exactament com apareixen) i descriure imatges (on has d'explicar què veus amb les teves pròpies paraules). Les instruccions per a cada tipus són diferents.</p>
+      <h3>Configuració de l'entorn</h3>
+      <ol>
+      <li><strong>Entorn silenciós:</strong> Enregistra en un lloc tranquil per evitar soroll de fons (trànsit, veus, música). Escull una habitació amb mínim eco i apaga dispositius que puguin causar soroll.</li>
+      <li><strong>Posicionament del dispositiu:</strong> Assegura't que el micròfon del teu dispositiu no estigui obstruït. Mantén una distància raonable per evitar distorsió o so poc clar.</li>
+      <li><strong>Posició estable:</strong> Mantingues el dispositiu ferm durant l'enregistrament. Utilitza un suport o col·loca'l sobre una superfície plana.</lI>
+    </ol>
+    <h3>Com enregistrar frases (lectura de text)</h3>
+    <ol>
+      <li><strong>Llegeix exactament com apareix:</strong> Llegeix cada frase tal com apareix a la pantalla. No canviïs ni afegeixis paraules.</li>
+      <li><strong>Parla amb claredat:</strong> Parla de manera natural i clara, amb entonació natural i sense presses. Pronuncia cada paraula completament.</li>
+      <li><strong>Evita paraules de farciment:</strong> Intenta no afegir paraules com "eh" o "um" durant l'enregistrament.</li>
+      <li><strong>Mantingues volum constant:</strong> Parla amb un volum estable per mantenir uniformitat en l'enregistrament.</li>
+    </ol>
+    <h3>Com respondre preguntes sobre imatges</h3>
+    <ol>
+      <li><strong>Llegeix la pregunta i observa la imatge:</strong> Primer llegeix la pregunta, després mira la imatge atentament.</li>
+      <li><strong>Respon amb les teves paraules:</strong> Contesta la pregunta utilitzant el teu propi vocabulari basant-te en el que veus a la imatge.</li>
+      <li><strong>Parla de manera natural:</strong> Respon com si contestessis a una persona real que t'ha fet la pregunta.</li>
+      <li><strong>No et preocupis per la durada:</strong> Pots donar una resposta breu o més detallada, segons et sentis còmode/a.</li>
+    </ol>
+    <h3>Consells addicionals</h3>
+    <ul>
+      <li>Si no estàs content amb l'enregistrament, torna'l a fer sense problemes.</li>
+      <li>Per a frases: si una frase és confusa, massa llarga o errònia, simplement omet-la i passa a la següent.</li>
+      <li>Per a imatges: si no saps com respondre una pregunta, pots passar a la següent.</li>
+      <li>Assegura't que el dispositiu tingui bateria suficient per evitar interrupcions.</li>
+      <li>Mantingues consistència en volum, claredat i ritme en tots els enregistraments.</li>
+      <li>Assegura't d'escoltar els teus primers enregistraments per verificar que la teva veu és audible i que el micròfon funciona correctament. Un cop hagis comprovat que tot funciona bé, no cal que escoltis tots els enregistraments a menys que sentis que ho necessites.</li>
+    </ul>`,
   },
   {
     key: `Get Started`,
