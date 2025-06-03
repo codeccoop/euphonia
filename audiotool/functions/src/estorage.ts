@@ -1235,9 +1235,9 @@ export class ETaskSet {
       docs.splice(sampleSize, docs.length - sampleSize); // erase the later elements
     }
 
-    return docs.map(
-      (doc) => new ETask(this, doc.ref.path, doc.data() as ETaskData),
-    );
+    return docs
+      .map((doc) => new ETask(this, doc.ref.path, doc.data() as ETaskData))
+      .sort((a, b) => a.info.order - b.info.order);
   }
 
   // Adds or removes TaskSet rules in memory; be sure to update(txn) after this.
