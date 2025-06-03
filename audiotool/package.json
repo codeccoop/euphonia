@@ -4,8 +4,12 @@
     "watch:client": "cd client && npm run watch",
     "watch:functions": "cd functions && npm run watch",
     "watch": "concurrently \"npm run watch:client\" \"npm run watch:functions\"",
+    "build:client": "cd client && npm run build",
+    "build:functions": "cd functions && npm run build",
+    "build": "concurrently \"npm run build:client\" \"npm run build:functions\"",
     "serve": "firebase serve --host localhost --port 8991",
-    "deploy": "firebase deploy --only hosting,functions:audioapp,firestore,storage"
+    "deploy": "firebase deploy --only hosting,functions:audioapp,firestore,storage",
+    "postinstall": "cd functions && npm install && cd ../client && npm install"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
