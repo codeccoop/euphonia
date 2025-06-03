@@ -13,31 +13,26 @@ NOTE: To get this demo fully working for yourself, you will need to set up a Goo
 - npm v10.9.2 to /usr/local/bin/npm
 - firebase-tools v14.2.1 with npm install -g firebase-tools
 ```
-3. (Optional) I would recommend also installing NVM, it helps juggle multiple node versions on your computer: https://github.com/nvm-sh/nvm
-
-4. git clone https://github.com/google/euphonia.git
-
-5. cd euphonia/audiotool
-
-6. `cp ./.env.example ./.env`
-6. `cp ./functions/.env.example ./functinions/.env`
-
-7. Edit the dotenv files and fill in your with your Firebase project credentials
-
-8. `firebase login`
-
+9. `firebase login`
+4. (Optional) I would recommend also installing NVM, it helps juggle multiple node versions on your computer: https://github.com/nvm-sh/nvm
+5. git clone https://github.com/google/euphonia.git
+6. cd euphonia/audiotool
+8. `cp ./.env.example ./.env`
+9. `cp ./functions/.env.example ./functinions/.env`
+10. Edit the dotenv files and fill in your with your Firebase project credentials
+11. `npm run build`
+12. `npm start`
 
 ## Run Firebase locally
 
-1. `npm start`
-2. Open the browser and navigate to http://localhost:8991
+1. `npm run watch`
+2. In a new terminal `npm start`
+3. Open the browser and navigate to http://localhost:8991
 
-
-## Deploy to test
+## Deploy
 
 1. `npm run deploy`
-5. Open the browser and navigate to https://yourproject.web.app/
-
+2. Open the browser and navigate to https://yourproject.web.app/
 
 # Compatibility
 
