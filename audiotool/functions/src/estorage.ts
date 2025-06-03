@@ -311,7 +311,6 @@ export class EStorage {
     if (newuser.fbuid) {
       fsdata.fbuid = newuser.fbuid;
     }
-    console.log("FSDATA", fsdata);
 
     txn.set(docRef, fsdata);
 
@@ -522,6 +521,7 @@ export class EStorage {
       if (taskSet.info.language !== userLanguage) {
         continue; // This rule's language doesn't match the user
       }
+
       for (const rule of taskSet.info.rules) {
         if (rule.tags.length > 0) {
           let tagMatch = false;
@@ -531,10 +531,12 @@ export class EStorage {
               break;
             }
           }
+
           if (!tagMatch) {
             continue; // This rule has no tags in common with the user, skip it
           }
         }
+
         result.push([taskSet, rule]); // This rule matches
       }
     }
@@ -980,9 +982,10 @@ export class EUser {
     }
     order += 1;
 
-    // Save these new tasks, in shuffled order.
     const timestamp = Date.now();
-    for (const task of shuffle([...tasks])) {
+    // Save these new tasks, in shuffled order.
+    // for (const task of shuffle([...tasks])) {
+    for (const task of tasks) {
       const newDoc = doc(collection);
       const info: EUserTaskInfo = {
         id: newDoc.id,
