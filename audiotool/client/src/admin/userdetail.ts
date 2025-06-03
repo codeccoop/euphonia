@@ -166,18 +166,9 @@ export class UserDetailView {
     const d = this.user.demographics;
     if (!d || !d.hasHelper) {
       return "Unassisted";
+    } else {
+      return "Assisted";
     }
-    let result = "";
-    if (d.helperName) {
-      result += d.helperName + ": ";
-    }
-    if (d.helperEmail) {
-      result += d.helperEmail;
-    }
-    if (d.helperRelationship) {
-      result += ` (${d.helperRelationship})`;
-    }
-    return result;
   }
 
   private getLocationInfo(): string {
@@ -186,20 +177,18 @@ export class UserDetailView {
     if (d && d.city) {
       result += d.city + " ";
     }
-    if (d && d.state) {
-      result += d.state + " ";
+    if (d && d.province) {
+      result += d.province + " ";
     }
-    if (d && d.country) {
-      result += d.country + " ";
-    }
+
     return result === "" ? "unknown" : result;
   }
 
   private getDemographicsInfo(): string {
     const d = this.user.demographics;
     let result = "";
-    if (d && d.accent) {
-      result += `accent=${d.accent}; `;
+    if (d && d.dialect) {
+      result += `dialect=${d.dialect}; `;
     }
     if (d && d.referral) {
       result += `referral=${d.referral}; `;
@@ -207,8 +196,8 @@ export class UserDetailView {
     if (d && d.gender) {
       result += `gender=${d.gender}; `;
     }
-    if (d && d.race) {
-      result += `race=${d.race}; `;
+    if (d && d.age) {
+      result += `age=${d.age}; `;
     }
     if (d && d.accessDevices && d.accessDevices.length > 0) {
       result += `devices=${d.accessDevices.join(", ")}; `;
