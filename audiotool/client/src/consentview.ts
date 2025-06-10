@@ -145,7 +145,7 @@ export class ConsentView {
     const consentBox = this.consentDiv.eadd("<div class=consentbox />");
     consentBox
       .eadd("<label id=agreementusernamelabel />")
-      .eitext("By typing my name here, I agree to these terms:");
+      .eihtml("By typing my name here, I agree to these terms:");
     const agreename = consentBox.eadd(
       "<input type=text id=agreementusername aria-labelledby=agreementusernamelabel />",
     );

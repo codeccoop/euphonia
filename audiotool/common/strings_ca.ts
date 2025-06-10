@@ -42,15 +42,16 @@ export const CA_STRINGS: ELocaleString[] = [
     text: `Estem treballant per fer que totes les persones, independentment de la seva forma de parlar,
            puguin utilitzar les tecnologies de veu en català. Cerquem contribucions de veu de persones
            adultes que tenen dificultats per ser enteses pels altres. Les teves mostres de veu ens ajudaran
-           a crear un món digital més inclusiu, on les tecnologies entenguin totes les veus i accents del català.`
+           a crear un món digital més inclusiu, on les tecnologies entenguin totes les veus i accents del català.`,
   },
   {
     key: `<b>IMPORTANT:</b> If you're filling out
           this form on behalf of someone else, please ensure you have their permission
           to do so.`,
     description: `Signup screen`,
-    text: `<b>IMPORTANT:</b> Si ompliu aquest formulari a nom d'una altra persona, 
-          assegureu-vos de comptar amb la seva autorització per fer-ho.`,
+    text: `<b>IMPORTANT:</b> Si un representant legal o una altra persona omple aquest
+          formulari en nom de la persona participant, caldrà transmetre el document d'autorització
+          de representació al correu anterior.`,
   },
   {
     key: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
@@ -490,7 +491,7 @@ export const CA_STRINGS: ELocaleString[] = [
   {
     key: `By typing my name here, I agree to these terms:`,
     description: `Consent screen, instructs the user to type their name in the adjacent text field`,
-    text: `En escriure el meu nom aquí, accepto aquestes condicions:`,
+    text: `En escriure el meu nom aquí, <strong>dono el meu consentiment</strong> i manifesto el meu desig de participar en el projecte RAPNIC:`
   },
   {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
@@ -597,17 +598,15 @@ export const CA_STRINGS: ELocaleString[] = [
       >Quina varietat dialectal del català parles?</label>
       <span class=required>*</span></div>
       <select id=ifdialect class=formselect>
-        <option value="Central (Barcelona, Girona)">Central (Barcelona, Girona)</option>
+        <option value="Central (Barcelona, Tarragona)">Central (Barcelona, Tarragona)</option>
+        <option value="Nord-Occidental (Lleida, Tortosa)">Nord-Occidental (Lleida, Tortosa)</option>
+        <option value="Girona">Girona</option>
         <option value="Balear">Balear</option>
-        <option value="Nord-Occidental (Lleida)">Nord-Occidental (Lleida)</option>
         <option value="Septentrional">Septentrional</option>
-        <option value="València meridional">València meridional</option>
         <option value="Alacantí">Alacantí</option>
-        <option value="València septentrional">València septentrional</option>
-        <option value="Tortosí">Tortosí</option>
+        <option value="Castellonenc">Castellonenc</option>
         <option value="València central">València central</option>
         <option value="Alguerès">Alguerès</option>
-        <option value="L'Alguer">L'Alguer</option>
         <option disabled>-- Altres --</option>
         <option value="No estic segur/a">No estic segur/a</option>
         <option value="Altres">Altres</option>
@@ -788,8 +787,8 @@ export const CA_STRINGS: ELocaleString[] = [
       <div class=checkboxrow>
         <input type=checkbox id=ifformconsent />
         <label id=ifformconsentlabel for=ifformconsent>
-          Dono el meu consentiment i escriuré les meves inicials aquí:
-    <span class=required>*</span>
+          En escriur les meves inicials aquí, <strong>dono el meu consentiment</strong>:
+          <span class=required>*</span>
         </label>
         <input type=text class=formtext id=ifconsentinitials aria-labelledby="ifformconsentlabel" />
       </div>
