@@ -49,9 +49,8 @@ export const CA_STRINGS: ELocaleString[] = [
           this form on behalf of someone else, please ensure you have their permission
           to do so.`,
     description: `Signup screen`,
-    text: `<b>IMPORTANT:</b> Si un representant legal o una altra persona omple aquest
-          formulari en nom de la persona participant, caldrà transmetre el document d'autorització
-          de representació al correu anterior.`,
+    text: `<b>IMPORTANT:</b> Si un representant legal o una altra persona omple aquest formulari en
+          nom de la persona participant, caldrà transmetre el seu nom i correu electrònic.`,
   },
   {
     key: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
