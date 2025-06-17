@@ -168,7 +168,16 @@ export class UserDetailView {
       return "Unassisted";
     }
 
-    return `${d.helperName + ":" || ""} ${d.helperEmail || ""}`;
+    let result = "";
+    if (d.helperName) {
+      result += d.helperName + ": ";
+    }
+
+    if (d.helperEmail) {
+      result += d.helperEmail;
+    }
+
+    return result;
   }
 
   private getLocationInfo(): string {
