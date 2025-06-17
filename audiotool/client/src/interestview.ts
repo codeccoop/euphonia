@@ -91,12 +91,12 @@ export class InterestView {
     try {
       this.checkRequired(
         "#helperbox",
-        "Si us plau, respon a la pregunta sobre l'acompanyant.",
+        "Si us plau, respon a la pregunta sobre la persona acompanyant.",
         d.hasHelper != undefined,
       );
       this.checkRequired(
         "#ifassistantemail",
-        "Si us plau, informa'ns l'adreça de correu electrònic de la persona que t'acompanya.",
+        "Si us plau, indica'ns l'adreça de correu electrònic de la persona que t'acompanya.",
         !d.hasHelper || !!d.helperEmail,
       );
       this.checkRequired(

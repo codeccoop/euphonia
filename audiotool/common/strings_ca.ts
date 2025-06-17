@@ -49,8 +49,8 @@ export const CA_STRINGS: ELocaleString[] = [
           this form on behalf of someone else, please ensure you have their permission
           to do so.`,
     description: `Signup screen`,
-    text: `<b>IMPORTANT:</b> Si un representant legal o una altra persona omple aquest formulari en
-          nom de la persona participant, caldrà transmetre el seu nom i correu electrònic.`,
+    text: `<b>AVÍS IMPORTANT:</b> Si algú t'està ajudant a omplir aquest formulari d'inscripció
+    i també t'ajudarà durant les gravacions, et demanarem informació de contacte d'aquesta persona.`,
   },
   {
     key: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
@@ -460,12 +460,12 @@ export const CA_STRINGS: ELocaleString[] = [
   {
     key: `Please tell us if someone will be helping you record.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Sisplau digues si algú t'acompanyarà a enregistrar.`,
+    text: `Si us plau, digues si algú t'acompanyarà a enregistrar.`,
   },
   {
     key: `Please tell us how to email the person helping you.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Sisplau digues com enviar un correu electrònic a la persona que t'acompanya.`,
+    text: `Si us plau, digues com enviar un correu electrònic a la persona que t'acompanya.`,
   },
   {
     key: `You'll need to give consent to proceed.`,
@@ -776,16 +776,20 @@ export const CA_STRINGS: ELocaleString[] = [
     <!-- Helper panel appears if the user chooses "yes" above -->
     <div id=helpersection>
     <div class=sectiontitle
-    >Información sobre la persona que te va a ayudar</div>
+    >Informació sobre la persona que te t'ajuadarà</div>
     <div class=formbox>
     <div class=fielddescription>
-    Nos gustaría que nos proporcionases un poco de información sobre la persona que te va a ayudar para que podamos estar en contacto con ambos más fácilmente. Al incluir el nombre de tu asistente, aceptas que reciba información sobre tu participación en este proyecto. Puedes incluir más de un asistente y un correo electrónico. Basta con separarlos con una coma.
+    T'agrairem si poguessis proporcionar-nos informació sobre la persona que t'ajudarà
+    perquè puguem estar en contacte més fàcilment tant amb tu com amb ella. En incloure
+    el nom de l'acompanyant, acceptes que la mateixa rebi informació sobre la teva
+    participació en aquest projecte. Pots posar-hi més d'una persona acompanyant i més
+    d'un correu electrònic. Serà suficient separar-los amb una comma.
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantname
-    >Nombre del asistente</label>
+    >Nom de la persona acompanyant</label>
     <span class=optional
     >(Opcional)</span>
     </div>
@@ -794,7 +798,7 @@ export const CA_STRINGS: ELocaleString[] = [
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantemail
-    >Dirección de correo electrónico del asistente</label>
+    >Adreça de correu electrònic de l'acompanyant</label>
     <span class=required>*</span></div>
     <input type=text class=formtext id=ifassistantemail />
     </div>
