@@ -166,9 +166,9 @@ export class UserDetailView {
     const d = this.user.demographics;
     if (!d || !d.hasHelper) {
       return "Unassisted";
-    } else {
-      return "Assisted";
     }
+
+    return `${d.helperName + ":" || ""} ${d.helperEmail || ""}`;
   }
 
   private getLocationInfo(): string {

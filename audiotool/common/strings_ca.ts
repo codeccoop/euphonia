@@ -491,7 +491,7 @@ export const CA_STRINGS: ELocaleString[] = [
   {
     key: `By typing my name here, I agree to these terms:`,
     description: `Consent screen, instructs the user to type their name in the adjacent text field`,
-    text: `En escriure el meu nom aquí, <strong>dono el meu consentiment</strong> i manifesto el meu desig de participar en el projecte RAPNIC:`
+    text: `En escriure el meu nom aquí, <strong>dono el meu consentiment</strong> i manifesto el meu desig de participar en el projecte RAPNIC:`,
   },
   {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
@@ -772,6 +772,33 @@ export const CA_STRINGS: ELocaleString[] = [
         <label for=ifhelperyes
         >Sí, algú m'ajudarà</label>
       </div>
+    </div>
+
+    <!-- Helper panel appears if the user chooses "yes" above -->
+    <div id=helpersection>
+    <div class=sectiontitle
+    >Información sobre la persona que te va a ayudar</div>
+    <div class=formbox>
+    <div class=fielddescription>
+    Nos gustaría que nos proporcionases un poco de información sobre la persona que te va a ayudar para que podamos estar en contacto con ambos más fácilmente. Al incluir el nombre de tu asistente, aceptas que reciba información sobre tu participación en este proyecto. Puedes incluir más de un asistente y un correo electrónico. Basta con separarlos con una coma.
+    </div>
+    </div>
+    
+    <div class=formbox>
+    <div class=fieldname><label for=ifassistantname
+    >Nombre del asistente</label>
+    <span class=optional
+    >(Opcional)</span>
+    </div>
+    <input type=text class=formtext id=ifassistantname />
+    </div>
+    
+    <div class=formbox>
+    <div class=fieldname><label for=ifassistantemail
+    >Dirección de correo electrónico del asistente</label>
+    <span class=required>*</span></div>
+    <input type=text class=formtext id=ifassistantemail />
+    </div>
     </div>
     
     <div class=sectiontitle

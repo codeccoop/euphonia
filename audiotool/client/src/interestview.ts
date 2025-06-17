@@ -34,6 +34,14 @@ export class InterestView {
 
     const insetBox = this.div.eadd("<div class=interestformscroll />");
     insetBox.eihtml("__INTEREST_FORM_HTML__");
+    $("#helpersection").hide();
+
+    // Helper box conditional wiring
+    const helperchangefn = () =>
+      $("#helpersection").eshow($("#ifhelperyes").is(":checked"));
+
+    $("#ifhelperyes").on("change", helperchangefn);
+    $("#ifhelperno").on("change", helperchangefn);
 
     const buttons = insetBox.eadd("<div class=ifbuttons />");
     const nextButton = buttons.eadd("<button class=next />").eitext("Next");
@@ -81,11 +89,37 @@ export class InterestView {
 
     // Validate required fields
     try {
-      this.checkRequired("#ifprovince", "Si us plau, respon a la pregunta sobre la província.", !!d.province);
-      this.checkRequired("#ifdialect", "Si us plau, respon a la pregunta sobre la varietat dialectal.", !!d.dialect);
-      this.checkRequired("#ifdisorder", "Si us plau, respon a la pregunta sobre la tipologia de trastorn.", !!d.disorder);
+      this.checkRequired(
+        "#helperbox",
+        "Si us plau, respon a la pregunta sobre l'acompanyant.",
+        d.hasHelper != undefined,
+      );
+      this.checkRequired(
+        "#ifassistantemail",
+        "Si us plau, informa'ns l'adreça de correu electrònic de la persona que t'acompanya.",
+        !d.hasHelper || !!d.helperEmail,
+      );
+      this.checkRequired(
+        "#ifprovince",
+        "Si us plau, respon a la pregunta sobre la província.",
+        !!d.province,
+      );
+      this.checkRequired(
+        "#ifdialect",
+        "Si us plau, respon a la pregunta sobre la varietat dialectal.",
+        !!d.dialect,
+      );
+      this.checkRequired(
+        "#ifdisorder",
+        "Si us plau, respon a la pregunta sobre la tipologia de trastorn.",
+        !!d.disorder,
+      );
       // this.checkRequired("#ifgender", "Aquesta pregunta és obligatòria.", !!d.gender);
-      this.checkRequired("#ifage", "Si us plau, respon a la pregunta sobre l'edat.", !!d.age);
+      this.checkRequired(
+        "#ifage",
+        "Si us plau, respon a la pregunta sobre l'edat.",
+        !!d.age,
+      );
       this.checkRequired(
         "#ifformconsent",
         `You'll need to give consent to proceed.`,
@@ -142,8 +176,8 @@ export class InterestView {
     // Clear error states
     $("#ifprovince").eclass("formerror", false);
     // $("#ifstate").eclass("formerror", false);
-    // $("#helperbox").eclass("formerror", false);
-    // $("#ifassistantemail").eclass("formerror", false);
+    $("#helperbox").eclass("formerror", false);
+    $("#ifassistantemail").eclass("formerror", false);
     $("#ifformconsent").eclass("formerror", false);
     $("#ifconsentinitials").eclass("formerror", false);
     // $("#ifformtos").eclass("formerror", false);
@@ -156,8 +190,8 @@ export class InterestView {
     setText("#ifcity", d.city);
     setText("#ifdialect", d.dialect);
     // setText("#ifrace", d.race);
-    // setText("#ifassistantname", d.helperName);
-    // setText("#ifassistantemail", d.helperEmail);
+    setText("#ifassistantname", d.helperName);
+    setText("#ifassistantemail", d.helperEmail);
     // setText("#ifassistantrelationship", d.helperRelationship);
     setText("#ifotherinfo", d.otherInfo);
 
@@ -234,7 +268,7 @@ export class InterestView {
     // Helper radio button, which should also toggle the helper panel
     setBool("#ifhelperno", d.hasHelper === false);
     setBool("#ifhelperyes", d.hasHelper === true);
-    // $("#helpersection").eshow(!!d.hasHelper);
+    $("#helpersection").eshow(!!d.hasHelper);
 
     // Never restore the consent stuff, always require it be re-entered
     $("#ifformconsent").echecked(false);
@@ -265,6 +299,8 @@ export class InterestView {
         : this.collectCheckbox("#ifhelperno")
           ? false
           : undefined,
+      helperName: this.collectText("#ifassistantname"),
+      helperEmail: this.collectText("#ifassistantemail"),
       consentStorage: this.collectCheckbox("#ifformconsent"),
       consentInitials: this.collectText("#ifconsentinitials"),
       // acceptTos: this.collectCheckbox("#ifformtos"),

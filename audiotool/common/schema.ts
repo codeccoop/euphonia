@@ -108,8 +108,8 @@ export interface UserDemographics {
   accessDevices?: string[]; // each entry is one of "computer", "androidphone", "iphone", "none", or any "other" string
 
   hasHelper?: boolean;
-  // helperName?: string;
-  // helperEmail?: string;
+  helperName?: string;
+  helperEmail?: string;
   // helperRelationship?: string;
   consentStorage?: boolean;
   consentInitials?: string;

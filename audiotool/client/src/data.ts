@@ -260,7 +260,7 @@ export class Data {
       !!d.age &&
       !!d.disorder &&
       !!d.dialect &&
-      d.hasHelper != undefined &&
+      (!d.hasHelper || !!d.helperEmail) &&
       !!d.consentStorage &&
       !!d.consentInitials
     );
