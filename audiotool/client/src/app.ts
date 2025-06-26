@@ -275,7 +275,7 @@ export class App implements Listener {
   async logout() {
     return new Promise<void>((res, rej) => {
       indexedDB.open("firebaseLocalStorageDb").onsuccess = (ev: any) => {
-        const apiKey = (window as any).firebaseConfig.apiKey as string;
+        const apiKey = firebase.apps[0].options.apiKey;
         const db = ev.target.result;
         const loginKey = "firebase:authUser:" + apiKey + ":[DEFAULT]";
         const transaction = db
