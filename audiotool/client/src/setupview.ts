@@ -35,6 +35,7 @@ export class SetupView {
   microphoneSettings: MicrophoneSettingsPanel;
   doneButton: JQuery<HTMLElement>;
   settingsButton: JQuery<HTMLElement>;
+  logoutButton: JQuery<HTMLElement>;
 
   constructor(app: App) {
     this.app = app;
@@ -68,6 +69,9 @@ export class SetupView {
     this.settingsButton = buttons
       .eadd("<button class=settings />")
       .eitext("Configuració del micròfon");
+    this.logoutButton = buttons
+      .eadd("<button class=logout />")
+      .eitext("Logout");
 
     this.askButton.on("click", async (e) => await this.tryMicrophone());
     this.doneButton.on(
@@ -75,6 +79,14 @@ export class SetupView {
       async (e) => await this.app.navigateTo("/record"),
     );
     this.settingsButton.on("click", async (e) => await this.toggleSettings());
+    this.logoutButton.on("click", async () => {
+      try {
+        await this.app.logout();
+        window.location = "/" as any;
+      } catch (err: any) {
+        console.error(err);
+      }
+    });
 
     // Initial state
     this.updateGUI();

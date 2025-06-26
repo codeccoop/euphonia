@@ -312,9 +312,14 @@ export const CA_STRINGS: ELocaleString[] = [
     text: `Fet`,
   },
   {
-    key: `Automatic swipe`,
+    key: `Logout`,
+    description: `Logout button, show on setup and recording view`,
+    text: `Sortir`,
+  },
+  {
+    key: `Carousel`,
     description: `Label for the checkbox that controls if recording will be automatic swipped after recording ends`,
-    text: `Deslliça automàticament`,
+    text: `Carrusel`,
   },
   {
     key: `Starting...`,

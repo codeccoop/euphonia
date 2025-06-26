@@ -185,6 +185,7 @@ export class Data {
   // Returns true if the user has a previously stored eligibilty marker, or if they have consented.
   loadEligibility(): boolean {
     if (this.user) {
+      localStorage.setItem("eligible", "yes");
       return true; // they have a user so they must have already gotten past the signup flow
     }
     const d: string | null = localStorage.getItem("eligible");
@@ -203,6 +204,13 @@ export class Data {
 
   // Retrieves any previously stored demographics, or returns a new blank one.
   loadDemographics(): schema.UserDemographics {
+    if (this.user?.demographics) {
+      localStorage.setItem(
+        "demographics",
+        JSON.stringify(this.user.demographics),
+      );
+    }
+
     const d: string | null = localStorage.getItem("demographics");
     if (d) {
       return JSON.parse(d) as schema.UserDemographics;

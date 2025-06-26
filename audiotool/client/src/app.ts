@@ -271,4 +271,21 @@ export class App implements Listener {
       await this.doneView.eshow(view === this.doneView);
     });
   }
+
+  async logout() {
+    return new Promise<void>((res, rej) => {
+      indexedDB.open("firebaseLocalStorageDb").onsuccess = (ev: any) => {
+        const apiKey = (window as any).firebaseConfig.apiKey as string;
+        const db = ev.target.result;
+        const loginKey = "firebase:authUser:" + apiKey + ":[DEFAULT]";
+        const transaction = db
+          .transaction(["firebaseLocalStorage"], "readwrite")
+          .objectStore("firebaseLocalStorage")
+          .delete(loginKey);
+
+        transaction.onsuccess = () => res();
+        transaction.onerror = () => rej();
+      };
+    }).then(() => window.localStorage.clear());
+  }
 }

@@ -29,7 +29,7 @@ import {
 } from "./util";
 import { ProgressWidget } from "./progresswidget";
 import * as schema from "../../common/schema";
-import { WavBuilder, toBase64 } from "../../common/util";
+import { WavBuilder } from "../../common/util";
 
 // Suggest that the user wait before speaking
 const MIN_START_DELAY_MS = isSafari() ? 750 : 250;
@@ -50,6 +50,8 @@ export class RecordingView {
   nextButton: JQuery<HTMLElement>;
   progressBar: ProgressWidget;
   helpButton: JQuery<HTMLElement>;
+  logoutButton: JQuery<HTMLElement>;
+  carouselButton: JQuery<HTMLElement>;
   ttsButton: JQuery<HTMLElement>;
   keyfn: (e: KeyboardEvent) => Promise<void>;
 
@@ -148,22 +150,29 @@ export class RecordingView {
     this.cancelButton = mainControls
       .eadd("<button class=cancel />")
       .eitext("Cancel");
-    this.helpButton = mainControls.eadd("<button class=help />").eitext("?");
+
     this.recordButton.on("click", async (e) => await this.toggleRecord());
     this.cancelButton.on("click", async (e) => await this.toggleRecord(false));
     this.deleteButton.on("click", async (e) => await this.handleDelete());
     this.listenButton.on("click", async (e) => await this.toggleListen());
-    this.helpButton.on("click", async (e) => await this.toggleHelp());
     this.ttsButton.on("click", async (e) => await this.toggleSpeak());
 
-    const settingButtons = this.buttonBox.eadd("<div class=settingsbuttons />");
-    settingButtons
-      .eadd("<label />")
-      .eitext("Automatic swipe")
-      .eadd(
-        `<input type=checkbox ${this.carouselMode === "auto" ? "checked" : ""}/>`,
-      )
-      .on("click", () => this.toggleCarouselMode());
+    const metaButtons = this.buttonBox.eadd("<div class=metabuttons />");
+    this.helpButton = metaButtons.eadd("<button class=help />").eitext("?");
+    this.carouselButton = metaButtons
+      .eadd("<button class=carousel />")
+      .eitext("Carousel");
+    this.logoutButton = metaButtons
+      .eadd("<button class=logout />")
+      .eitext("Logout");
+
+    if (this.carouselMode === "auto") {
+      this.carouselButton.addClass("active");
+    }
+
+    this.helpButton.on("click", async (e) => await this.toggleHelp());
+    this.logoutButton.on("click", () => this.logout());
+    this.carouselButton.on("click", () => this.toggleCarouselMode());
 
     // Keyboard and swipe handling
     this.keyfn = this.handleKey.bind(this);
@@ -227,6 +236,15 @@ export class RecordingView {
 
   private get carouselMode() {
     return /autoswipe=true/i.test(window.location.hash) ? "auto" : "manual";
+  }
+
+  private async logout() {
+    try {
+      await this.app.logout();
+      window.location = "/" as any;
+    } catch (err: any) {
+      console.error(err);
+    }
   }
 
   private toggleCarouselMode() {
@@ -339,6 +357,16 @@ export class RecordingView {
     this.cancelButton.eshow(this.isRecording && !this.isStoppingRecord);
     this.helpButton.eshow(!this.isRecording || this.isStoppingRecord);
     this.helpButton.eenable(!this.isRecording && !this.isStoppingRecord);
+    this.logoutButton.eshow(!this.isRecording || this.isStoppingRecord);
+    this.logoutButton.eenable(!this.isRecording && !this.isStoppingRecord);
+    this.carouselButton.eshow(!this.isRecording || this.isStoppingRecord);
+    this.carouselButton.eenable(!this.isRecording && !this.isStoppingRecord);
+
+    if (this.carouselMode === "auto") {
+      this.carouselButton.addClass("active");
+    } else {
+      this.carouselButton.removeClass("active");
+    }
 
     // Change the prev/next cards depending on whether they're recorded
     this.prevCardDiv.evisible(hasTasks && !isFirst);
