@@ -346,7 +346,7 @@ export class InterestView {
       return "46-60";
     } else if (this.collectCheckbox("#ifage6175")) {
       return "61-75";
-    } else if (this.collectCheckbox("#fage75")) {
+    } else if (this.collectCheckbox("#ifage75")) {
       return "+75";
     } else {
       return "";
