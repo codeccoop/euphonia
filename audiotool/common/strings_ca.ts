@@ -20,7 +20,7 @@ export const CA_STRINGS: ELocaleString[] = [
   {
     key: `PAGE_TITLE`,
     description: `Web page title for all pages`,
-    text: `Projecte Euphonia`,
+    text: `Projecte Rapnic`,
   },
   {
     key: `HELP_LINK`,
