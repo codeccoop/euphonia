@@ -80,7 +80,7 @@ export const CA_STRINGS: ELocaleString[] = [
   {
     key: `I am at least 18 years of age`,
     description: `Signup screen eligibility question`,
-    text: `Tinc més de 18 anys`,
+    text: `Tinc més de 16 anys`,
   },
   {
     key: `Sign in and continue`,
@@ -171,13 +171,6 @@ export const CA_STRINGS: ELocaleString[] = [
       <li><strong>Parla amb claredat:</strong> Parla de manera natural i clara, amb entonació natural i sense presses. Pronuncia cada paraula completament.</li>
       <li><strong>Evita paraules de farciment:</strong> Intenta no afegir paraules com "eh" o "um" durant l'enregistrament.</li>
       <li><strong>Mantingues volum constant:</strong> Parla amb un volum estable per mantenir uniformitat en l'enregistrament.</li>
-    </ol>
-    <h3>Com respondre preguntes sobre imatges</h3>
-    <ol>
-      <li><strong>Llegeix la pregunta i observa la imatge:</strong> Primer llegeix la pregunta, després mira la imatge atentament.</li>
-      <li><strong>Respon amb les teves paraules:</strong> Contesta la pregunta utilitzant el teu propi vocabulari basant-te en el que veus a la imatge.</li>
-      <li><strong>Parla de manera natural:</strong> Respon com si contestessis a una persona real que t'ha fet la pregunta.</li>
-      <li><strong>No et preocupis per la durada:</strong> Pots donar una resposta breu o més detallada, segons et sentis còmode/a.</li>
     </ol>
     <h3>Consells addicionals</h3>
     <ul>
@@ -527,14 +520,11 @@ export const CA_STRINGS: ELocaleString[] = [
         <br/><br/>
         (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
     description: `Descriptive text on the done screen`,
-    text: `Has completat totes les targetes! Aviat les revisarem i,
-        si tot està bé, rebràs un correu electrònic de
-        rewards@perks.com
-        els propers 7-10 dies laborables amb un enllaç per reclamar la teva targeta regal.
+    text: `Has completat totes les targetes! 
         <br/><br/>
         <b>Gràcies per contribuir amb
         <b class=count>{number_of_completed_cards} targetes</b>
-        al Projecte Euphonia!
+        al Projecte RAPNIC!
         </b><br/><br/>
         (Si ho desitges, ara pots tornar enrere i revisar els teus enregistraments, tot i que això no és necessari.
         <b>Ja has acabat!!</b>)`,
@@ -817,7 +807,7 @@ export const CA_STRINGS: ELocaleString[] = [
 
     <p><em>Les teves dades es conservaran en servidors segurs amb accés limitat només a personal seleccionat del projecte. La teva informació demogràfica podrà vincular-se a les mostres de veu recollides, però el teu nom i adreça electrònica no seran difosos en cap cas. Tens dret a revocar el consentiment en qualsevol moment escrivint a isocial@isocial.cat.</em></p>
 
-    <p><em>*El consorci del projecte RAPNIC està format per la Fundació iSocial, Col·lectivaT i la Universitat de Barcelona, en col·laboració amb la Fundació Catalana de Síndrome de Down, Fundació El Maresme, Grup Alba, Fundació Astres i Fundació Aspace.</em></p>
+    <p><em>*El consorci del projecte RAPNIC està format per la Fundació iSocial, i la Universitat de Barcelona, en col·laboració amb la Fundació Catalana de Síndrome de Down, Fundació El Maresme, Grup Alba i Fundació Astres.</em></p>
 
       <div class=checkboxrow>
         <input type=checkbox id=ifformconsent />
