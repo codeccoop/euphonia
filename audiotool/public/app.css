@@ -869,15 +869,15 @@ Recording view
 
 #recordingview .navpanel BUTTON {
   width: calc(12em + 3vw);
-  min-height: 5vh;
+  height: calc(min(7vh, 7vw));
 
   padding: 1vh 1.5vw 1vh 1.5vw;
-  border-radius: 1vh;
-  border: 2px solid #bbd;
+  border-radius: 3vh;
+  border: 3px solid #66e;
   background-color: #ddf;
   color: #446;
   font-weight: bold;
-  font-size: 2vh;
+  font-size: calc(min(2.5vh, 2.5vw));
   white-space: nowrap;
 }
 
@@ -1139,10 +1139,9 @@ Recording view
   }
 
   #recordingview .navpanel BUTTON {
-    width: 30vw;
-    height: 5vh;
-    padding: 1vh 1.5vw 1vh 1.5vw;
-    font-size: 1.5vh;
+    height: auto;
+    padding: 1vh 1.2vw 1vh 1.2vw;
+    font-size: 2.2vh;
   }
 
   #recordingview .progresswidget {
