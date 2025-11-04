@@ -315,6 +315,11 @@ export const CA_STRINGS: ELocaleString[] = [
     text: `Carrusel`,
   },
   {
+    key: `Recording as`,
+    description: `Label for the current user email field on the recording screen`,
+    text: `Estàs enregistrant com a`
+  },
+  {
     key: `Starting...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
     text: `Començant...`,

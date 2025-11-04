@@ -770,7 +770,7 @@ Recording view
 }
 
 #recordingview .cardribbon {
-  margin-top: 5vh;
+  margin-top: 2vh;
   width: calc(3 * 80vw + 10vw);
   min-width: calc(3 * 80vw + 10vw);
   display: flex;
@@ -872,7 +872,7 @@ Recording view
   height: calc(min(7vh, 7vw));
 
   padding: 1vh 1.5vw 1vh 1.5vw;
-  border-radius: 3vh;
+  border-radius: 3.5vh;
   border: 3px solid #66e;
   background-color: #ddf;
   color: #446;
@@ -921,7 +921,7 @@ Recording view
 }
 
 #recordingview .controlpanel {
-  margin: 5vh 0 0 0;
+  margin: 2vh 0 0 0;
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -1004,7 +1004,7 @@ Recording view
   margin: 0 1vw 0 1vw;
   width: 35vw;
   min-width: 10em;
-  height: calc(min(10vh, 10vw));
+  height: calc(min(8vh, 8vw));
 
   border-radius: 5vh;
   font-size: calc(min(3vh, 3vw));
@@ -1114,6 +1114,17 @@ Recording view
   background-color: #eee;
 }
 
+#recordingview .loginbanner {
+  margin-top: 1em;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+#recordingview .loginbanner span {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
 /* Recording screen layout for phones */
 @media (orientation: portrait) {
   #messagebox {
@@ -1161,7 +1172,7 @@ Recording view
   #recordingview .controlpanel {
     display: grid;
     grid-template-columns: 1fr;
-    margin: 2vh 0 0 0;
+    margin: 1vh 0 0 0;
     row-gap: 1vh;
     justify-items: center;
   }
@@ -1169,7 +1180,7 @@ Recording view
   #recordingview BUTTON.record {
     margin: 0 1vw 0 1vw;
     width: 50vw;
-    height: 8vh;
+    height: 7vh;
     min-width: calc(6em + 8vh);
 
     border-radius: 4vh;
@@ -1177,7 +1188,7 @@ Recording view
   }
 
   #recordingview .controlpanel.newcard BUTTON.record {
-    margin-left: calc(4vh + 2vw);
+    margin-left: 0;
   }
 
   #recordingview .controlpanel BUTTON.record.recording {
@@ -1205,7 +1216,7 @@ Recording view
   }
 
   #recordingview .metabuttons {
-    margin-left: calc(4vh + 2vw);
+    margin-left: 0;
     margin-right: 0;
     flex-direction: row;
     align-items: center;
@@ -1233,7 +1244,7 @@ Recording view
     margin: 0 1vw 0 1vw;
     width: 13vw;
     min-width: calc(7em + 5vh);
-    height: 5vh;
+    height: 4vh;
     border-radius: 2.5vh;
     font-size: 1.7vh;
   }
@@ -1244,7 +1255,7 @@ Recording view
     height: 6vh;
     border-radius: 3vh;
     font-size: 2vh;
-    margin-left: calc(4vh + 2vw);
+    border: 2px solid #cce;
   }
 
   #recordingview .controlpanel.recorded BUTTON.record.recording .recordlight {
@@ -1255,6 +1266,14 @@ Recording view
     border-radius: 1vh;
     margin-left: 3vw;
     margin-right: -10vw;
+  }
+
+  #recordingview .navpanel .donetext {
+    font-size: 0px;
+  }
+
+  #recordingview .loginbanner {
+    margin-top: 0.5em;
   }
 }
 

@@ -53,6 +53,7 @@ export class RecordingView {
   logoutButton: JQuery<HTMLElement>;
   carouselButton: JQuery<HTMLElement>;
   ttsButton: JQuery<HTMLElement>;
+  loginBanner: JQuery<HTMLElement>;
   keyfn: (e: KeyboardEvent) => Promise<void>;
 
   // GUI visibility tracking vs. other app views
@@ -134,6 +135,7 @@ export class RecordingView {
 
     // Record controls at the bottom
     this.buttonBox = this.div.eadd("<div class=controlpanel />");
+    this.loginBanner = this.div.eadd("<div class=loginbanner />");
     this.secondaryControls = this.buttonBox.eadd(
       "<div class=secondarybuttons />",
     );
@@ -209,6 +211,10 @@ export class RecordingView {
   async handleUpdate() {
     if (!this.data.user) {
       return; // Only react to changes after the user is enrolled
+    } else {
+      this.loginBanner.eitext("Recording as");
+      this.loginBanner.eadd("<br />");
+      this.loginBanner.eadd("<span />").text(this.data.user.email);
     }
 
     // Merge any new tasks into the current task order.
@@ -326,10 +332,10 @@ export class RecordingView {
     // Update the recording button state
     this.recordButton.eenable(
       hasTasks &&
-        !this.isStartingRecord &&
-        !this.isStoppingRecord &&
-        !this.isDeleting &&
-        !isOldRecording,
+      !this.isStartingRecord &&
+      !this.isStoppingRecord &&
+      !this.isDeleting &&
+      !isOldRecording,
     );
     this.recordButton.eclass(
       "recording",
