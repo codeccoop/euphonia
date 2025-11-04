@@ -79,7 +79,7 @@ export class InterestView {
   }
 
   // Unused
-  async handleUpdate() {}
+  async handleUpdate() { }
 
   // Returns true if the user's inputs were all valid; otherwise toasts and returns false.
   async save(): Promise<boolean> {
@@ -217,6 +217,7 @@ export class InterestView {
     }
 
     // Age radio buttons
+    setBool("#ifage1618", "16-18" === d.age)
     setBool("#ifage1830", "18-30" === d.age);
     setBool("#ifage3145", "31-45" === d.age);
     setBool("#ifage4660", "46-60" === d.age);
@@ -338,7 +339,9 @@ export class InterestView {
   }
 
   private collectAge(): string {
-    if (this.collectCheckbox("#ifage1830")) {
+    if (this.collectCheckbox("#ifage1618")) {
+      return "16-18";
+    } else if (this.collectCheckbox("#ifage1830")) {
       return "18-30";
     } else if (this.collectCheckbox("#ifage3145")) {
       return "31-45";

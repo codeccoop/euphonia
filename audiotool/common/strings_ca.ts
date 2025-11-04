@@ -667,6 +667,10 @@ export const CA_STRINGS: ELocaleString[] = [
       >Edat</label>
       <span class=required>*</span></div>
       <div class=checkboxrow>
+        <input name=ifage type=radio class=formradio id="ifage1618" />
+        <label for="ifage1618">16-18</label><br>
+      </div>
+      <div class=checkboxrow>
         <input name=ifage type=radio class=formradio id="ifage1830" />
         <label for="ifage1830">18-30</label><br>
       </div>
