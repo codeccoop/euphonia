@@ -816,7 +816,7 @@ export const CA_STRINGS: ELocaleString[] = [
 
     <p><em>Les teves dades es conservaran en servidors segurs amb accés limitat només a personal seleccionat del projecte. La teva informació demogràfica podrà vincular-se a les mostres de veu recollides, però el teu nom i adreça electrònica no seran difosos en cap cas. Tens dret a revocar el consentiment en qualsevol moment escrivint a isocial@isocial.cat.</em></p>
 
-    <p><em>En la recopilació de dades participaran les següents entitats: *El consorci del projecte RAPNIC està format per la Fundació iSocial i la Universitat de Barcelona, en col·laboració amb la Fundació Catalana de Síndrome de Down, Fundació El Maresme, Fundació Ampans, Grup Alba, Fundació Astres i Fundació Aspace. Aquestes entitats no tindran accés a les dades recopilades.</em></p>
+    <p><em>En la recopilació de dades participaran les següents entitats: El consorci del projecte RAPNIC està format per la Fundació iSocial i la Universitat de Barcelona, en col·laboració amb la Fundació Catalana de Síndrome de Down, Fundació El Maresme, Fundació Ampans, Grup Alba, Fundació Astres i Fundació Aspace. Aquestes entitats no tindran accés a les dades recopilades.</em></p>
 
       <div class=checkboxrow>
         <input type=checkbox id=ifformconsent />
