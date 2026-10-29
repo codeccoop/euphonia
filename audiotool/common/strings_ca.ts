@@ -315,6 +315,11 @@ export const CA_STRINGS: ELocaleString[] = [
     text: `Carrusel`,
   },
   {
+    key: `Recording as`,
+    description: `Label for the current user email field on the recording screen`,
+    text: `Estàs enregistrant com a`
+  },
+  {
     key: `Starting...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
     text: `Començant...`,
@@ -666,6 +671,10 @@ export const CA_STRINGS: ELocaleString[] = [
       <div class=fieldname><label for=ifage
       >Edat</label>
       <span class=required>*</span></div>
+      <div class=checkboxrow>
+        <input name=ifage type=radio class=formradio id="ifage1618" />
+        <label for="ifage1618">16-18</label><br>
+      </div>
       <div class=checkboxrow>
         <input name=ifage type=radio class=formradio id="ifage1830" />
         <label for="ifage1830">18-30</label><br>

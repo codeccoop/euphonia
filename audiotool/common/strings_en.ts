@@ -306,6 +306,21 @@ export const EN_STRINGS: ELocaleString[] = [
     text: `Done`,
   },
   {
+    key: `Logout`,
+    description: `Logout button, show on setup and recording view`,
+    text: `Logout`,
+  },
+  {
+    key: `Carousel`,
+    description: `Label for the checkbox that controls if recording will be automatic swipped after recording ends`,
+    text: `Carousel`,
+  },
+  {
+    key: `Recording as`,
+    description: `Label for the current user email field on the recording screen`,
+    text: `Estàs enregistrant com a`
+  },
+  {
     key: `Automatic swipe`,
     description: `Label for the checkbox that controls if recording will be automatic swipped after recording ends`,
     text: `Automatic swipe`,
